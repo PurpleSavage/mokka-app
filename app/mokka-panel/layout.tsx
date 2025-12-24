@@ -1,3 +1,5 @@
+import SessionValidatorWrapper from "@/modules/shared/auth/view/components/SessionValidatorWrapper";
+
 export default function MokkaPanelLayout({
   children,
 }: Readonly<{
@@ -5,7 +7,9 @@ export default function MokkaPanelLayout({
 }>) {
   return (
     <>
+      <SessionValidatorWrapper>
         {children}
+      </SessionValidatorWrapper>
     </>
   );
 }
