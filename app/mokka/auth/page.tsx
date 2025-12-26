@@ -9,6 +9,8 @@ import { useDispatch } from 'react-redux';
 import { IoHomeOutline } from "react-icons/io5";
 import { setSession } from '@/modules/shared/auth/store-slice/auth.slice';
 import { authDIContainer } from '@/modules/shared/auth/di/auth-container.di';
+import { LoginGoogleAuthDto } from '@/modules/shared/auth/application/dtos/request/login-google-auth.dto';
+
 
 export default function LoginPage() {
   const [isPendingGoogle, setIsPendingGoogle] = useState(false);
@@ -36,7 +38,24 @@ export default function LoginPage() {
   }
 
   const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
-    
+    try {
+      
+      if (!credentialResponse.credential) {
+        throw new Error('No se recibió el token de Google')
+      }
+      setIsPendingGoogle(true)
+      const objecGoogleCredentials: LoginGoogleAuthDto={
+        googletoken:credentialResponse.credential
+      }
+      console.log('Google token received:', credentialResponse.credential)
+      const response = await authDIContainer.loginWithGoogle(objecGoogleCredentials)
+      dispatch(setSession(response))
+      router.replace('/mokka-panel')
+    } catch (error) {
+      console.error(error)
+    }finally{
+      setIsPendingGoogle(false)
+    }
   }
   const handleGoogleError = () => {
     console.error('Google login failed');
@@ -46,12 +65,12 @@ export default function LoginPage() {
     <aside className="w-1/4 flex items-center justify-center px-4">
       <div className="space-y-4"> 
         <div className="flex justify-start">
-          <Link href="/" className="flex items-center text-black gap-2"><IoHomeOutline size={18}/> Go to home</Link>
+          <Link href="/" className="flex items-center text-white gap-2"><IoHomeOutline size={18}/> Go to home</Link>
         </div>
-        <h2 className="text-4xl text-black  font-medium">Welcome to Mokka. Log in and start creating</h2>
+        <h2 className="text-4xl text-white font-medium">Welcome to Mokka. Log in and start creating</h2>
         <form action="" className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
            <div className="space-y-2">
-            <label htmlFor="email" className="block text-black">Email</label>
+            <label htmlFor="email" className="block text-white">Email</label>
             <input 
               {...register('email', {
                 required: 'Email is required',
@@ -70,7 +89,7 @@ export default function LoginPage() {
             )}
           </div>
           <div className="space-y-2">
-            <label htmlFor="password" className="block text-black">Password</label>
+            <label htmlFor="password" className="block text-white">Password</label>
             <input 
               {...register('password', {
                 required: 'Password is required',
@@ -91,7 +110,8 @@ export default function LoginPage() {
           <button 
             disabled={isSubmitting }
             type="submit" 
-            className="flex items-center justify-center w-full rounded-lg py-2 bg-pink-800 text-white cursor-pointer hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center justify-center w-full rounded-lg py-2 bg-pink-800 text-white 
+            cursor-pointer hover:bg-pink-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? "Loading..." : "Log in"}
           </button>
@@ -124,7 +144,8 @@ export default function LoginPage() {
         </div>
         <Link 
           href="/auth/create-account" 
-          className="flex items-center justify-center w-full rounded-lg py-2 bg-pink-800 text-white cursor-pointer hover:bg-black transition-colors"
+          className="flex items-center justify-center w-full rounded-lg py-2 bg-pink-800 text-white 
+          cursor-pointer hover:bg-pink-900 transition-colors"
         >Register with credentials</Link>
       </div>
     </aside>
