@@ -45,9 +45,9 @@ export default function LoginPage() {
       }
       setIsPendingGoogle(true)
       const objecGoogleCredentials: LoginGoogleAuthDto={
-        googletoken:credentialResponse.credential
+        googleToken:credentialResponse.credential
       }
-      console.log('Google token received:', credentialResponse.credential)
+      
       const response = await authDIContainer.loginWithGoogle(objecGoogleCredentials)
       dispatch(setSession(response))
       router.replace('/mokka-panel')

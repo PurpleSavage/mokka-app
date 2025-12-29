@@ -1,3 +1,3 @@
 export interface LoginGoogleAuthDto{
-    googletoken:string
+    googleToken:string
 }

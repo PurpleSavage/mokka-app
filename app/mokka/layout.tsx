@@ -1,3 +1,4 @@
+import ProviderAxiosWrapper from "@/modules/shared/common/view/components/ProviderAxioWrapper";
 import ProviderReduxWrapper from "@/modules/shared/common/view/components/ProviderWrapper";
 
 export default function MokkaLayout({
@@ -7,9 +8,11 @@ export default function MokkaLayout({
 }>) {
   return (
     <>
-       <ProviderReduxWrapper>
-        {children}
-       </ProviderReduxWrapper>
+      <ProviderAxiosWrapper>
+        <ProviderReduxWrapper>
+          {children}
+        </ProviderReduxWrapper>
+      </ProviderAxiosWrapper>
     </>
   );
 }
