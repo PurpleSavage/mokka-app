@@ -31,7 +31,7 @@ export default function LoginPage() {
       const response = await authDIContainer.loginUser(data)
       authDIContainer.saveDataSession(response)
       dispatch(setSession(response))
-      router.replace('/mokka-panel')
+      router.replace('/mokka/mokka-panel')
     } catch (error) {
       console.error(error);
     }
@@ -47,10 +47,11 @@ export default function LoginPage() {
       const objecGoogleCredentials: LoginGoogleAuthDto={
         googleToken:credentialResponse.credential
       }
-      
       const response = await authDIContainer.loginWithGoogle(objecGoogleCredentials)
+      console.log(response)
+      authDIContainer.saveDataSession(response)
       dispatch(setSession(response))
-      router.replace('/mokka-panel')
+      router.replace('/mokka/mokka-panel')
     } catch (error) {
       console.error(error)
     }finally{
@@ -67,7 +68,8 @@ export default function LoginPage() {
         <div className="flex justify-start">
           <Link href="/" className="flex items-center text-white gap-2"><IoHomeOutline size={18}/> Go to home</Link>
         </div>
-        <h2 className="text-4xl text-white font-medium">Welcome to Mokka. Log in and start creating</h2>
+        <h2 className="text-4xl text-white font-medium">Welcome to <span className='text-pink-800'
+        >Mokka</span>. Log in and start creating</h2>
         <form action="" className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
            <div className="space-y-2">
             <label htmlFor="email" className="block text-white">Email</label>

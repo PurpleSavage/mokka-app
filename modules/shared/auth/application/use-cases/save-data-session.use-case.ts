@@ -5,7 +5,6 @@ export class SaveDataSession {
     constructor(private readonly localStorageService:StorageStrategyPort){}
     execute(session:SessionEntity){
         try {
-            this.localStorageService.set('session_token',session.accessToken)
             this.localStorageService.set('id_session',session.user.id)
             this.localStorageService.set('email_session',session.user.email)
         } catch (error) {
