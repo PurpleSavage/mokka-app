@@ -30,16 +30,16 @@ function Aside() {
         <div className="pt-4 px-4 w-full space-y-2">
           {/* Link: Home */}
           <Link 
-            href="/mokka-home" 
-            className={`${baseStyles} ${isActive("/mokka-home") ? activeStyles : inactiveStyles}`}
+            href="/mokka/mokka-panel" 
+            className={`${baseStyles} ${isActive("/mokka/mokka-panel") ? activeStyles : inactiveStyles}`}
           >
             <CiHome size={20} /> Home
           </Link>
 
           {/* Link: Community */}
           <Link 
-            href="/mokka-home/community" 
-            className={`${baseStyles} ${isActive("/mokka-home/community") ? activeStyles : inactiveStyles}`}
+            href="/mokka/mokka-panel/community" 
+            className={`${baseStyles} ${isActive("/mokka/mokka-panelcommunity") ? activeStyles : inactiveStyles}`}
           >
             <RiUserCommunityLine size={20} /> Community
           </Link>
