@@ -48,7 +48,6 @@ export default function LoginPage() {
         googleToken:credentialResponse.credential
       }
       const response = await authDIContainer.loginWithGoogle(objecGoogleCredentials)
-      console.log(response)
       authDIContainer.saveDataSession(response)
       dispatch(setSession(response))
       router.replace('/mokka/mokka-panel')

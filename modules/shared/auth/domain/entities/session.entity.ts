@@ -3,7 +3,7 @@ export interface SessionEntity{
     user:{
         email:string,
         id:string,
-        typePlan:string,
+        credits:number,
         createDate:string,
     }
 }

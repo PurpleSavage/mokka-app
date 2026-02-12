@@ -64,7 +64,7 @@ function Aside() {
         <div className="px-4 w-full space-y-2">
           <p className="px-2 font-medium text-gray-100">Creative</p>
           <Link 
-            href="/creative" 
+            href="/mokka/creative-panel" 
             className={`${baseStyles} ${isActive("/creative") ? activeStyles : inactiveStyles}`}
           >
             <IoLayersOutline size={20} /> Mockups generator
@@ -79,7 +79,7 @@ function Aside() {
         </div>
         <div className="grow overflow-hidden">
           <p className="text-white text-sm font-medium truncate">{session?.user.email}</p>
-          <p className="text-gray-100 text-sm lowercase">{session?.user.typePlan}</p>
+          <p className="text-green-300 text-sm lowercase">Credits: {session?.user.credits}</p>
         </div>
       </div>
     </aside>

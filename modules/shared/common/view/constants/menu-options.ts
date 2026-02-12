@@ -5,7 +5,7 @@ import { MdOutlineMail } from "react-icons/md";
 import { LiaFileVideoSolid } from "react-icons/lia";
 import { MdOutlinePayment } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
-
+import { PiUserFocus } from "react-icons/pi";
 interface Option {
     path:string,
     name:string,
@@ -14,13 +14,13 @@ interface Option {
 }
 export const menuOptions:Option[] =[
     {
-        path:'/mokka/mokka-panel/textai',
+        path:'/mokka/mokka-panel/text-generator',
         name:'Text Ai',
         id:'1',
         icon:LuText 
     },
     {
-        path:'/mokka/mokka-panel/audioai',
+        path:'/mokka/mokka-panel/audio-generator',
         name:'Audio Ai',
         id:'2',
         icon:LuAudioLines 
@@ -50,15 +50,21 @@ export const menuOptions:Option[] =[
         icon:LiaFileVideoSolid
     },
     {
+        path:'/mokka/mokka-panel/influencers',
+        name:'Influencers',
+        id:'7',
+        icon:PiUserFocus
+    },
+    {
         path:'/mokka/mokka-panel/billing',
         name:'Billing',
-        id:'7',
+        id:'8',
         icon:MdOutlinePayment
     },
     {
         path:'/mokka/mokka-panel/profile',
         name:'Profile',
-        id:'8',
+        id:'9',
         icon:CgProfile
     },
 ] 
