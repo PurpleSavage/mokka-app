@@ -20,7 +20,7 @@ export const menuOptions:Option[] =[
         icon:LuText 
     },
     {
-        path:'/mokka/mokka-panel/audio-generator',
+        path:'/mokka/mokka-panel/audio',
         name:'Audio Ai',
         id:'2',
         icon:LuAudioLines 

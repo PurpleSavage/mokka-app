@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from '../modules/shared/auth/store-slice/auth.slice'
+import audioReducer from '../modules/audio/audio-slice/audio-store.slice'
 export const boundStore = configureStore({
   reducer: {
-    auth:authReducer
+    auth:authReducer,
+    audio:audioReducer
   },
 });
 
