@@ -9,11 +9,11 @@ export default function MokkaPanelLayout({
   return (
    
     <SessionValidatorWrapper>
-      <div className="min-h-screen flex bg-black">
-        <Aside/>
-        <div className="grow space-y-4 p-4">
+      <div className="h-screen flex bg-black overflow-hidden">
+        <Aside />
+        <main className="flex-1 min-w-0 h-full ">
           {children}
-        </div>
+        </main>
       </div>
     </SessionValidatorWrapper>
     

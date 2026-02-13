@@ -82,7 +82,7 @@ const info: Info[] = [
 ];
 export default function MokkaPanelPage() {
   return (
-    <>
+    <div className="h-full overflow-y-auto p-4 custom-scrollbar">
       <section className="flex items-center w-full mt-10 gap-8">
           <h1 className="w-1/2 text-6xl text-white text-medium">
             Create experiences with artificial intelligence.
@@ -135,6 +135,6 @@ export default function MokkaPanelPage() {
           }
         </div>
       </section>
-    </>
+    </div>
   )
 }
