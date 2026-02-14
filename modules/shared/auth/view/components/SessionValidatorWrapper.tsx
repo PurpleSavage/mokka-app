@@ -13,8 +13,8 @@ export default function SessionValidatorWrapper({children}:SessionValidatorWrapp
     const router = useRouter()
     
     useEffect(() => {
-        // Solo redirigir cuando terminó de cargar y no hay sesión
         if (!isPending && !isAuthenticated) {
+            
             router.push('/mokka/auth')
         }
     }, [isPending, isAuthenticated, router])

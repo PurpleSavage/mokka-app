@@ -13,6 +13,7 @@ export class SaveDataSession {
         try {
             this.localStorageService.set('id_session',session.user.id)
             this.localStorageService.set('email_session',session.user.email)
+            this.localStorageService.set('user_session_mokka',session.user)
             AuthTokenCache.setToken(session.accessToken)
         } catch (error) {
             throw error

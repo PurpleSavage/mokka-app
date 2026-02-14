@@ -2,15 +2,13 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios"
 import { HttpClientPort } from "../../application/ports/http-client.port"
 import { ResponseRefreshTokenDto } from "@/modules/shared/auth/application/dtos/response/refresh-token.dto"
 import { boundStore } from "@/store/boundStore"
-import { SessionEntity } from "@/modules/shared/auth/domain/entities/session.entity"
+import { SessionEntity, UserSessionEntity } from "@/modules/shared/auth/domain/entities/session.entity"
 import { setSession } from "@/modules/shared/auth/store-slice/auth.slice"
 import { AuthTokenCache } from "../services/auth-token-cache.service"
 
 interface RetryableAxiosRequestConfig extends AxiosRequestConfig {
   _retry?: boolean
 }
-
-
 export class HttpClientSingleton implements HttpClientPort {
     private static instance: HttpClientSingleton
     private readonly axiosClient: AxiosInstance
@@ -39,7 +37,7 @@ export class HttpClientSingleton implements HttpClientPort {
     private setupInterceptors(): void {
         this.axiosClient.interceptors.request.use(
             (req) => {
-                const token = AuthTokenCache.getToken();
+                const token = AuthTokenCache.getToken()
                 if (token) {
                     req.headers.Authorization = `Bearer ${token}`
                 }
@@ -58,12 +56,8 @@ export class HttpClientSingleton implements HttpClientPort {
                 if (!originalRequest) {
                     throw error
                 }
-                if (error.response?.status === 401 && responseData?.credentials===false) {
-                    window.location.href ='/mokka/auth';
-                    throw error
-                }
+                
                 if (error.response?.status === 401 && responseData?.renovate === false) {
-                   
                     localStorage.removeItem("id_session");
                     localStorage.removeItem("email_session")
                     window.location.href ='/mokka/auth';
@@ -86,29 +80,28 @@ export class HttpClientSingleton implements HttpClientPort {
                     this.isRefreshing = true
 
                     try {
-                        const email = localStorage.getItem("email_session")
-
-                        if (!email) {
+                        const  rawEmail = localStorage.getItem("email_session")
+                        const userRaw = localStorage.getItem('user_session_mokka')
+                        if (!rawEmail || !userRaw) {
                             this.isRefreshing = false;
                             window.location.href ='/mokka/auth';
                             throw new Error("No session ID")
                         }
+                        const email = rawEmail.replace(/"/g, '');
                         const { data } = await axios.get<ResponseRefreshTokenDto>(
-                            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/read/refresh-token/${email}`,
+                            `${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/auth/read/refresh-token/${email}`,
+                            { 
+                                withCredentials: true 
+                            }
                         
                         )
-                        const state = boundStore.getState()
-                        const authState = state.auth.session
-                        if(!authState){
-                            window.location.href ='/mokka/auth';
-                            throw new Error("No session token")
-                        }
-                        const objAuth:SessionEntity = {
+                        const userData:UserSessionEntity = JSON.parse(userRaw);
+                        const objAuth= {
                             accessToken:data.access_token,
-                            user:authState?.user
+                            user:userData 
                         }
                         AuthTokenCache.setToken(data.access_token)
-                        boundStore.dispatch(setSession(objAuth))
+                        boundStore.dispatch(setSession(objAuth as SessionEntity))
                         this.failedQueue.forEach(p => p.resolve(data.access_token))
                         this.failedQueue = []
                         this.isRefreshing = false
@@ -116,11 +109,12 @@ export class HttpClientSingleton implements HttpClientPort {
                         originalRequest.headers!.Authorization = `Bearer ${data.access_token}`
                         return this.axiosClient(originalRequest)
                     } catch (refreshError) {
+                        console.log(ReferenceError)
                         this.failedQueue.forEach(p => p.reject(refreshError))
                         this.failedQueue = []
                         this.isRefreshing = false
                         localStorage.clear()
-                       globalThis.location.href = '/'
+                        globalThis.location.href = '/'
                         throw refreshError
                     }
                 }
