@@ -28,10 +28,10 @@ export default function TextGenerator() {
             textFormat:formatArray[0].name,
         }
     })
-    const selectedPromotion = useWatch({ control, name: "promotionType" });
-    const selectedTone = useWatch({ control, name: "toneType" });
-    const selectedLength = useWatch({ control, name: "textLength" });
-    const selectedFormat = useWatch({ control, name: "textFormat" });
+    const selectedPromotion = useWatch({ control, name: "promotionType" })
+    const selectedTone = useWatch({ control, name: "toneType" })
+    const selectedLength = useWatch({ control, name: "textLength" })
+    const selectedFormat = useWatch({ control, name: "textFormat" })
 
     const onSubmit = (data: GenerateTextDto) => {
         console.log("Valid Data:", data);

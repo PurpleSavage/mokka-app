@@ -4,19 +4,21 @@ import { ReactNode, useEffect } from "react"
 import { useSession } from "../custom-hooks/useSession"
 import { useRouter } from "next/navigation"
 
+
 interface SessionValidatorWrapperProps{
     children:ReactNode
 }
 export default function SessionValidatorWrapper({children}:SessionValidatorWrapperProps) {
      const {  isPending, isAuthenticated } = useSession()
     const router = useRouter()
-
+    
     useEffect(() => {
         // Solo redirigir cuando terminó de cargar y no hay sesión
         if (!isPending && !isAuthenticated) {
-            router.push('/auth/login')
+            router.push('/mokka/auth')
         }
     }, [isPending, isAuthenticated, router])
+    
     
     if (isPending) {
         return (

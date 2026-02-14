@@ -1,6 +1,10 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios"
 import { HttpClientPort } from "../../application/ports/http-client.port"
 import { ResponseRefreshTokenDto } from "@/modules/shared/auth/application/dtos/response/refresh-token.dto"
+import { boundStore } from "@/store/boundStore"
+import { SessionEntity } from "@/modules/shared/auth/domain/entities/session.entity"
+import { setSession } from "@/modules/shared/auth/store-slice/auth.slice"
+import { AuthTokenCache } from "../services/auth-token-cache.service"
 
 interface RetryableAxiosRequestConfig extends AxiosRequestConfig {
   _retry?: boolean
@@ -35,10 +39,9 @@ export class HttpClientSingleton implements HttpClientPort {
     private setupInterceptors(): void {
         this.axiosClient.interceptors.request.use(
             (req) => {
-                //solo sacar el id token modificar esto
-                const localSession = localStorage.getItem("session_token")
-                if (localSession) {
-                    req.headers.Authorization = `Bearer ${localSession}`
+                const token = AuthTokenCache.getToken();
+                if (token) {
+                    req.headers.Authorization = `Bearer ${token}`
                 }
                 return req
             },
@@ -56,14 +59,14 @@ export class HttpClientSingleton implements HttpClientPort {
                     throw error
                 }
                 if (error.response?.status === 401 && responseData?.credentials===false) {
-                    window.location.href ='/auth';
+                    window.location.href ='/mokka/auth';
                     throw error
                 }
                 if (error.response?.status === 401 && responseData?.renovate === false) {
-                    localStorage.removeItem("session_token");
+                   
                     localStorage.removeItem("id_session");
                     localStorage.removeItem("email_session")
-                    window.location.href ='/auth';
+                    window.location.href ='/mokka/auth';
                     throw error
                 }  
                 if (error.response?.status === 401 && responseData?.renovate === true &&  !originalRequest._retry) {
@@ -87,14 +90,25 @@ export class HttpClientSingleton implements HttpClientPort {
 
                         if (!email) {
                             this.isRefreshing = false;
-                            window.location.href ='/authentication';
+                            window.location.href ='/mokka/auth';
                             throw new Error("No session ID")
                         }
                         const { data } = await axios.get<ResponseRefreshTokenDto>(
                             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/read/refresh-token/${email}`,
                         
                         )
-                        localStorage.setItem("session_token",data.access_token )
+                        const state = boundStore.getState()
+                        const authState = state.auth.session
+                        if(!authState){
+                            window.location.href ='/mokka/auth';
+                            throw new Error("No session token")
+                        }
+                        const objAuth:SessionEntity = {
+                            accessToken:data.access_token,
+                            user:authState?.user
+                        }
+                        AuthTokenCache.setToken(data.access_token)
+                        boundStore.dispatch(setSession(objAuth))
                         this.failedQueue.forEach(p => p.resolve(data.access_token))
                         this.failedQueue = []
                         this.isRefreshing = false

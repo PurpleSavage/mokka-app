@@ -4,6 +4,8 @@ import { SessionEntity } from "../../domain/entities/session.entity";
 import { LoginWithCredentialsDto } from "../../application/dtos/request/login-with-credentials.dto";
 import { LoginGoogleAuthDto } from "../../application/dtos/request/login-google-auth.dto";
 import { RegisterWithCredentialsDto } from "../../application/dtos/request/register-with-credentials.dto";
+import { SessionResponseDto } from "../../application/dtos/response/session-response.dto";
+import { toSessionEntity } from "../mappers/to-session-entity.mapper";
 
 export class AuthApiService implements AuthApiPort{
     constructor(private readonly httpService:HttpClientPort ){}
@@ -12,15 +14,15 @@ export class AuthApiService implements AuthApiPort{
         return session
     }
     async loginUser(dto:LoginWithCredentialsDto):Promise<SessionEntity>{
-        const session = await this.httpService.post<SessionEntity>('/v1/auth/write/login/credentials',dto)
-        return session
+        const session = await this.httpService.post<SessionResponseDto>('/v1/auth/write/login/credentials',dto)
+        return toSessionEntity(session)
     }
     async registerUser(dto:RegisterWithCredentialsDto): Promise<SessionEntity> {
-        const session = await this.httpService.post<SessionEntity>('/v1/auth/write/user/new',dto)
-        return session
+        const session = await this.httpService.post<SessionResponseDto>('/v1/auth/write/user/new',dto)
+        return toSessionEntity(session)
     }
     async loginGoogleAuth(dto: LoginGoogleAuthDto): Promise<SessionEntity> {
-        const session = await this.httpService.post<SessionEntity>('/v1/auth/write/login/google',dto)
-        return session
+        const session = await this.httpService.post<SessionResponseDto>('/v1/auth/write/login/google',dto)
+        return toSessionEntity(session)
     }
 }
