@@ -105,9 +105,9 @@ export default function VoiceSettings() {
     <form className="space-y-2 h-full" onSubmit={handleSubmit(onSubmit)}>
       <textarea
         placeholder="Start typing ..."
-        className={`w-full h-50 text-white border outline-none rounded-lg p-2 bg-transparent ${
-          errors.prompt ? "border-red-500" : "border-slate-600/50 focus:border-gray-400"
-        }`}
+        className={`w-full h-40 text-white rounded-lg p-3 border bg-[#121212]
+            outline-none transition-all 
+            ${errors.prompt ? 'border-red-500' : 'border-slate-600/50 focus:border-pink-800'}`}
         {...register("prompt")}
       />
       {errors.prompt && <p className="text-red-500 text-sm px-2">{errors.prompt.message}</p>}

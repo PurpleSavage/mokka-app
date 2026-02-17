@@ -45,7 +45,8 @@ export default function TextGenerator() {
                     <textarea 
                         {...register("context")}
                         placeholder="What do you want to achieve?"
-                        className="w-full p-4 h-75 text-white bg-transparent border border-slate-600/50 rounded-lg focus:outline-gray-400" 
+                        className={`w-full h-40 text-white rounded-lg p-3 border bg-[#121212]
+            outline-none transition-all ${errors.context ? 'border-red-500' : 'border-slate-600/50 focus:border-pink-800'}`} 
                     />
                     {errors.context && <p className="text-red-500 text-sm">{errors.context.message}</p>}
                 </div>
