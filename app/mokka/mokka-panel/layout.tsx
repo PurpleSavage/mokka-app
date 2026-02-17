@@ -1,5 +1,6 @@
-import SessionValidatorWrapper from "@/modules/shared/auth/view/components/SessionValidatorWrapper";
+import SessionValidatorWrapper from "@/modules/shared/auth/view/wrapppers/SessionValidatorWrapper";
 import Aside from "@/modules/shared/common/view/components/Aside";
+import ModalWrapper from "@/modules/shared/common/view/wrappers/ModalWrapper";
 
 export default function MokkaPanelLayout({
   children,
@@ -15,6 +16,7 @@ export default function MokkaPanelLayout({
           {children}
         </main>
       </div>
+      <ModalWrapper/>
     </SessionValidatorWrapper>
     
   );

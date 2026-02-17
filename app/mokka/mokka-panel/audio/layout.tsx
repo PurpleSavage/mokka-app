@@ -8,10 +8,10 @@ export default function AudioLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="grid h-full grid-cols-[70%_30%] gap-4 overflow-hidden p-4">
-      <div className="flex flex-col min-w-0 h-full overflow-hidden">
+    <div className="grid h-full grid-cols-[70%_30%] overflow-hidden ">
+      <div className="flex flex-col min-w-0 h-full overflow-hidden p-4 ">
         <AudioNavigator />
-        <div className="flex-1 overflow-y-auto custom-scrollbar mt-2 pr-2">
+        <div className="flex-1 overflow-y-auto custom-scrollbar mt-2 ">
           {children}
         </div>
       </div>

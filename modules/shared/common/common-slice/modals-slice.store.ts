@@ -1,31 +1,46 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { AlertModalConfig, TypeErrorAlert } from "./modals-slice-types";
+import { AlertModalConfig} from "./modals-slice-types";
 
 
 
 export interface ModalsState{
-    alertModal:AlertModalConfig
+    alert:AlertModalConfig
 }
 const initialState:ModalsState={
-    alertModal:{
-        typeError:TypeErrorAlert.TOASTER,
-        message:''
+    alert:{
+        title:'',
+    
+        message:'',
+        isVisible:false,
+        type:'success'
     },
    
 }
 
-export const modalsSlice=createSlice({
-    initialState,
-    name:'modals',
-    reducers:{
-        setConfigAlertModal:(state,action:PayloadAction<AlertModalConfig>)=>{
-            state.alertModal=action.payload
-        },
-       
+export const modalsSlice = createSlice({
+  initialState,
+  name: 'modals',
+  reducers: {
+    // Para abrir el modal o disparar el toaster
+    setConfigAlertModal: (state, action: PayloadAction<Omit<AlertModalConfig, 'isVisible'>>) => {
+      state.alert = {
+        ...action.payload,
+        isVisible: true, // Forzamos la visibilidad al configurar
+      };
+    },
+  
+    closeAlert: (state) => {
+      state.alert.isVisible = false;
+    },
+   
+    resetAlert: (state) => {
+      state.alert = initialState.alert;
     }
-})
+  }
+});
 export const {
-    setConfigAlertModal
+    setConfigAlertModal,
+    closeAlert
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

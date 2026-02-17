@@ -28,8 +28,8 @@ function Aside() {
     return false;
   };
   return (
-    <aside className="w-62.5 sticky left-0 top-0 bottom-0 flex flex-col h-screen border-r border-slate-600/50">
-      <div className="px-5 w-full border-b py-4 flex border-slate-600/50">
+    <aside className="w-62.5 sticky left-0 top-0 bottom-0 flex flex-col h-screen border-r border-slate-500/60">
+      <div className="px-5 w-full border-b py-4 flex border-slate-500/60">
         <TbActivityHeartbeat size={30} color="white" />
         <p className="text-white font-bold text-4xl">Mokka</p>
       </div>
@@ -81,7 +81,7 @@ function Aside() {
       </div>
 
       {/* Footer del Aside */}
-      <div className="flex gap-2 px-2 border-t border-slate-600/50 py-2">
+      <div className="flex gap-2 px-2 border-t border-slate-500/60 py-2">
         <div className="size-10 flex items-center justify-center border border-slate-500/50 rounded-full">
           <p className="text-white">
             {session ? getFirstLetter(session.user.email) : "U"}

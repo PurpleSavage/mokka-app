@@ -16,10 +16,10 @@ export default function AsideAudio() {
     (state: RootState) => state.audio.audioNotifications,
   );
   return (
-    <div className="flex flex-col border-l border-slate-600/50 h-full overflow-hidden bg-black">
+    <div className="flex flex-col border-l border-slate-500/60 h-full overflow-hidden bg-black">
       
       {/* CABECERA: Se queda fija arriba gracias a flex-none */}
-      <div className="flex-none flex items-center gap-4 border-slate-600/50 border-b py-2 px-4">
+      <div className="flex-none flex items-center gap-4 border-slate-500/60 border-b py-2 px-4">
         <button
           className={`py-1 ${section === "voices" ? "border-slate-400 text-white border-b" : "text-gray-600"}
                      cursor-pointer hover:border-slate-400`}

@@ -1,10 +1,8 @@
-export enum TypeErrorAlert{
-    TOASTER='toast',
-    ALERT_MODAL='alert'
-}
+
 export interface AlertModalConfig{
-    typeError:TypeErrorAlert,
-    title?:string,
+    title:string,
     message:string,
-    details?:string
+    details?:string,
+    isVisible:boolean,
+    type: 'error' | 'success' | 'warning' | 'info';
 }

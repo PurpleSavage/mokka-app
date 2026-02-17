@@ -12,6 +12,10 @@ import { useIdSession } from "@/modules/shared/auth/view/custom-hooks/useIdSessi
 import { audioDi } from "../../di/audio-container.di"
 import { setLoadingAudio } from "../../audio-slice/audio-store.slice"
 import { ApiErrorPlatform } from "@/modules/shared/common/errors/api-errors.error"
+import { setConfigAlertModal } from "@/modules/shared/common/common-slice/modals-slice.store"
+import { SelectorModalbasedError, TypeErrorAlert } from "@/modules/shared/common/infrastructure/error-mappers/selector-modal-based-error.mapper"
+import { sileo } from "sileo"
+
 
 
 
@@ -56,7 +60,7 @@ export default function VoiceSettings() {
   }))
   const onSubmit = async (data: GenerateAudioDto) => {
     if(!id){
-      console.log('no session initialize')
+      console.error('no session initialize')
       return
     }
     try {
@@ -70,11 +74,31 @@ export default function VoiceSettings() {
         status:response.status,
         message:response.message
       }))
+      sileo.info({
+        title:response.status,
+        description:response.message
+      })
     } catch (error:unknown) {
       if(error instanceof ApiErrorPlatform){
-
+        const config = SelectorModalbasedError.selectModal(error)
+        if(config.typeAlert === TypeErrorAlert.ALERT_MODAL ){
+          dispatch(setConfigAlertModal({
+            title:config.title,
+            message:config.message,
+            type:'error'
+          }))
+        }else{
+          sileo.error({
+            title:config.title,
+            description:config.message
+          })
+        }
+      }else{
+        sileo.error({
+          title:"Unexpected Error",
+          description:"An unknown error occurred. Please try again later."
+        })
       }
-      console.log(error)
     }
   }
   return (
@@ -95,7 +119,6 @@ export default function VoiceSettings() {
           selected={currentName}
           placeholder="Select a voice"
           handleSelect={(option) => {
-            // Aquí actualizamos los dos campos del form al mismo tiempo
             setValue("idModel", option.id);
             setValue("nameModelAudio", option.name);
           }}
