@@ -58,11 +58,11 @@ export default function TextGenerator() {
                             selected={selectedPromotion}
                             options={promotingArray} 
                             handleSelect={(val) => {
-                                if (val === PromotingText.OTHER) {
+                                if (val.name === PromotingText.OTHER) {
                                     setIsOther(true);
                                     setValue("promotionType", "", { shouldValidate: false });
                                 } else {
-                                    setValue("promotionType", val, { shouldValidate: true });
+                                    setValue("promotionType", val.name, { shouldValidate: true });
                                 }
                             }}
                         />
@@ -105,7 +105,7 @@ export default function TextGenerator() {
                         <DropDown 
                             selected={selectedTone}
                             options={toneArray} 
-                            handleSelect={(val) => setValue("toneType", val, { shouldValidate: true })}
+                            handleSelect={(val) => setValue("toneType", val.name, { shouldValidate: true })}
                         />
                     </div>
                 </div>
@@ -117,7 +117,7 @@ export default function TextGenerator() {
                         <DropDown 
                             selected={selectedLength}
                             options={lengthArray} 
-                            handleSelect={(val) => setValue("textLength", val, { shouldValidate: true })}
+                            handleSelect={(val) => setValue("textLength", val.name, { shouldValidate: true })}
                         />
                     </div>
                     <div className="w-1/2 space-y-2">
@@ -125,7 +125,7 @@ export default function TextGenerator() {
                         <DropDown 
                             selected={selectedFormat}
                             options={formatArray} 
-                            handleSelect={(val) => setValue("textFormat", val, { shouldValidate: true })}
+                            handleSelect={(val) => setValue("textFormat", val.name, { shouldValidate: true })}
                         />
                     </div>
                 </div>

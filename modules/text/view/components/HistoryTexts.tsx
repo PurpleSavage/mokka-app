@@ -1,24 +1,11 @@
 import { useHistoryTexts } from "../custom-hooks/useHistoryTexts"
-import HistoryTextsSkeleton from "../skeletons/HistoryTextsSkeleton"
 import { FaHistory } from "react-icons/fa";
-import TextCard from "./TextCard"
+import TextRowRenderWrapper from "./TextRowRenderWrapper";
 
 
 export default function HistoryTexts() {
     const {isPending,error,textHistory}=useHistoryTexts()
-    if(isPending){
-        return <HistoryTextsSkeleton size={4}/>
-    }
-    if(error){
-        return (
-            <p className="text-gray-400 text-lg font-medium">{error}</p>
-        )
-    }
-    if(textHistory.length===0){
-        return (
-            <p className="text-gray-400 text-lg font-medium">You don’t have any generated texts  yet</p>
-        )
-    }
+    
   return (
     <div className="mt-8 space-y-5">
       <div className="flex items-center gap-2">
@@ -34,13 +21,7 @@ export default function HistoryTexts() {
           <p className="text-lg text-white font-medium text-center">Format</p>
           <p className="text-lg text-white font-medium text-center">Ver</p>
         </div>
-        <div className="">
-          {
-           textHistory.map((text)=>(
-                <TextCard key={text.id} text={text}/>
-            ))
-          }
-        </div>
+        <TextRowRenderWrapper isPending={isPending} error={error} textHistory={textHistory}/>
       </div>
     </div>
   )

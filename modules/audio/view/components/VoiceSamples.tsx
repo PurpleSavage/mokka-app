@@ -3,6 +3,7 @@
 import { useRef, useState } from "react"
 import { FaPlay,FaPause } from "react-icons/fa6";
 import { audioModels } from "../constants/audio-samples";
+import { SectionOptions } from "./AsideAudio";
 
 
 interface VoiceSamplesProps{
@@ -32,7 +33,7 @@ export default function VoiceSamples({ section }: VoiceSamplesProps) {
   return (
     <div
        className={`
-        ${section === "voices" ? "block" : "hidden"} 
+        ${section === SectionOptions.VOICES ? "block" : "hidden"} 
       text-white h-full mt-1`}
     >
       <audio className="hidden" ref={audioRef} onEnded={()=>setIdSample("")}/>

@@ -7,6 +7,7 @@ import { audioDi } from "../../di/audio-container.di"
 import { setAudioHistory } from "../../audio-slice/audio-store.slice"
 import HistoryAudiosSkeleton from "../skeletons/HistoryAudiosSkeleton"
 import AudioCard from "./AudioCard"
+import { SectionOptions } from "./AsideAudio"
 
 interface HistoryProps{
   section:string
@@ -63,7 +64,7 @@ export default function History({ section }: HistoryProps) {
   return (
     <div
       className={`transform transition-transform duration-500 mt-2 ease-out
-        ${section === "history" ? " block" : "hidden"} 
+        ${section === SectionOptions.HISTORY ? " block" : "hidden"} 
         text-black`}
     >
       <audio ref={audioRef} className="hidden" onEnded={()=>setIdSample("")}/>

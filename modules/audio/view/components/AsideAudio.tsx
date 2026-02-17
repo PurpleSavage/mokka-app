@@ -5,8 +5,13 @@ import { useSelector } from "react-redux";
 import VoiceSamples from "./VoiceSamples";
 import History from "./History";
 
+export enum SectionOptions{
+  VOICES='voices',
+  HISTORY='history',
+  MUSIC='music'
+}
 export default function AsideAudio() {
-  const [section, setSection] = useState("voices");
+  const [section, setSection] = useState(SectionOptions.VOICES);
   const audioNotifications = useSelector(
     (state: RootState) => state.audio.audioNotifications,
   );
@@ -18,14 +23,14 @@ export default function AsideAudio() {
         <button
           className={`py-1 ${section === "voices" ? "border-slate-400 text-white border-b" : "text-gray-600"}
                      cursor-pointer hover:border-slate-400`}
-          onClick={() => setSection("voices")}
+          onClick={() => setSection(SectionOptions.VOICES)}
         >
           Voices
         </button>
         <button
           className={`py-1 ${section === "history" ? "border-slate-400 text-white border-b" : "text-gray-600"}
                      cursor-pointer hover:border-slate-400 relative`}
-          onClick={() => setSection("history")}
+          onClick={() => setSection(SectionOptions.HISTORY)}
         >
           History
           <span className="flex items-center justify-center absolute -top-1 -right-3 rounded-full bg-pink-800 text-[10px] size-4 text-white">
@@ -33,7 +38,7 @@ export default function AsideAudio() {
           </span>
         </button>
       </div>
-      <div className="flex-1 overflow-y-auto custom-scrollbar overflow-x-hidden pb-20">
+      <div className="flex-1 overflow-y-auto custom-scrollbar overflow-x-hidden pb-20 px-4">
         <VoiceSamples section={section} />
         <History section={section} />
       </div>
