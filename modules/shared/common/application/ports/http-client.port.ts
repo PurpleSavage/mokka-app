@@ -7,4 +7,5 @@ export interface HttpClientPort{
     delete<T>(url: string, config?: AxiosRequestConfig): Promise<T>
     patch<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> 
     head(url: string, config?: AxiosRequestConfig): Promise<void> 
+    getBlob(url:string):Promise<Blob>
 }

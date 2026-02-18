@@ -1,20 +1,24 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { AlertModalConfig} from "./modals-slice-types";
+import { ModalWrapperConfig } from "./modal-wrapper-types";
 
 
 
 export interface ModalsState{
-    alert:AlertModalConfig
+    alert:AlertModalConfig,
+    modalWrapper:ModalWrapperConfig
 }
 const initialState:ModalsState={
     alert:{
         title:'',
-    
         message:'',
         isVisible:false,
         type:'success'
     },
-   
+    modalWrapper:{
+      title:'',
+      isVisible:false
+    }
 }
 
 export const modalsSlice = createSlice({
@@ -28,7 +32,18 @@ export const modalsSlice = createSlice({
         isVisible: true, // Forzamos la visibilidad al configurar
       };
     },
-  
+    openModalWrapper:(state,action:PayloadAction<{title:string}>)=>{
+      state.modalWrapper={
+        isVisible:true,
+        title:action.payload.title
+      }
+    },
+    closeModalWrapper:(state)=>{
+      state.modalWrapper={
+        title:'',
+        isVisible:false
+      }
+    },
     closeAlert: (state) => {
       state.alert.isVisible = false;
     },
@@ -40,7 +55,9 @@ export const modalsSlice = createSlice({
 });
 export const {
     setConfigAlertModal,
-    closeAlert
+    closeAlert,
+    openModalWrapper,
+    closeModalWrapper
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

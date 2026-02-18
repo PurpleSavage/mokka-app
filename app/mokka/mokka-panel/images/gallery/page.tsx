@@ -1,3 +1,5 @@
+import Gallery from "@/modules/image/view/components/Gallery";
+
 
 
 export default function GalleryPage() {
@@ -9,8 +11,8 @@ export default function GalleryPage() {
             <p className="text-gray-500 font-md">These are the images created by you</p>
         </div>
         <div className="grid grid-cols-4 gap-y-8 gap-x-4 auto-rows-[450px]">
-
-        </div>
+          <Gallery/>
+        </div> 
     </section>
   )
 }

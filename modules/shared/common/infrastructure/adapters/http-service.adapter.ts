@@ -151,6 +151,10 @@ export class HttpClientSingleton implements HttpClientPort {
     async head(url: string, config?: AxiosRequestConfig): Promise<void> {
         await this.axiosClient.head(url, config)
     }
+    async getBlob(url: string): Promise<Blob> {
+        const {data}= await this.axiosClient.get<Blob>(url,{ responseType: "blob" })
+        return data
+    }
 }
 
 export const httpClient = HttpClientSingleton.getInstance()
