@@ -27,6 +27,7 @@ export const useImages = () => {
             const response = await imageDI.listImages(id)
             dispatch(setGallery(response))
         } catch (error) {
+            setError('an error has occurred')
             if (error instanceof ApiErrorPlatform) {
             const config = SelectorModalbasedError.selectModal(error);
             if (config.typeAlert === TypeErrorAlert.ALERT_MODAL) {

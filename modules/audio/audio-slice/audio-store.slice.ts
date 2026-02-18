@@ -17,7 +17,7 @@ const initialState:AiaudioState={
 
 export const aiaudioSlice=createSlice({
     initialState,
-    name:'aiaudio',
+    name:'audio',
     reducers:{
        
         setAudioHistory:(state,action:PayloadAction<AudioEntity[]>)=>{

@@ -1,5 +1,3 @@
-'use client'
-
 import ImageNavigator from "@/modules/image/view/components/ImageNavigator";
 
 export default function ImagesLayout({
