@@ -5,6 +5,10 @@ import { ImageEntity } from "../../domain/entities/Image.entity";
 import { HttpClientPort } from "@/modules/shared/common/application/ports/http-client.port";
 import { ImageResponseDto } from "../../application/dtos/response/image-response.dto";
 import { toImageEntity } from "../mappers/to-image-entity.mapper";
+import { SharedImageEntity } from "../../application/ports/shared-image.entity";
+import { ShareImageDto } from "../../application/dtos/request/shared-image.dto";
+import { SharedImageResponseDto } from "../../application/dtos/response/shared-image-response.dto";
+import { toSharedImageEntity } from "../mappers/to-shared-image-entity.mapper";
 
 
 
@@ -21,5 +25,12 @@ export class ImageApiService implements ImagePort {
            `/v1/image/read/images/${user}`
         )
         return response.map((imageDto)=>toImageEntity(imageDto))
+    }
+    async shareImage(dto:ShareImageDto): Promise<SharedImageEntity> {
+        const response = await this.httpService.post<SharedImageResponseDto>(
+            '/v1/image/write/share',
+            dto
+        )
+        return toSharedImageEntity(response)
     }
 }
