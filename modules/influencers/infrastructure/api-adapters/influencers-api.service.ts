@@ -5,6 +5,12 @@ import { InfluencerEntity } from "../../domain/entities/influencer.entity";
 import { FullGenerateInfluencerDto } from "../../application/dtos/requests/generate-influencer.dto";
 import { InfluencerResponseDto } from "../../application/dtos/responses/influencer-response.dto";
 import { toInfluencerEntity } from "../mappers/to-influencer-entity.mapper";
+import { InfluencerSceneEntity } from "../../domain/entities/influencer-scene.entity";
+import { InfluencerSnapshotEntity } from "../../domain/entities/influencer-snapshot.entity";
+import { InfluencerSnapshotDto } from "../../application/dtos/responses/influencer-snapshot.dto";
+import { toSnapshotEntity } from "../mappers/to-snapshot-entity.mapper";
+import { InfluencerScenesDto } from "../../application/dtos/responses/influencer-scenes.dto";
+import { toSceneEntity } from "../mappers/to-scene-entity.mapper";
 
 export class InfluencerApiService implements InfluencersPort{
     constructor(private readonly httpService:HttpClientPort){}
@@ -26,5 +32,17 @@ export class InfluencerApiService implements InfluencersPort{
             `/v1/influencer/read/model/${influencerId}`
         )
         return toInfluencerEntity(response)
+    }
+    async listScenesLastWeek(user:string): Promise<InfluencerSceneEntity[]>{
+        const response = await this.httpService.get<InfluencerScenesDto[]>(
+            `/v1/influencer/read/last-scenes/${user}`
+        )
+        return response.map((scene)=>toSceneEntity(scene))
+    }
+    async listSnapshotsLAstWeek(user:string):Promise<InfluencerSnapshotEntity[]>{
+        const response = await this.httpService.get<InfluencerSnapshotDto[]>(
+            `/v1/influencer/read/last-scenes/${user}`
+        )
+        return response.map((snapshot)=>toSnapshotEntity(snapshot))
     }
 }
