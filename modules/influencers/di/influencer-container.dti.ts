@@ -5,17 +5,23 @@ import { FullGenerateInfluencerDto } from "../application/dtos/requests/generate
 import { ListInfluencersUseCase } from "../application/use-cases/list-influencers.use-case"
 import { ListScenesLastWeekUseCase } from "../application/use-cases/list-scenes-last-week.use-case"
 import { ListSnapshotsLastWeekUseCase } from "../application/use-cases/list-snapshots-last-week.use-case"
+import { ListHistoryScenesUseCase } from "../application/use-cases/list-history-scenes.use-case"
+import { ListHistorySnapshotsUseCase } from "../application/use-cases/list-history-snapshots.use-case"
 
 const influencersService= new InfluencerApiService(httpClient)
 export const useCases = {
     generateInfluencer: new GenerateInfluencerUseCase(influencersService),
     listInfluencers: new ListInfluencersUseCase(influencersService),
     listScenesLastWeek: new ListScenesLastWeekUseCase(influencersService),
-    listSnapshotsLastWeek: new ListSnapshotsLastWeekUseCase(influencersService) 
+    listSnapshotsLastWeek: new ListSnapshotsLastWeekUseCase(influencersService),
+    listHistoryScenes: new ListHistoryScenesUseCase(influencersService),
+    listHistorySnapshots: new ListHistorySnapshotsUseCase(influencersService)
 }
 export const influencersDI= {
     generateInfluencer:(dto:FullGenerateInfluencerDto)=>useCases.generateInfluencer.execute(dto),
     listInfluencer: (userId:string)=>useCases.listInfluencers.execute(userId),
     listScenesLastWeek:(user:string)=>useCases.listScenesLastWeek.execute(user),
-    listSnapshotsLastWeek:(user:string)=>useCases.listSnapshotsLastWeek.execute(user)
+    listSnapshotsLastWeek:(user:string)=>useCases.listSnapshotsLastWeek.execute(user),
+    listHistoryScenes:(user:string)=>useCases.listHistoryScenes.execute(user),
+    ListHistorySnapshotsUseCase:(user:string)=>useCases.listHistorySnapshots.execute(user)
 }

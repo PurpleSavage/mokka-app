@@ -41,7 +41,20 @@ export class InfluencerApiService implements InfluencersPort{
     }
     async listSnapshotsLAstWeek(user:string):Promise<InfluencerSnapshotEntity[]>{
         const response = await this.httpService.get<InfluencerSnapshotDto[]>(
-            `/v1/influencer/read/last-scenes/${user}`
+            `/v1/influencer/read/last-snapshots/${user}`
+        )
+        return response.map((snapshot)=>toSnapshotEntity(snapshot))
+    }
+
+    async listHistoryScenes(user: string): Promise<InfluencerSceneEntity[]> {
+        const response =await this.httpService.get<InfluencerScenesDto[]>(
+            `/v1/influencer/read/scenes/${user}`
+        )
+        return response.map((scene)=>toSceneEntity(scene))
+    }
+    async listHistorySnapshots(user: string): Promise<InfluencerSnapshotEntity[]> {
+        const response = await this.httpService.get<InfluencerSnapshotDto[]>(
+            `/v1/influencer/read/snapshots/${user}`
         )
         return response.map((snapshot)=>toSnapshotEntity(snapshot))
     }

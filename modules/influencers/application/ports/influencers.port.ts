@@ -10,4 +10,6 @@ export interface InfluencersPort{
     getInfluencerById(influencerId:string):Promise<InfluencerEntity>
     listScenesLastWeek(user:string): Promise<InfluencerSceneEntity[]>
     listSnapshotsLAstWeek(user:string):Promise<InfluencerSnapshotEntity[]>
+    listHistorySnapshots(user:string):Promise<InfluencerSnapshotEntity[]>
+    listHistoryScenes(user:string):Promise<InfluencerSceneEntity[]>
 }
