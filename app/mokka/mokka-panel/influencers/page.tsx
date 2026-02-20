@@ -1,4 +1,6 @@
 import ListInfluencers from "@/modules/influencers/view/components/ListInfluencers";
+import ScenesLastWeek from "@/modules/influencers/view/components/ScenesLastWeek";
+import SnapshotsLastWeek from "@/modules/influencers/view/components/SnapshotsLastWeek";
 
 
 export default function InfluencersPage() {
@@ -9,6 +11,8 @@ export default function InfluencersPage() {
             <p className="text-slate-300">Manage and create your influencers</p>
         </div>
         <ListInfluencers/>
+        <SnapshotsLastWeek/>
+        <ScenesLastWeek/>
     </>
   )
 }

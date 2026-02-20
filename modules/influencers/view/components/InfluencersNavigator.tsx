@@ -9,16 +9,22 @@ export default function InfluencersNavigator() {
     return (
         <ul className=" py-4 flex items-center gap-4">
             <li>
-            <Link
-                href="/mokka/mokka-panel/influencers" 
-                className={`${isActive("/mokka/mokka-panel/influencers") ? "underline underline-offset-8":""}`}
-            >Influencers</Link>
+                <Link
+                    href="/mokka/mokka-panel/influencers" 
+                    className={`${isActive("/mokka/mokka-panel/influencers") ? "underline underline-offset-8":""}`}
+                >Influencers</Link>
             </li>
             <li>
-            <Link 
-                href="/mokka/mokka-panel/influencers/history" 
-                className={`${isActive("/mokka/mokka-panel/influencers/history")? "underline underline-offset-8":""}`}
-            >History</Link>
+                <Link 
+                    href="/mokka/mokka-panel/influencers/scenes-history" 
+                    className={`${isActive("/mokka/mokka-panel/influencers/scenes-history")? "underline underline-offset-8":""}`}
+                >Scenes</Link>
+            </li>
+            <li>
+                <Link 
+                    href="/mokka/mokka-panel/influencers/snapshots-history" 
+                    className={`${isActive("/mokka/mokka-panel/influencers/snapshots-history")? "underline underline-offset-8":""}`}
+                >Snapshots</Link>
             </li>
         </ul>
     )

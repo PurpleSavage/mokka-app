@@ -2,17 +2,19 @@ import { useIdSession } from "@/modules/shared/auth/view/custom-hooks/useIdSessi
 import { ApiErrorPlatform } from "@/modules/shared/common/errors/api-errors.error";
 import { SelectorModalbasedError, TypeErrorAlert } from "@/modules/shared/common/infrastructure/error-mappers/selector-modal-based-error.mapper";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { sileo } from "sileo";
 import { influencersDI } from "../../di/influencer-container.dti";
 import { setScenesLastWeek } from "../../influencer-slice/influencer-store.di";
 import { setConfigAlertModal } from "@/modules/shared/common/common-slice/modals-slice.store";
+import { RootState } from "@/store/boundStore";
 
 export const useScenesLastWeek = () => {
   const [error, setError] = useState("");
   const [isPending, setisPending] = useState(true);
   const { id } = useIdSession();
   const dispatch = useDispatch();
+  const scenesLastWeek= useSelector((state:RootState)=>state.influencers.scenesLastWeek)
   useEffect(() => {
     if(!id){
         return
@@ -50,9 +52,10 @@ export const useScenesLastWeek = () => {
       }
     };
     getScenesLastWeek();
-  }, []);
+  }, [id,dispatch]);
   return {
     error,
     isPending,
+    scenesLastWeek
   };
 };
