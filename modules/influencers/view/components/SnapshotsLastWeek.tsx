@@ -1,31 +1,30 @@
 "use client";
 
-import { getRangeByDay } from "@/modules/shared/common/view/utils/get-range-by-day.util";
 import { useSnapshotsLAstWeek } from "../custom-hooks/useSnapshotsLastWeek";
 import MultimediaGenerationCard from "./MultimediaGenerationCard";
+import MultimediaCardSkeleton from "../skeletons/MultimediaCardSkeleton";
 
 export default function SnapshotsLastWeek() {
   const { error, isPending, snapshotsLastWeek } = useSnapshotsLAstWeek();
   if (isPending) {
-    return;
+    return <MultimediaCardSkeleton size={4}/>
   }
   if (error) {
-    return;
+    return(
+      <div className="flex items-center justify-center p-2">
+        <p className="text-red-500">{error}</p>
+      </div>
+    )
   }
   if (snapshotsLastWeek.length === 0) {
-    return;
+    return(
+      <div className="flex items-center justify-center p-2">
+        <p className="text-slate-400">No scenes were generated last week</p>
+      </div>
+    )
   }
   return (
-    <section className="space-y-2">
-      <div className="space-y-1">
-        <h2 className="text-2xl text-white font-medium">
-          Snapshots generated last week
-        </h2>
-        <p className="text-md text-white">
-          Snapshots generated from {getRangeByDay(7)}
-        </p>
-      </div>
-      <div className="flex items-center gap-4 w-full">
+    <div className="flex items-center gap-4 w-full">
         {snapshotsLastWeek.map((snapshot) => (
           <MultimediaGenerationCard
             key={snapshot.id}
@@ -33,6 +32,5 @@ export default function SnapshotsLastWeek() {
           />
         ))}
       </div>
-    </section>
   );
 }
