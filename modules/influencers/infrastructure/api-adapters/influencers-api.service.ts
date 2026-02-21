@@ -46,15 +46,26 @@ export class InfluencerApiService implements InfluencersPort{
         return response.map((snapshot)=>toSnapshotEntity(snapshot))
     }
 
-    async listHistoryScenes(user: string): Promise<InfluencerSceneEntity[]> {
+    async listHistoryScenes(user: string,page?:number): Promise<InfluencerSceneEntity[]> {
+        const params = new URLSearchParams({ userId:user }); 
+    
+        if (page) {
+            params.append('page', page.toString());
+        }
         const response =await this.httpService.get<InfluencerScenesDto[]>(
-            `/v1/influencer/read/scenes/${user}`
+            `/v1/influencer/read/scenes?${params.toString()}`,
+            
         )
         return response.map((scene)=>toSceneEntity(scene))
     }
-    async listHistorySnapshots(user: string): Promise<InfluencerSnapshotEntity[]> {
+    async listHistorySnapshots(user: string,page?:number): Promise<InfluencerSnapshotEntity[]> {
+        const params = new URLSearchParams({  userId:user });
+    
+        if (page) {
+            params.append('page', page.toString()); 
+        }
         const response = await this.httpService.get<InfluencerSnapshotDto[]>(
-            `/v1/influencer/read/snapshots/${user}`
+            `/v1/influencer/read/snapshots?${params.toString()}`,
         )
         return response.map((snapshot)=>toSnapshotEntity(snapshot))
     }

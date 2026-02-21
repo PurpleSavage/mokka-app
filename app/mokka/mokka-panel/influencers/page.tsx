@@ -6,7 +6,7 @@ import { getRangeByDay } from "@/modules/shared/common/view/utils/get-range-by-d
 
 export default function InfluencersPage() {
   return (
-    <>
+    <div className="overflow-y-auto custom-scrollbar h-full space-y-4">
         <div className="space-y-1">
             <p className="text-2xl text-white font-medium">Influencers</p>
             <p className="text-slate-300">Manage and create your influencers</p>
@@ -30,6 +30,6 @@ export default function InfluencersPage() {
           </div>
           <ScenesLastWeek/>
         </div>
-    </>
+    </div>
   )
 }

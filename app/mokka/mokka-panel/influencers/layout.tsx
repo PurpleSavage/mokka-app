@@ -7,7 +7,7 @@ export default function InfluencersLayout({
 }>) {
   return (
    
-    <div className="h-full overflow-hidden p-4 space-y-4">
+    <div className="h-full overflow-hidden p-4 space-y-2">
         <InfluencersNavigator/>
         {children}
     </div>

@@ -24,7 +24,7 @@ export default function ScenesLastWeek() {
         )
     }
   return (
-    <div className="flex items-center gap-4 w-full">
+    <div className="flex items-center gap-4 w-full overflow-y-auto">
             {
                 scenesLastWeek.map((scene)=>(
                     <MultimediaGenerationCard key={scene.id} multimedia={scene}/>

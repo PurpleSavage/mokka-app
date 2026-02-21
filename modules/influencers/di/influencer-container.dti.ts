@@ -22,6 +22,6 @@ export const influencersDI= {
     listInfluencer: (userId:string)=>useCases.listInfluencers.execute(userId),
     listScenesLastWeek:(user:string)=>useCases.listScenesLastWeek.execute(user),
     listSnapshotsLastWeek:(user:string)=>useCases.listSnapshotsLastWeek.execute(user),
-    listHistoryScenes:(user:string)=>useCases.listHistoryScenes.execute(user),
-    ListHistorySnapshotsUseCase:(user:string)=>useCases.listHistorySnapshots.execute(user)
+    listHistoryScenes:(user:string,page?:number)=>useCases.listHistoryScenes.execute(user,page),
+    listHistorySnapshots:(user:string,page?:number)=>useCases.listHistorySnapshots.execute(user,page)
 }

@@ -13,7 +13,7 @@ export default function MultimediaGenerationCard({ multimedia }: MultimediaGener
   const src = isVideo ? multimedia.urlScene : (multimedia as InfluencerSnapshotEntity).snapshotUrl;
 
   return (
-    <div className="w-60 h-72 overflow-hidden rounded-lg bg-gray-100">
+    <div className="w-full h-72 overflow-hidden rounded-lg bg-gray-100">
       {isVideo ? (
         <video 
           src={src} 

@@ -24,7 +24,7 @@ export default function SnapshotsLastWeek() {
     )
   }
   return (
-    <div className="flex items-center gap-4 w-full">
+    <div className="flex items-center gap-4 w-full overflow-y-auto">
         {snapshotsLastWeek.map((snapshot) => (
           <MultimediaGenerationCard
             key={snapshot.id}
