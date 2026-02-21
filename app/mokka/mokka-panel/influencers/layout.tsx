@@ -9,7 +9,9 @@ export default function InfluencersLayout({
    
     <div className="h-full overflow-hidden p-4 space-y-2">
         <InfluencersNavigator/>
-        {children}
+        <div className="flex-1 overflow-hidden">
+            {children}
+        </div>
     </div>
     
   );
