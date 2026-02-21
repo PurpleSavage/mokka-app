@@ -63,7 +63,11 @@ export const menuOptions:Option[] =[
         name:'Influencers',
         id:'7',
         icon:PiUserFocus,
-        allowedRoutes:[]
+        allowedRoutes:[
+            '/mokka/mokka-panel/influencers',
+            '/mokka/mokka-panel/influencers/scenes-history',
+            '/mokka/mokka-panel/influencers/snapshots-history'
+        ]
     },
     {
         path:'/mokka/mokka-panel/billing',
