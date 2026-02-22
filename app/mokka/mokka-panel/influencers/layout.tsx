@@ -7,9 +7,9 @@ export default function InfluencersLayout({
 }>) {
   return (
    
-    <div className="h-full overflow-hidden p-4 space-y-2">
+    <div className="h-full flex flex-col overflow-hidden p-4 space-y-2">
         <InfluencersNavigator/>
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1  overflow-hidden">
             {children}
         </div>
     </div>

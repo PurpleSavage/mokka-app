@@ -3,7 +3,7 @@ import ListScenesHistory from "@/modules/influencers/view/components/ListScenesH
 
 export default function ScenesHistoryPage() {
   return (
-    <div className="h-full grid grid-cols-4 gap-4 overflow-y-auto custom-scrollbar">
+    <div className="h-full bg-red-500 grid grid-cols-4 gap-4 overflow-y-auto custom-scrollbar">
       <ListScenesHistory/>
     </div>
   )

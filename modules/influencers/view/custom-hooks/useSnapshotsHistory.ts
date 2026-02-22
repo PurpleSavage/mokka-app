@@ -21,6 +21,7 @@ export const useSnapshotsHistory = () => {
 
   useEffect(() => {
     if(!id) return
+    if(snapshotsHistory.length>0) return
     const getSnapshotsHistory = async() => {
       try {
         setisPending(true)
@@ -55,7 +56,7 @@ export const useSnapshotsHistory = () => {
       }
     };
     getSnapshotsHistory();
-  }, [dispatch,id])
+  }, [dispatch,id,snapshotsHistory.length])
 
   return {
     isPending,
