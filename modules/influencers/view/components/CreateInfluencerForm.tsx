@@ -28,7 +28,7 @@ export default function CreateInfluencerForm() {
     defaultValues: {
       height: 160,
     }
-  });
+  })
 
   const onSubmit = (data: GenerateInfluencerDto) => {
     console.log("Datos del Influencer:", data);

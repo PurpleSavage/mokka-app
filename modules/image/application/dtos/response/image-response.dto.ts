@@ -1,4 +1,4 @@
-import { AspectRatioImage } from "@/modules/image/domain/enums/aspect-ratio-image"
+import { AspectRatioImage } from "@/modules/shared/common/domain/enums/aspect-ratio-image"
 import { AllSubStyles, TypeStyle } from "@/modules/image/domain/enums/image-styles"
 
 export interface ImageResponseDto{

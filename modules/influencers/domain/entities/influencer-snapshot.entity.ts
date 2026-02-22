@@ -1,4 +1,5 @@
-import { Environment } from "../enums/valid-enviroments"
+
+import { Environment } from "../enums/valid-enviroment"
 import { OutfitType } from "../enums/valid-outfits"
 
 import { InfluencerEntity } from "./influencer.entity"
