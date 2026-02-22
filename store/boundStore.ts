@@ -5,7 +5,7 @@ import textReducer from '../modules/text/text-slice/text-store.slice'
 import modalsReducer from '../modules/shared/common/common-slice/modals-slice.store'
 import imageReducer from '../modules/image/image-slice/image.slice'
 import influencersReducer  from '../modules/influencers/influencer-slice/influencer-store.di'
-
+import commonReducer from '../modules/shared/common/common-slice/common-slice.slice'
 export const boundStore = configureStore({
   reducer: {
     auth:authReducer,
@@ -13,7 +13,8 @@ export const boundStore = configureStore({
     text:textReducer,
     modals:modalsReducer,
     image:imageReducer,
-    influencers:influencersReducer
+    influencers:influencersReducer,
+    common:commonReducer
   },
 });
 
