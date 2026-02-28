@@ -93,6 +93,15 @@ export default function GenerateVideoForm() {
             )}
           />
         </div>
+        <div className="flex items-center justify-end">
+            <button
+                type="submit"
+                className="px-8 h-11 cursor-pointer bg-white text-black font-bold rounded-lg
+                            hover:bg-pink-800 hover:text-white transition-colors"
+            >
+                Generate video
+            </button>
+        </div>
     </form>
   );
 }

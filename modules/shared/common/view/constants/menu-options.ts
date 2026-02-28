@@ -1,7 +1,6 @@
 import type { IconType } from "react-icons"
 import { LuAudioLines, LuImage, LuText } from "react-icons/lu";
 import { TbWorld } from "react-icons/tb";
-import { MdOutlineMail } from "react-icons/md";
 import { LiaFileVideoSolid } from "react-icons/lia";
 import { MdOutlinePayment } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
@@ -42,13 +41,6 @@ export const menuOptions:Option[] =[
         name:'Social media',
         id:'4',
         icon:TbWorld,
-        allowedRoutes:[]
-    },
-    {
-        path:'/mokka/mokka-panel/send-emails',
-        name:'Emails',
-        id:'5',
-        icon:MdOutlineMail,
         allowedRoutes:[]
     },
     {
