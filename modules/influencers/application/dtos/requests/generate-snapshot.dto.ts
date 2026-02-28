@@ -9,6 +9,7 @@ export const generateSnapShotSchema = z.object({
     aspectRatio:z.enum(aspectRatio, { message: "Please select a valid aspect ratio"}),
     outfitStyle:z.enum(outfit, { message: "Please select a valid outfit"}),
     enviroment:z.enum(enviroments, { message: "Please select a valid enviroments"}),
+    url: z.array(z.string()).min(1, "Please select at least one reference influencer")
 })
 
 export type GenerateSnapshotDto = z.infer<typeof generateSnapShotSchema >

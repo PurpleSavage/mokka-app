@@ -6,7 +6,8 @@ import { ModalWrapperConfig } from "./modal-wrapper-types";
 
 export interface ModalsState{
     alert:AlertModalConfig,
-    modalWrapper:ModalWrapperConfig
+    modalWrapper:ModalWrapperConfig,
+  
 }
 const initialState:ModalsState={
     alert:{
@@ -17,7 +18,8 @@ const initialState:ModalsState={
     },
     modalWrapper:{
       title:'',
-      isVisible:false
+      isVisible:false,
+      formType: null
     }
 }
 
@@ -32,16 +34,18 @@ export const modalsSlice = createSlice({
         isVisible: true, // Forzamos la visibilidad al configurar
       };
     },
-    openModalWrapper:(state,action:PayloadAction<{title:string}>)=>{
+    openModalWrapper:(state,action:PayloadAction<{title:string,formType?: 'SCENE' | 'SNAPSHOT' |'INFLUENCER' }>)=>{
       state.modalWrapper={
         isVisible:true,
-        title:action.payload.title
+        title:action.payload.title,
+        formType: action.payload.formType ?? null,
       }
     },
     closeModalWrapper:(state)=>{
       state.modalWrapper={
         title:'',
-        isVisible:false
+        isVisible:false,
+        formType: null,
       }
     },
     closeAlert: (state) => {

@@ -1,4 +1,5 @@
 export interface ModalWrapperConfig{
     title:string,
-    isVisible:boolean 
+    isVisible:boolean,
+    formType?: 'SCENE' | 'SNAPSHOT' |'INFLUENCER'| null;
 }

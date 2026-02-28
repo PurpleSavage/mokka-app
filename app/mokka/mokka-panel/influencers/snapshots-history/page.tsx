@@ -1,5 +1,6 @@
-import ButtonGenerateMultimediaContent, { OriginComponentOptions } from "@/modules/influencers/view/components/ButtonGenerateMultimediaContent";
+import ButtonGenerateMultimediaContent from "@/modules/influencers/view/components/ButtonGenerateMultimediaContent";
 import ListSnapshotsHistory from "@/modules/influencers/view/components/ListSnapshotsHistory";
+import { OriginComponentOptions } from "@/modules/influencers/view/ui-types/multimedia-options";
 
 
 

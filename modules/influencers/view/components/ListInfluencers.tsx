@@ -1,17 +1,20 @@
 'use client'
 import { FaPlus } from "react-icons/fa6";
 import Influencers from "./Influencers";
-import CreateInfluencerForm from "./CreateInfluencerForm";
 import { useDispatch } from "react-redux";
 import { openModalWrapper } from "@/modules/shared/common/common-slice/modals-slice.store";
-import ModalLookDataWrapper from "@/modules/shared/common/view/wrappers/ModalLookDataWrapper";
+
 
 
 export default function ListInfluencers() {
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
-    dispatch(openModalWrapper({ title: "Create a new influencer" }));
+    dispatch(openModalWrapper({ 
+      title: "Create a new influencer",
+      formType: 'INFLUENCER'
+    }));
+     
   }
   return (
     <section className="border border-slate-500/60
@@ -26,9 +29,6 @@ export default function ListInfluencers() {
         <FaPlus size={20}/>
       </button>
       <Influencers/>
-      <ModalLookDataWrapper size="max-w-[50%]">
-        <CreateInfluencerForm />
-      </ModalLookDataWrapper>
     </section>
   )
 }

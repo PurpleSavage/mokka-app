@@ -7,7 +7,7 @@ import MultimediaGenerationCard from "./MultimediaGenerationCard";
 export default function ListSnapshotsHistory() {
   const { isPending, error, snapshotsHistory } = useSnapshotsHistory();
   if (isPending) {
-    return <MultimediaCardSkeleton size={8} />;
+    return <MultimediaCardSkeleton size={8} styles="h-80 "/>;
   }
   if (error) {
     return (
@@ -25,9 +25,9 @@ export default function ListSnapshotsHistory() {
   }
   return (
     <>
-      {snapshotsHistory.map((scene) => (
-          <div key={scene.id} className="break-inside-avoid mb-4">
-            <MultimediaGenerationCard multimedia={scene} />
+      {snapshotsHistory.map((multimedia) => (
+          <div key={multimedia.id} className="break-inside-avoid mb-4">
+            <MultimediaGenerationCard multimedia={multimedia} />
           </div>
         ))}
     </>

@@ -56,7 +56,10 @@ export const menuOptions:Option[] =[
         name:'Video',
         id:'6',
         icon:LiaFileVideoSolid,
-        allowedRoutes:[]
+        allowedRoutes:[
+            '/mokka/mokka-panel/video',
+            '/mokka/mokka-panel/video/history-videos'
+        ]
     },
     {
         path:'/mokka/mokka-panel/influencers',
