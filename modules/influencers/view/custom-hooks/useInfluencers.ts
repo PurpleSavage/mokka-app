@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { influencersDI } from "../../di/influencer-container.dti";
 import { useIdSession } from "@/modules/shared/auth/view/custom-hooks/useIdSession";
 import { useDispatch, useSelector } from "react-redux";
-import { setInfluencers } from "../../influencer-slice/influencer-store.di";
+import { setInfluencers } from "../../influencer-slice/influencer-store.slice";
 import { ApiErrorPlatform } from "@/modules/shared/common/errors/api-errors.error";
 import {
   SelectorModalbasedError,

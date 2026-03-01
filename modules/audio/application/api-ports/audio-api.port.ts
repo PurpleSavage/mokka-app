@@ -3,6 +3,6 @@ import { AudioEntity } from "../../domain/entities/audio.entity"
 import { FullAudioDto } from "../dtos/requests/generate-audio.dto"
 
 export interface AudioApiPort{
-    generateAudio(dto:FullAudioDto):Promise<ResponseDataSocket<AudioEntity>>
+    generateAudio(dto:FullAudioDto):Promise<ResponseDataSocket>
     listAudioHistory(userId: string): Promise<AudioEntity[]>
 }

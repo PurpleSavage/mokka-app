@@ -14,8 +14,8 @@ import { toSharedImageEntity } from "../mappers/to-shared-image-entity.mapper";
 
 export class ImageApiService implements ImagePort {
     constructor(private readonly httpService:HttpClientPort){}
-    async generateImage(dto: GenerateImageDto): Promise<ResponseDataSocket<ImageEntity>> {
-        const response = await this.httpService.post<ResponseDataSocket<ImageEntity>>(
+    async generateImage(dto: GenerateImageDto): Promise<ResponseDataSocket> {
+        const response = await this.httpService.post<ResponseDataSocket>(
             '/v1/image/write/generations',dto
         )
         return response

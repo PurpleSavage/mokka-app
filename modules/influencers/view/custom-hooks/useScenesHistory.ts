@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sileo } from "sileo";
 import { influencersDI } from "../../di/influencer-container.dti";
-import { setScenesHistory } from "../../influencer-slice/influencer-store.di";
+import { setScenesHistory } from "../../influencer-slice/influencer-store.slice";
 
 export const useScenesHistory = () => {
   const [error, setError] = useState("");

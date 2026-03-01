@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sileo } from "sileo";
 import { influencersDI } from "../../di/influencer-container.dti";
-import { setSnapshotsHistory } from "../../influencer-slice/influencer-store.di";
+import { setSnapshotsHistory } from "../../influencer-slice/influencer-store.slice";
 import { RootState } from "@/store/boundStore";
 
 export const useSnapshotsHistory = () => {

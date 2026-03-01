@@ -2,7 +2,7 @@
 
 import { useSnapshotsLAstWeek } from "../custom-hooks/useSnapshotsLastWeek";
 import MultimediaGenerationCard from "./MultimediaGenerationCard";
-import MultimediaCardSkeleton from "../skeletons/MultimediaCardSkeleton";
+import MultimediaCardSkeleton from "../../../shared/common/view/skeletons/MultimediaCardSkeleton";
 
 export default function SnapshotsLastWeek() {
   const { error, isPending, snapshotsLastWeek } = useSnapshotsLAstWeek();

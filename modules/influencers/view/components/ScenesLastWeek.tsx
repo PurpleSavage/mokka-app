@@ -2,7 +2,7 @@
 
 import { useScenesLastWeek } from "../custom-hooks/useScenesLastWeek"
 import MultimediaGenerationCard from "./MultimediaGenerationCard"
-import MultimediaCardSkeleton from "../skeletons/MultimediaCardSkeleton"
+import MultimediaCardSkeleton from "../../../shared/common/view/skeletons/MultimediaCardSkeleton"
 
 export default function ScenesLastWeek() {
     const {error,isPending,scenesLastWeek}=useScenesLastWeek()

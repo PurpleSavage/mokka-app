@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { sileo } from "sileo";
 import { influencersDI } from "../../di/influencer-container.dti";
 import { RootState } from "@/store/boundStore";
-import { setSnapshotsLastWeek } from "../../influencer-slice/influencer-store.di";
+import { setSnapshotsLastWeek } from "../../influencer-slice/influencer-store.slice";
 
 export const useSnapshotsLAstWeek = () => {
   const [error, setError] = useState("");

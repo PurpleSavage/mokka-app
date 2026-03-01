@@ -5,7 +5,7 @@ import { SharedImageEntity } from "./shared-image.entity";
 import { ShareImageDto } from "../dtos/request/shared-image.dto";
 
 export interface ImagePort{
-    generateImage(dto:GenerateImageDto):Promise<ResponseDataSocket<ImageEntity >>
+    generateImage(dto:GenerateImageDto):Promise<ResponseDataSocket>
     listImages(user:string):Promise<ImageEntity[]>
     shareImage(dto:ShareImageDto):Promise<SharedImageEntity>
 }

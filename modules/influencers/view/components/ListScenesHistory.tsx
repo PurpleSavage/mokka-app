@@ -1,13 +1,13 @@
 'use client'
 
 import { useScenesHistory } from "../custom-hooks/useScenesHistory"
-import MultimediaCardSkeleton from "../skeletons/MultimediaCardSkeleton"
+import MultimediaCardSkeleton from "../../../shared/common/view/skeletons/MultimediaCardSkeleton"
 import MultimediaGenerationCard from "./MultimediaGenerationCard"
 
 export default function ListScenesHistory() {
     const {error,isPending,scenesHistory}=useScenesHistory()
     if(isPending){
-      return (<MultimediaCardSkeleton size={8}/>)
+      return (<MultimediaCardSkeleton size={8} styles="h-80"/>)
     }
     if(error){
       return (

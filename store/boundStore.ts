@@ -4,8 +4,9 @@ import audioReducer from '../modules/audio/audio-slice/audio-store.slice'
 import textReducer from '../modules/text/text-slice/text-store.slice'
 import modalsReducer from '../modules/shared/common/common-slice/modals-slice.store'
 import imageReducer from '../modules/image/image-slice/image.slice'
-import influencersReducer  from '../modules/influencers/influencer-slice/influencer-store.di'
+import influencersReducer  from '../modules/influencers/influencer-slice/influencer-store.slice'
 import commonReducer from '../modules/shared/common/common-slice/common-slice.slice'
+import videoReducer from '@/modules/video/video-slice/video-store.slice'
 export const boundStore = configureStore({
   reducer: {
     auth:authReducer,
@@ -14,7 +15,8 @@ export const boundStore = configureStore({
     modals:modalsReducer,
     image:imageReducer,
     influencers:influencersReducer,
-    common:commonReducer
+    common:commonReducer,
+    video:videoReducer
   },
 });
 

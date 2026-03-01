@@ -6,8 +6,8 @@ import { FullAudioDto } from "../../application/dtos/requests/generate-audio.dto
 
 export class AudioApiService implements AudioApiPort{
     constructor(private readonly httpService:HttpClientPort){}
-    async generateAudio(dto:FullAudioDto):Promise<ResponseDataSocket<AudioEntity>>{
-        const response = await this.httpService.post<ResponseDataSocket<AudioEntity>>(
+    async generateAudio(dto:FullAudioDto):Promise<ResponseDataSocket>{
+        const response = await this.httpService.post<ResponseDataSocket>(
             `/v1/audio/write/generations`,dto
         )
         return response

@@ -1,7 +1,7 @@
 "use client";
 
 import { useSnapshotsHistory } from "../custom-hooks/useSnapshotsHistory";
-import MultimediaCardSkeleton from "../skeletons/MultimediaCardSkeleton";
+import MultimediaCardSkeleton from "../../../shared/common/view/skeletons/MultimediaCardSkeleton";
 import MultimediaGenerationCard from "./MultimediaGenerationCard";
 
 export default function ListSnapshotsHistory() {
