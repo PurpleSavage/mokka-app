@@ -8,7 +8,7 @@ import { IoLayersOutline } from "react-icons/io5";
 import Link from "next/link";
 import { TbActivityHeartbeat } from "react-icons/tb";
 import { menuOptions, Option } from "../constants/menu-options";
-
+import NotificationBadge from "../../../notifications/view/components/NotificationBadge";
 function Aside() {
   const session = useSelector((state: RootState) => state.auth.session);
   const pathname = usePathname();
@@ -28,13 +28,13 @@ function Aside() {
     return false;
   };
   return (
-    <aside className="w-62.5 sticky left-0 top-0 bottom-0 flex flex-col h-screen border-r border-slate-500/60">
-      <div className="px-5 w-full border-b py-4 flex border-slate-500/60">
+    <aside className="w-62.5 sticky left-0 top-0 bottom-0 flex flex-col h-screen border-r border-slate-500/28">
+      <div className="px-5 w-full border-b py-4 flex border-slate-500/28">
         <TbActivityHeartbeat size={30} color="white" />
         <p className="text-white font-bold text-4xl">Mokka</p>
       </div>
-
-      <div className="grow flex flex-col gap-6">
+      
+      <div className="grow flex flex-col gap-4">
         <div className="pt-4 px-4 w-full space-y-2">
           {/* Link: Home */}
           <Link
@@ -51,10 +51,17 @@ function Aside() {
           >
             <RiUserCommunityLine size={20} /> Community
           </Link>
+          <NotificationBadge
+            baseStyles={baseStyles}
+            activeStyles={activeStyles}
+            inactiveStyles={inactiveStyles}
+            isActive={isActive}
+          />
         </div>
 
+        <div className="w-full border border-slate-500/28"></div>
+
         <div className="overflow">
-          <p className="px-5 font-medium text-gray-100">Playground</p>
           <ul className="overflow-y-auto px-4 py-2 space-y-2 w-full">
             {menuOptions.map((option) => (
               <li key={option.id}>
@@ -69,8 +76,9 @@ function Aside() {
           </ul>
         </div>
 
+        <div className="w-full border border-slate-500/28"></div>
+
         <div className="px-4 w-full space-y-2">
-          <p className="px-2 font-medium text-gray-100">Creative</p>
           <Link
             href="/mokka/creative-panel"
             className={`${baseStyles} ${isActive("/creative") ? activeStyles : inactiveStyles}`}
@@ -81,7 +89,7 @@ function Aside() {
       </div>
 
       {/* Footer del Aside */}
-      <div className="flex gap-2 px-2 border-t border-slate-500/60 py-2">
+      <div className="flex gap-2 px-2 border-t border-slate-500/28 py-2">
         <div className="size-10 flex items-center justify-center border border-slate-500/50 rounded-full">
           <p className="text-white">
             {session ? getFirstLetter(session.user.email) : "U"}

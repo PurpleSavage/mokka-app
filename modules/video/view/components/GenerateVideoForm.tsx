@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  FullGenerateVideoDto,
   GenerateVideoDto,
   generateVideoSchema,
 } from "../../application/dtos/requests/generate-video.dto";
@@ -9,8 +10,18 @@ import { Controller, useForm } from "react-hook-form";
 import DropDown from "@/modules/shared/common/view/components/DropDown";
 import { videoAspectRatioOptions } from "@/modules/influencers/constants/generate-scene-options";
 import SwitchElement from "@/modules/shared/common/view/components/SwitchElement";
+import { sileo } from "sileo";
+import { useDispatch } from "react-redux";
+import { ApiErrorPlatform } from "@/modules/shared/common/errors/api-errors.error";
+import { SelectorModalbasedError, TypeErrorAlert } from "@/modules/shared/common/infrastructure/error-mappers/selector-modal-based-error.mapper";
+import { setConfigAlertModal } from "@/modules/shared/common/common-slice/modals-slice.store";
+import { videoDI } from "../../application/di/video-container.di";
+import { useIdSession } from "@/modules/shared/auth/view/custom-hooks/useIdSession";
+import { setLoadingVideo } from "../../video-slice/video-store.slice";
 
 export default function GenerateVideoForm() {
+  const dispatch = useDispatch()
+  const {id}=useIdSession()
   const {
     register,
     handleSubmit,
@@ -22,10 +33,49 @@ export default function GenerateVideoForm() {
       prompt: "",
       audio: false,
     },
-  });
-  const onSubmit = (data: GenerateVideoDto) => {
-    console.log(data)
-  };
+  })
+  
+
+  const onSubmit = async (data: GenerateVideoDto) => {
+    if(!id) return
+    try {
+      const dto:FullGenerateVideoDto = {
+        ...data,
+        user:id
+      }
+      const response = await videoDI.generateVideo(dto)
+      dispatch(setLoadingVideo({
+        jobId:response.jobId,
+        status:response.status,
+        message:response.message
+      }))  
+      sileo.info({
+        title:response.status,
+        description:response.message
+      })
+    } catch (error:unknown) {
+      if(error instanceof ApiErrorPlatform){
+        const config = SelectorModalbasedError.selectModal(error)
+        if(config.typeAlert === TypeErrorAlert.ALERT_MODAL ){
+          dispatch(setConfigAlertModal({
+            title:config.title,
+            message:config.message,
+            type:'error'
+          }))
+        }else{
+          sileo.error({
+            title:config.title,
+            description:config.message
+          })
+        }
+      }else{
+        sileo.error({
+          title:"Unexpected Error",
+          description:"An unknown error occurred. Please try again later."
+        })
+      }
+    }
+  }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
       <div className="space-y-1">

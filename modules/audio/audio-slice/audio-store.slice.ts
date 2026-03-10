@@ -1,11 +1,12 @@
 import { ResponseDataSocket } from "@/modules/shared/common/application/dtos/responses/socket-response.dto"
 import { AudioEntity } from "../domain/entities/audio.entity"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { socketAudioFailed, socketAudioReady } from "@/store-events/notifications-events.event"
 
 export interface AiaudioState{
     audioHistory:AudioEntity[]
     currentAudioData:AudioEntity | null
-    isGenerating:ResponseDataSocket<AudioEntity> | null
+    isGenerating:ResponseDataSocket | null
     audioNotifications:ResponseDataSocket<AudioEntity>[]
 }
 const initialState:AiaudioState={
@@ -23,8 +24,7 @@ export const aiaudioSlice=createSlice({
         setAudioHistory:(state,action:PayloadAction<AudioEntity[]>)=>{
             state.audioHistory=action.payload
         },
-        addAudio:(state, action: PayloadAction<ResponseDataSocket<AudioEntity | undefined> >)=>{
-            state.isGenerating=action.payload
+        addAudio:(state, action: PayloadAction<ResponseDataSocket >)=>{
             if(action.payload.entity){
                 state.audioHistory= [action.payload.entity,...state.audioHistory]
                 state.audioNotifications= [action.payload,...state.audioNotifications]
@@ -36,10 +36,22 @@ export const aiaudioSlice=createSlice({
         deleteDataAudioModa:(state)=>{
             state.currentAudioData=null
         },
-        setLoadingAudio:(state,action:PayloadAction<ResponseDataSocket<AudioEntity | undefined>>)=>{
+        setLoadingAudio:(state,action:PayloadAction<ResponseDataSocket>)=>{
             state.isGenerating= action.payload
         }
-    }
+    },
+        extraReducers:(builder)=>{
+            builder.addCase(socketAudioReady, (state, action) => {
+                const entity = action.payload.entity
+                if (entity) {
+                    state.audioHistory= [entity, ...state.audioHistory]
+                }
+                state.isGenerating = null // completed 
+            })
+            builder.addCase(socketAudioFailed, (state) => {
+                state.isGenerating = null // failed 
+            })
+        }
 })
 export const {
     setAudioHistory,

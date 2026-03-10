@@ -1,5 +1,5 @@
 import { HttpClientPort } from "@/modules/shared/common/application/ports/http-client.port";
-import { GenerateVideoDto } from "../../application/dtos/requests/generate-video.dto";
+import { FullGenerateVideoDto} from "../../application/dtos/requests/generate-video.dto";
 import { VideoPort } from "../../application/ports/video.port";
 import { VideoEntity } from "../../domain/entities/video.entity";
 import { ListVideosResponseDto } from "../../application/dtos/responses/list-videos-reponse.dto";
@@ -8,7 +8,7 @@ import { toVideoEntity } from "../mappers/to-video-entity.mapper";
 
 export class VideoApiService implements VideoPort{
     constructor(private readonly httpService:HttpClientPort){}
-    async generateVideo(dto:GenerateVideoDto):Promise<ResponseDataSocket>{
+    async generateVideo(dto:FullGenerateVideoDto):Promise<ResponseDataSocket>{
         const response=await this.httpService.post<ResponseDataSocket>(
             `/v1/video/write/generations`,
             dto

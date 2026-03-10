@@ -3,7 +3,7 @@ import { httpClient } from "@/modules/shared/common/infrastructure/adapters/http
 import { ListVideosUseCase } from "../use-cases/list-videos.use-case"
 import { VideoApiService } from "../../infrastructure/adapters/video-api.service"
 import { GenerateVideoUseCase } from "../use-cases/generate-video.use-case"
-import { GenerateVideoDto } from "../dtos/requests/generate-video.dto"
+import { FullGenerateVideoDto } from "../dtos/requests/generate-video.dto"
 
 const videoService = new VideoApiService(httpClient)
 const useCases={
@@ -11,7 +11,7 @@ const useCases={
     generateVideo: new GenerateVideoUseCase(videoService)
 }
 
-export const videoContainer={
+export const videoDI={
     listVideos:(user:string)=>useCases.listVideos.execute(user),
-    generateVideo:(dto:GenerateVideoDto)=>useCases.generateVideo.execute(dto)
+    generateVideo:(dto:FullGenerateVideoDto)=>useCases.generateVideo.execute(dto)
 }

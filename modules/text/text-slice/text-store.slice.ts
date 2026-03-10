@@ -1,16 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { TextEntity } from "../domain/entities/text.entity"
+import { socketTextFailed, socketTextReady } from "@/store-events/notifications-events.event"
+import { ResponseDataSocket } from "@/modules/shared/common/application/dtos/responses/socket-response.dto"
 
 export interface TextState{
     textHistory: TextEntity[]
     currentTextData:TextEntity | null
     isOpenModalTextData:boolean
+    isGenerating:ResponseDataSocket | null
 }
 
 const initialState: TextState={
     textHistory:[],
     currentTextData:null ,
-    isOpenModalTextData:false
+    isOpenModalTextData:false,
+    isGenerating:null
 }
 export const textSlice=createSlice({
     name:'aitext',
@@ -28,7 +32,19 @@ export const textSlice=createSlice({
         deleteDataTextModal:(state)=>{
             state.currentTextData=null
         }
-    }
+    },
+     extraReducers:(builder)=>{
+            builder.addCase(socketTextReady, (state, action) => {
+                const entity = action.payload.entity
+                if (entity) {
+                    state.textHistory = [entity, ...state.textHistory]
+                }
+                state.isGenerating = null // completed 
+            })
+            builder.addCase(socketTextFailed, (state) => {
+                state.isGenerating = null // failed 
+            })
+        }
 })
 
 

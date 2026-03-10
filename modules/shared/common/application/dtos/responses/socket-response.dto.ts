@@ -1,3 +1,5 @@
+import { ErrorPlatformMokka } from "../../../domain/enums/errors-types"
+
 export interface ResponseDataSocket<T = undefined>{
   
   jobId:string,
@@ -6,4 +8,9 @@ export interface ResponseDataSocket<T = undefined>{
   entity?:T
   error?:string 
   creditsUpdate?:number 
+  details?:string
+  errorType?: ErrorPlatformMokka;
+  createDate:string
 }
+
+
