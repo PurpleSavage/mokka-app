@@ -1,5 +1,6 @@
 import MusicGenerated from "@/modules/audio/view/components/MusicGenerated";
 import MusicTextArea from "@/modules/audio/view/components/MusicTextArea";
+
 export default function MusicPage() {
   return (
     <div className="h-full flex flex-col gap-2">

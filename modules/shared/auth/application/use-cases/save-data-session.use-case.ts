@@ -1,8 +1,5 @@
 import { StorageStrategyPort } from "@/modules/shared/common/application/ports/storage-strategy.port";
 import { SessionEntity } from "../../domain/entities/session.entity";
-import { AuthTokenCache } from "@/modules/shared/common/infrastructure/services/auth-token-cache.service";
-
-
 
 export class SaveDataSession {
     constructor(
@@ -14,7 +11,7 @@ export class SaveDataSession {
             this.localStorageService.set('id_session',session.user.id)
             this.localStorageService.set('email_session',session.user.email)
             this.localStorageService.set('user_session_mokka',session.user)
-            AuthTokenCache.setToken(session.accessToken)
+            
         } catch (error) {
             throw error
         }

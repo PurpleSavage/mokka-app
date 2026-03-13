@@ -8,6 +8,7 @@ import { setAudioHistory } from "../../audio-slice/audio-store.slice"
 import HistoryAudiosSkeleton from "../skeletons/HistoryAudiosSkeleton"
 import AudioCard from "./AudioCard"
 import { SectionOptions } from "./AsideAudio"
+import { AxiosError } from "axios"
 
 interface HistoryProps{
   section:string
@@ -34,7 +35,14 @@ export default function History({ section }: HistoryProps) {
         const audios = await audioDi.listAudioHistory(session.user.id) 
         dispatch(setAudioHistory(audios))
       } catch (error) {
-        console.log(error)
+        if (error instanceof AxiosError) {
+            console.log('❌ Network Error detalle:', {
+                message: error.message,
+                code: error.code,
+                status: error.response?.status,
+                url: error.config?.url
+            })
+        }
         setError('ups, ocurrión un error al cargar los datos')
       }finally{
         setIsPending(false)

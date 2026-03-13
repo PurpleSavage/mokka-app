@@ -4,6 +4,7 @@ import { authDIContainer } from "../../di/auth-container.di"
 import { useDispatch, useSelector } from "react-redux"
 import { setIdSession, setSession } from "../../store-slice/auth.slice"
 import { RootState } from "@/store/boundStore"
+import { AuthTokenCache } from "@/modules/shared/common/infrastructure/services/auth-token-cache.service"
 
 export const useSession = () => {
     const [isPending, setIsPending] = useState(true) // Empieza en true
@@ -30,6 +31,7 @@ export const useSession = () => {
                         const session = await authDIContainer.getProfile()
                         
                         if (isMounted) {
+                            AuthTokenCache.setToken(session.accessToken)
                             dispatch(setSession(session))
                             dispatch(setIdSession(session.user.id))
                             authDIContainer.saveDataSession(session)

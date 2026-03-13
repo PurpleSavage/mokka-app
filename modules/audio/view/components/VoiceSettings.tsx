@@ -34,9 +34,9 @@ export default function VoiceSettings() {
   } = useForm<GenerateAudioDto>({
     resolver: zodResolver(generateAudioSchema),
     defaultValues: {
-      idModel: '9BWtsMINqrJLrRacOk9x',
+      idModel: 'pNInz6obpgDQGcFmaJgB',
       prompt: '',
-      nameModelAudio: 'Aria',
+      nameModelAudio: 'Adam',
       speed: 100,
       stability: 50,
       similarity: 75,
@@ -66,13 +66,15 @@ export default function VoiceSettings() {
     try {
       const audioDto:FullAudioDto = {
         ...data,
-        user:id
+        user:id,
+        stability: data.stability / 100,   // 50 → 0.5
+        similarity: data.similarity / 100,  // 75 → 0.75
       }
       const response = await audioDi.generateAudio(audioDto)
       dispatch(setLoadingAudio({
         jobId:response.jobId,
         status:response.status,
-        message:response.message
+        message:response.message,
       }))
       sileo.info({
         title:response.status,

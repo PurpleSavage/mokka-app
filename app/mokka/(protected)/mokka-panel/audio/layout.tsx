@@ -1,7 +1,6 @@
 import AsideAudio from "@/modules/audio/view/components/AsideAudio";
 import AudioNavigator from "@/modules/audio/view/components/AudioNavigator";
 
-
 export default function AudioLayout({
   children,
 }: Readonly<{
@@ -15,7 +14,7 @@ export default function AudioLayout({
           {children}
         </div>
       </div>
-      <AsideAudio />
+      <AsideAudio/>
     </div>
     
   );

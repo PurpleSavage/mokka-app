@@ -18,6 +18,9 @@ export class SocketService implements SocketPort {
         this.socketClient.once('connect', () => {
             this.socketClient.emit('join-user-room', userId)
         })
+        this.socketClient.on('room-joined', (data) => {
+            console.log('✅ Conectado al room:', data)
+        })
     }
 
     disconnect(userId: string): void {

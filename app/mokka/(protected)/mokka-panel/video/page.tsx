@@ -1,7 +1,6 @@
 import GenerateVideoForm from "@/modules/video/view/components/GenerateVideoForm";
 import LastVideos from "@/modules/video/view/components/LastVideos";
 
-
 export default function VideoPage() {
   return (
     <div className="overflow-y-auto custom-scrollbar h-full space-y-4">

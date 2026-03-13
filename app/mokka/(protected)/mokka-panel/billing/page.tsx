@@ -1,7 +1,6 @@
 import BillingCards from "@/modules/billing/view/components/BillingCards";
 import BillingHistory from "@/modules/billing/view/components/BillingHistory";
 
-
 export default function Billing() {
   return (
     <div className="space-y-12 px-6 py-4 ">

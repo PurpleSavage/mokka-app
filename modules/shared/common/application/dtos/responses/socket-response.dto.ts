@@ -10,7 +10,7 @@ export interface ResponseDataSocket<T = undefined>{
   creditsUpdate?:number 
   details?:string
   errorType?: ErrorPlatformMokka;
-  createDate:string
+  createDate?:string
 }
 
 

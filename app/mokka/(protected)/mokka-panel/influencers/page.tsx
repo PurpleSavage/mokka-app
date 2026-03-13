@@ -3,7 +3,6 @@ import ScenesLastWeek from "@/modules/influencers/view/components/ScenesLastWeek
 import SnapshotsLastWeek from "@/modules/influencers/view/components/SnapshotsLastWeek";
 import { getRangeByDay } from "@/modules/shared/common/view/utils/get-range-by-day.util";
 
-
 export default function InfluencersPage() {
   return (
     <div className="overflow-y-auto custom-scrollbar h-full space-y-4">

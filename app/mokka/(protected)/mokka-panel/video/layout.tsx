@@ -1,6 +1,6 @@
 import VideoNavigator from "@/modules/video/view/components/VideoNavigator";
 
-export default function InfluencersLayout({
+export default function VideoLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

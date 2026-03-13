@@ -1,7 +1,6 @@
 import ConnectedAccounts from "@/modules/profile/view/components/ConnectedAccounts";
 import InfoUser from "@/modules/profile/view/components/InfoUser";
 
-
 export default function Profile() {
   return (
     <div className="space-y-12 px-6">

@@ -8,11 +8,25 @@ export interface Samples {
 
 export const audioModels: Samples[] = [
     { 
-        idSample: "9BWtsMINqrJLrRacOk9x",
-        name: "Aria",
-        urlAudioSample: "https://qtfzgnmvgaggnshpukmo.supabase.co/storage/v1/object/public/mokkaaudios/voice-models/voice_preview_aria.mp3",
+        idSample: "pNInz6obpgDQGcFmaJgB",
+        name: "Adam ",
+        urlAudioSample: "https://qtfzgnmvgaggnshpukmo.supabase.co/storage/v1/object/public/mokkaaudios/voice-models/voice_preview_adam.mp3",
+        urlImage: "/orbs/orb-1.webp",
+        gender: "male"
+    },
+    { 
+        idSample: "hpp4J3VqNfWAUOO0d1Us",
+        name: "Bella ",
+        urlAudioSample: "https://qtfzgnmvgaggnshpukmo.supabase.co/storage/v1/object/public/mokkaaudios/voice-models/voice_preview_bella.mp3",
         urlImage: "/orbs/orb-1.webp",
         gender: "female"
+    },
+    { 
+        idSample: "SOYHLrjzK2X1ezoPC6cr",
+        name: "Harry",
+        urlAudioSample: "https://qtfzgnmvgaggnshpukmo.supabase.co/storage/v1/object/public/mokkaaudios/voice-models/voice_preview_harry.mp3",
+        urlImage: "/orbs/orb-1.webp",
+        gender: "male"
     },
     { 
         idSample: "CwhRBWXzGAHq8TQ4Fs17",

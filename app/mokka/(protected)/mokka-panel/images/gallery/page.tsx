@@ -1,6 +1,4 @@
-import Gallery from "@/modules/image/view/components/Gallery";
-
-
+import Gallery from "@/modules/landing/components/Gallery";
 
 export default function GalleryPage() {
  

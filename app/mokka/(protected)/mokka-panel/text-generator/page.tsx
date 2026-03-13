@@ -1,9 +1,5 @@
-'use client'
 import HistoryTexts from "@/modules/text/view/components/HistoryTexts"
 import TextGenerator from "@/modules/text/view/components/TextGenerator"
-
-
-
 export default function TextGeneratorPage() {
    
   return (

@@ -2,7 +2,6 @@ import FormGenerateImage from "@/modules/image/view/components/FormGenerateImage
 import ImageDataModal from "@/modules/image/view/components/ImageDataModal";
 import ModalLookDataWrapper from "@/modules/shared/common/view/wrappers/ModalLookDataWrapper";
 
-
 export default function ImagesPage() {
   return (
     <section className="space-y-2">
