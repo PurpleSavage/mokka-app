@@ -1,3 +1,4 @@
+'use client'
 import { useHistoryTexts } from "../custom-hooks/useHistoryTexts"
 import { FaHistory } from "react-icons/fa";
 import TextRowRenderWrapper from "./TextRowRenderWrapper";
