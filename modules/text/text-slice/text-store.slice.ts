@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { TextEntity } from "../domain/entities/text.entity"
 import { socketTextFailed, socketTextReady } from "@/store-events/notifications-events.event"
-import { ResponseDataSocket } from "@/modules/shared/common/application/dtos/responses/socket-response.dto"
+import { ResponseHttpQueue } from "@/modules/shared/common/application/dtos/responses/response-http-queue.dto"
+
 
 export interface TextState{
     textHistory: TextEntity[]
     currentTextData:TextEntity | null
     isOpenModalTextData:boolean
-    isGenerating:ResponseDataSocket | null
+    isGenerating:ResponseHttpQueue | null
 }
 
 const initialState: TextState={
@@ -22,9 +23,6 @@ export const textSlice=createSlice({
     reducers:{
         setTextsHistory:(state, action: PayloadAction<TextEntity[]>)=>{
             state.textHistory = action.payload
-        },
-        addText:(state, action: PayloadAction<TextEntity>)=>{
-            state.textHistory= [action.payload,...state.textHistory]
         },
         lookTextData:(state, action: PayloadAction<TextEntity>)=>{
             state.currentTextData=action.payload
@@ -48,6 +46,9 @@ export const textSlice=createSlice({
 })
 
 
-export const {setTextsHistory,addText,deleteDataTextModal,lookTextData} = textSlice.actions;
+export const {setTextsHistory,
+    deleteDataTextModal,
+    lookTextData
+} = textSlice.actions;
 
 export default textSlice.reducer;

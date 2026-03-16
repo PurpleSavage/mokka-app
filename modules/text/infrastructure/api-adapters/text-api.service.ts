@@ -4,6 +4,7 @@ import { GenerateTextDto } from "../../application/dtos/requests/generate-text.d
 import { TextEntity } from "../../domain/entities/text.entity";
 import { TextResponseDto } from "@/modules/audio/application/dtos/responses/text-response.dto";
 import { toTextEntityMapper } from "../mappers/to-text-entity.mapper";
+import { ResponseHttpQueue } from "@/modules/shared/common/application/dtos/responses/response-http-queue.dto";
 
 export class TextApiService implements TextApiPort{
     constructor(private readonly httpService:HttpClientPort){}
@@ -11,8 +12,8 @@ export class TextApiService implements TextApiPort{
         const response = await this.httpService.get<TextResponseDto[]>(`/v1/text/read/history/${userId}`)
         return response.map((data)=>toTextEntityMapper(data))
     }
-    async generateText(dto: GenerateTextDto): Promise<TextEntity> {
-        const response = await this.httpService.post<TextResponseDto>('/v1/text/write/new',dto)
-        return toTextEntityMapper(response)
+    async generateText(dto: GenerateTextDto): Promise<ResponseHttpQueue> {
+        const response = await this.httpService.post<ResponseHttpQueue>('/v1/text/write/new',dto)
+        return response
     }
 }
