@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { VideoEntity } from "../domain/entities/video.entity";
-import { ResponseDataSocket } from "@/modules/shared/common/application/dtos/responses/socket-response.dto";
+
 import { socketVideoFailed, socketVideoReady } from "@/store-events/notifications-events.event";
+import { ResponseHttpQueue } from "@/modules/shared/common/application/dtos/responses/response-http-queue.dto";
 
 export interface VideoState{
     historyVideos:VideoEntity[],
-    isGenerating: ResponseDataSocket | null;
+    isGenerating: ResponseHttpQueue | null;
     lastVideos:VideoEntity[]
 
 }
@@ -21,13 +22,8 @@ export const videoSlice=createSlice({
         setHistoryVideos:(state,action:PayloadAction<VideoEntity[]>)=>{
             state.historyVideos=action.payload
         },
-        addVideo:(state,action: PayloadAction<ResponseDataSocket<VideoEntity >>)=>{
-            if(action.payload.entity){
-                state.historyVideos=[action.payload.entity,...state.historyVideos]
-                state.lastVideos=[action.payload.entity,...state.lastVideos]
-            }  
-        },
-        setLoadingVideo:(state,action:PayloadAction<ResponseDataSocket >)=>{
+        
+        setLoadingVideo:(state,action:PayloadAction<ResponseHttpQueue>)=>{
             state.isGenerating= action.payload
         },
         setLastVideos:(state,action:PayloadAction<VideoEntity[]>)=>{
@@ -50,7 +46,6 @@ export const videoSlice=createSlice({
 })
 export const {
     setHistoryVideos,
-    addVideo,
     setLoadingVideo,
     setLastVideos
 } = videoSlice.actions;

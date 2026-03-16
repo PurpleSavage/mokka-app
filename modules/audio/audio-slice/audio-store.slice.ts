@@ -1,19 +1,21 @@
-import { ResponseDataSocket } from "@/modules/shared/common/application/dtos/responses/socket-response.dto"
+
 import { AudioEntity } from "../domain/entities/audio.entity"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { socketAudioFailed, socketAudioReady } from "@/store-events/notifications-events.event"
+import { ResponseHttpQueue } from "@/modules/shared/common/application/dtos/responses/response-http-queue.dto"
+
 
 export interface AiaudioState{
     audioHistory:AudioEntity[]
     currentAudioData:AudioEntity | null
-    isGenerating:ResponseDataSocket | null
-    audioNotifications:ResponseDataSocket<AudioEntity>[]
+    isGenerating:ResponseHttpQueue | null
+    
 }
 const initialState:AiaudioState={
     audioHistory:[],
     currentAudioData:null,
     isGenerating:null,
-    audioNotifications:[]
+    // audioNotifications:[]
 }
 
 export const aiaudioSlice=createSlice({
@@ -24,38 +26,32 @@ export const aiaudioSlice=createSlice({
         setAudioHistory:(state,action:PayloadAction<AudioEntity[]>)=>{
             state.audioHistory=action.payload
         },
-        addAudio:(state, action: PayloadAction<ResponseDataSocket >)=>{
-            if(action.payload.entity){
-                state.audioHistory= [action.payload.entity,...state.audioHistory]
-                state.audioNotifications= [action.payload,...state.audioNotifications]
-            }
-        },
+        
         lookAudioData:(state, action: PayloadAction<AudioEntity>)=>{
             state.currentAudioData=action.payload
         },
         deleteDataAudioModa:(state)=>{
             state.currentAudioData=null
         },
-        setLoadingAudio:(state,action:PayloadAction<ResponseDataSocket>)=>{
+        setLoadingAudio:(state,action:PayloadAction<ResponseHttpQueue>)=>{
             state.isGenerating= action.payload
         }
     },
-        extraReducers:(builder)=>{
-            builder.addCase(socketAudioReady, (state, action) => {
-                const entity = action.payload.entity
-                if (entity) {
-                    state.audioHistory= [entity, ...state.audioHistory]
-                }
-                state.isGenerating = null // completed 
-            })
+    extraReducers:(builder)=>{
+        builder.addCase(socketAudioReady, (state, action) => {
+            const entity = action.payload.entity
+            if (entity) {
+                state.audioHistory= [entity, ...state.audioHistory]
+            }
+            state.isGenerating = null // completed 
+        })
             builder.addCase(socketAudioFailed, (state) => {
                 state.isGenerating = null // failed 
-            })
-        }
+        })
+    }
 })
 export const {
     setAudioHistory,
-    addAudio,
     lookAudioData,
     deleteDataAudioModa,
     setLoadingAudio,

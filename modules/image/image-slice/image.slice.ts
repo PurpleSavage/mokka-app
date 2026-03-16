@@ -1,12 +1,13 @@
-import { ResponseDataSocket } from "@/modules/shared/common/application/dtos/responses/socket-response.dto"
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { ImageEntity } from "../domain/entities/Image.entity"
 import { socketImageFailed, socketImageReady } from "@/store-events/notifications-events.event"
+import { ResponseHttpQueue } from "@/modules/shared/common/application/dtos/responses/response-http-queue.dto"
 
 export interface ImageState{
     imagesGallery:ImageEntity[]
     currentImageData:ImageEntity | null
-    isGenerating:ResponseDataSocket | null
+    isGenerating:ResponseHttpQueue | null
 }
 const initialState:ImageState={
     imagesGallery:[],
@@ -18,17 +19,13 @@ export const imageSlice=createSlice({
     initialState,
     name:'aiaudio',
     reducers:{
-       setLoadingImage:(state,action:PayloadAction<ResponseDataSocket>)=>{
+       setLoadingImage:(state,action:PayloadAction<ResponseHttpQueue>)=>{
             state.isGenerating= action.payload
         },
         setGallery:(state,action:PayloadAction<ImageEntity[]>)=>{
             state.imagesGallery=action.payload
         },
-        addImage:(state, action: PayloadAction<ResponseDataSocket<ImageEntity >>)=>{
-            if(action.payload.entity){
-                state.imagesGallery= [action.payload.entity,...state.imagesGallery]
-            }   
-        },
+        
         lookImageData:(state, action: PayloadAction<ImageEntity>)=>{
             state.currentImageData=action.payload
         },
@@ -51,7 +48,6 @@ export const imageSlice=createSlice({
 })
 export const {
    setGallery,
-   addImage,
    lookImageData,
    deleteDataImageModal,
    setLoadingImage

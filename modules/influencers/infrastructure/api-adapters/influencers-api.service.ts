@@ -1,6 +1,6 @@
 import { HttpClientPort } from "@/modules/shared/common/application/ports/http-client.port";
 import { InfluencersPort } from "../../application/ports/influencers.port";
-import { ResponseDataSocket } from "@/modules/shared/common/application/dtos/responses/socket-response.dto";
+
 import { InfluencerEntity } from "../../domain/entities/influencer.entity";
 import { FullGenerateInfluencerDto } from "../../application/dtos/requests/generate-influencer.dto";
 import { InfluencerResponseDto } from "../../application/dtos/responses/influencer-response.dto";
@@ -11,11 +11,12 @@ import { InfluencerSnapshotDto } from "../../application/dtos/responses/influenc
 import { toSnapshotEntity } from "../mappers/to-snapshot-entity.mapper";
 import { InfluencerScenesDto } from "../../application/dtos/responses/influencer-scenes.dto";
 import { toSceneEntity } from "../mappers/to-scene-entity.mapper";
+import { ResponseHttpQueue } from "@/modules/shared/common/application/dtos/responses/response-http-queue.dto";
 
 export class InfluencerApiService implements InfluencersPort{
     constructor(private readonly httpService:HttpClientPort){}
-    async generateInfluencers(dto:FullGenerateInfluencerDto): Promise<ResponseDataSocket<InfluencerEntity>> {
-        const response = await this.httpService.post<ResponseDataSocket<InfluencerEntity>>(
+    async generateInfluencers(dto:FullGenerateInfluencerDto): Promise<ResponseHttpQueue> {
+        const response = await this.httpService.post<ResponseHttpQueue>(
             '/v1/influencer/write/model',
             dto
         )

@@ -1,7 +1,8 @@
 import { io, Socket } from "socket.io-client"
 import { SocketPort } from "../../application/ports/socket.port"
 import { JobsNotificationsType } from "../../domain/enums/jobs-notifications";
-import { SocketErrorData, SocketReadyData } from "../../domain/entities/response-notification";
+import { SocketReadyResponseDto } from "@/modules/shared/common/application/dtos/responses/socket-response-ready.dto";
+import { SocketResponseError } from "@/modules/shared/common/application/dtos/responses/socket-response-error.dto";
 
 
 export class SocketService implements SocketPort {
@@ -32,39 +33,39 @@ export class SocketService implements SocketPort {
         this.socketClient.emit(name, data, callback);
     }
 
-    on<T>(eventName: JobsNotificationsType, callback: (data: SocketReadyData<T>) => void): void {
+    on<T>(eventName: JobsNotificationsType, callback: (data: SocketReadyResponseDto<T>) => void): void {
         this.socketClient.on(`${eventName}-ready`, callback);
     }
 
     onAllEvents<T>(
         eventNames: JobsNotificationsType[],
-        onReady: (eventName: JobsNotificationsType, data: SocketReadyData<T>) => void,
-        onError: (eventName: JobsNotificationsType, data: SocketErrorData) => void
+        onReady: (eventName: JobsNotificationsType, data: SocketReadyResponseDto<T>) => void,
+        onError: (eventName: JobsNotificationsType, data: SocketResponseError) => void
     ): void {
         eventNames.forEach((event) => {
-            this.socketClient.on(`${event}-ready`, (data: SocketReadyData<T>) => {
+            this.socketClient.on(`${event}-ready`, (data: SocketReadyResponseDto<T>) => {
                 onReady(event, data);
             });
-            this.socketClient.on(`${event}-error`, (data: SocketErrorData) => {
+            this.socketClient.on(`${event}-error`, (data: SocketResponseError) => {
                 onError(event, data);
             });
         });
     }
 
     
-    once<T>(eventName: JobsNotificationsType, callback: (data: SocketReadyData<T>) => void): void {
+    once<T>(eventName: JobsNotificationsType, callback: (data: SocketReadyResponseDto<T>) => void): void {
         this.socketClient.once(`${eventName}-ready`, callback);
     }
 
-    off<T>(eventName: JobsNotificationsType, callback?: (data: SocketReadyData<T>) => void): void {
+    off<T>(eventName: JobsNotificationsType, callback?: (data: SocketReadyResponseDto<T>) => void): void {
         this.socketClient.off(`${eventName}-ready`, callback);
     }
 
-    onError(eventName: JobsNotificationsType, callback: (data: SocketErrorData) => void): void {
+    onError(eventName: JobsNotificationsType, callback: (data: SocketResponseError) => void): void {
         this.socketClient.on(`${eventName}-error`, callback);
     }
 
-    offError(eventName: JobsNotificationsType, callback?: (data: SocketErrorData) => void): void {
+    offError(eventName: JobsNotificationsType, callback?: (data: SocketResponseError) => void): void {
         this.socketClient.off(`${eventName}-error`, callback);
     }
 
