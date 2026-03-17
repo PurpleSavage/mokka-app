@@ -9,13 +9,13 @@ export interface AiaudioState{
     audioHistory:AudioEntity[]
     currentAudioData:AudioEntity | null
     isGenerating:ResponseHttpQueue | null
-    
+    audioNotifications:AudioEntity []
 }
 const initialState:AiaudioState={
     audioHistory:[],
     currentAudioData:null,
     isGenerating:null,
-    // audioNotifications:[]
+    audioNotifications:[]
 }
 
 export const aiaudioSlice=createSlice({
@@ -41,11 +41,14 @@ export const aiaudioSlice=createSlice({
         builder.addCase(socketAudioReady, (state, action) => {
             const entity = action.payload.entity
             if (entity) {
-                state.audioHistory= [entity, ...state.audioHistory]
+                const exists = state.audioHistory.some(a => a.id === entity.id)
+                if (!exists) {
+                    state.audioHistory = [entity, ...state.audioHistory]
+                }
             }
             state.isGenerating = null // completed 
         })
-            builder.addCase(socketAudioFailed, (state) => {
+        builder.addCase(socketAudioFailed, (state) => {
                 state.isGenerating = null // failed 
         })
     }

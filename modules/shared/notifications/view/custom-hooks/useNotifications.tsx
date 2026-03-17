@@ -24,7 +24,7 @@ export const useNotifications = () => {
                 dispatch(addNotification(buildSuccessNotification(data, eventName)))
                 sileo.success({
                     title: SUCCESS_TITLES[eventName],
-                    description: data.message
+                    description:data.notification.message
                 })
             },
             (eventName, error) => {

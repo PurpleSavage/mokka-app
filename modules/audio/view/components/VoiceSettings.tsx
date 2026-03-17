@@ -69,6 +69,7 @@ export default function VoiceSettings() {
         user:id,
         stability: data.stability / 100,   // 50 → 0.5
         similarity: data.similarity / 100,  // 75 → 0.75
+        exaggeration:data.exaggeration/100
       }
       const response = await audioDi.generateAudio(audioDto)
       dispatch(setLoadingAudio({
