@@ -3,6 +3,7 @@ import { openModalWrapper } from "@/modules/shared/common/common-slice/modals-sl
 
 import { useDispatch } from "react-redux";
 import { OriginComponentOptions, OriginComponentOptionsType } from "../ui-types/multimedia-options";
+import { ModalsId } from "@/modules/shared/common/view/wrappers/ModalLookDataWrapper";
 
 
 
@@ -11,14 +12,14 @@ interface ButtonGenerateMultimediaContentProps{
     originComponent:OriginComponentOptionsType
 }
 export default function ButtonGenerateMultimediaContent({text,originComponent}:ButtonGenerateMultimediaContentProps) {
-    console.log('PROPS RECEIVED:', { text, originComponent })
     const dispatch = useDispatch()
    const handleOpenModal = () => {
      
         dispatch(openModalWrapper({ 
-            title: `${originComponent===OriginComponentOptions.scene?"Create a new scene":"Create a new snapshot"}`,
-            formType: originComponent === OriginComponentOptions.scene ? 'SCENE' : 'SNAPSHOT'
-        }))
+    title: `${originComponent === OriginComponentOptions.scene ? "Create a new scene" : "Create a new snapshot"}`,
+    modalId: ModalsId.INFLUENCER_FORM,  // ← agregar
+    formType: originComponent === OriginComponentOptions.scene ? 'SCENE' : 'SNAPSHOT'
+}))
     }
   return (
     <div className="flex items-center justify-end py-1">

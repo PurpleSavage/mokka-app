@@ -5,19 +5,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeModalWrapper } from "../../common-slice/modals-slice.store";
 import { Dialog, DialogPanel, Transition, TransitionChild } from "@headlessui/react";
 
+
+export const ModalsId={
+  IMAGE_VIEW:'image-view',
+  TEXT_VIEW:'text-view',
+  INFLUENCER_FORM:'influencer-form'
+} as const
+export type ModalsIdType = typeof ModalsId[keyof typeof ModalsId]
 interface ModalLookDataWrapperProps{
     children:ReactNode
-    size?: string
+    size?: string,
+    modalId: ModalsIdType 
 }
-export default function ModalLookDataWrapper({children,size = "max-w-md"}:ModalLookDataWrapperProps) {
+export default function ModalLookDataWrapper({children,size = "max-w-md",modalId}:ModalLookDataWrapperProps) {
     const dispatch = useDispatch()
-    const { isVisible, title } = useSelector((state: RootState) => state.modals.modalWrapper)
-
+    const { isVisible, modalId: activeModalId,title } = useSelector((state: RootState) => state.modals.modalWrapper)
+    const show = isVisible && activeModalId === modalId
     const handleClose = () => {
         dispatch(closeModalWrapper());
     }
   return (
-    <Transition show={isVisible} as={Fragment}>
+    <Transition show={show} as={Fragment}>
       <Dialog as="div" className="relative z-50 focus:outline-none" onClose={handleClose}>
         
         <TransitionChild

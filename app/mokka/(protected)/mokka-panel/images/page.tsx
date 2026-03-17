@@ -1,6 +1,6 @@
 import FormGenerateImage from "@/modules/image/view/components/FormGenerateImage";
 import ImageDataModal from "@/modules/image/view/components/ImageDataModal";
-import ModalLookDataWrapper from "@/modules/shared/common/view/wrappers/ModalLookDataWrapper";
+import ModalLookDataWrapper, { ModalsId } from "@/modules/shared/common/view/wrappers/ModalLookDataWrapper";
 
 export default function ImagesPage() {
   return (
@@ -13,7 +13,7 @@ export default function ImagesPage() {
         <div className="overflow-y-auto custom-scrollbar overflow-x-hidden">
             asas
         </div>
-        <ModalLookDataWrapper>
+        <ModalLookDataWrapper modalId={ModalsId.IMAGE_VIEW}>
           <ImageDataModal/>
         </ModalLookDataWrapper>
     </section>

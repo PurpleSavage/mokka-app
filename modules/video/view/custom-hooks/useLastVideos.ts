@@ -1,6 +1,6 @@
 import { useIdSession } from "@/modules/shared/auth/view/custom-hooks/useIdSession";
 import { setConfigAlertModal } from "@/modules/shared/common/common-slice/modals-slice.store";
-import { ApiErrorPlatform } from "@/modules/shared/common/errors/api-errors.error";
+import { ApiErrorPlatform } from "@/modules/shared/common/infrastructure/errors/api-errors.error";
 import { SelectorModalbasedError, TypeErrorAlert } from "@/modules/shared/common/infrastructure/error-mappers/selector-modal-based-error.mapper";
 import { RootState } from "@/store/boundStore";
 import { useEffect, useState } from "react";

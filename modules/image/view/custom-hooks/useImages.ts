@@ -1,5 +1,5 @@
 import { setConfigAlertModal } from "@/modules/shared/common/common-slice/modals-slice.store";
-import { ApiErrorPlatform } from "@/modules/shared/common/errors/api-errors.error";
+import { ApiErrorPlatform } from "@/modules/shared/common/infrastructure/errors/api-errors.error";
 import { SelectorModalbasedError, TypeErrorAlert } from "@/modules/shared/common/infrastructure/error-mappers/selector-modal-based-error.mapper";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

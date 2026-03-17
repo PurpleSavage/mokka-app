@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { textDI } from "../../di/text-container.di"
 import { setTextsHistory } from "../../text-slice/text-store.slice"
-import { ApiErrorPlatform } from "@/modules/shared/common/errors/api-errors.error"
+import { ApiErrorPlatform } from "@/modules/shared/common/infrastructure/errors/api-errors.error"
 
 
 export const useHistoryTexts=()=>{
@@ -29,12 +29,11 @@ export const useHistoryTexts=()=>{
                 dispatch(setTextsHistory(texts))
             } catch (err: unknown) {
                 if (err instanceof ApiErrorPlatform) {
-                    setError(err.message);
+                    setError(err.message)
                 } else {
-                    setError('An error has occurred to list history texts');
+                    setError('An error has occurred to list history texts')
                 }
-                setError('An error has occurred to list history texts')
-    }       finally{
+            }finally{
                 setIsPending(false)
             }
         }

@@ -3,7 +3,7 @@ import {
     MultimediaErrorTypes, 
     OpenAIErrorTypes
 
- } from "../domain/enums/errors-types";
+ } from "../../domain/enums/errors-types";
 
 export class ApiErrorPlatform extends Error {
   public readonly errorType: ErrorPlatformMokka;

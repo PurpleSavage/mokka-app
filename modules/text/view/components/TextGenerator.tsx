@@ -7,10 +7,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { GenerateTextDto, generateTextSchema } from "../../application/dtos/requests/generate-text.dto";
 import { formatArray, lengthArray, promotingArray, toneArray } from "../../constants/text-generator-options";
 import { PromotingText } from "../../domain/enums/options-text";
+import { textDI } from "../../di/text-container.di";
+import { ApiErrorPlatform } from "@/modules/shared/common/infrastructure/errors/api-errors.error";
+import { SelectorModalbasedError, TypeErrorAlert } from "@/modules/shared/common/infrastructure/error-mappers/selector-modal-based-error.mapper";
+import { setConfigAlertModal } from "@/modules/shared/common/common-slice/modals-slice.store";
+import { sileo } from "sileo";
+import { useDispatch } from "react-redux";
+import { setLoadingText } from "../../text-slice/text-store.slice";
 
 
 export default function TextGenerator() {
     const [isOther, setIsOther] = useState(false);
+    const dispatch = useDispatch()
     const {
         register,
         handleSubmit,
@@ -33,8 +41,28 @@ export default function TextGenerator() {
     const selectedLength = useWatch({ control, name: "textLength" })
     const selectedFormat = useWatch({ control, name: "textFormat" })
 
-    const onSubmit = (data: GenerateTextDto) => {
-        console.log("Valid Data:", data);
+    const onSubmit = async(data: GenerateTextDto) => {
+       try {
+        const response = await textDI.generateText(data)
+        dispatch(setLoadingText(response))
+        sileo.info({
+            title:response.status,
+            description:response.message
+        })
+       } catch (error) {
+        if (error instanceof ApiErrorPlatform) {
+            const config = SelectorModalbasedError.selectModal(error)
+            if (config.typeAlert === TypeErrorAlert.ALERT_MODAL) {
+                dispatch(setConfigAlertModal({ 
+                    title: config.title, 
+                    message: config.message, 
+                    type: 'error' 
+                }))
+            } else {
+                sileo.error({ title: config.title, description: config.message })
+            }
+        }
+       }
     };
   return (
         <div className="grid grid-cols-2 gap-4 p-4">

@@ -6,16 +6,16 @@ import { ResponseHttpQueue } from "@/modules/shared/common/application/dtos/resp
 
 export interface TextState{
     textHistory: TextEntity[]
-    currentTextData:TextEntity | null
     isOpenModalTextData:boolean
     isGenerating:ResponseHttpQueue | null
+    textDataToView:TextEntity | null
 }
 
 const initialState: TextState={
     textHistory:[],
-    currentTextData:null ,
     isOpenModalTextData:false,
-    isGenerating:null
+    isGenerating:null,
+    textDataToView:null
 }
 export const textSlice=createSlice({
     name:'aitext',
@@ -25,17 +25,23 @@ export const textSlice=createSlice({
             state.textHistory = action.payload
         },
         lookTextData:(state, action: PayloadAction<TextEntity>)=>{
-            state.currentTextData=action.payload
+            state.textDataToView=action.payload
         },
         deleteDataTextModal:(state)=>{
-            state.currentTextData=null
+            state.textDataToView=null
+        },
+        setLoadingText:(state,action:PayloadAction<ResponseHttpQueue>)=>{
+            state.isGenerating= action.payload
         }
     },
      extraReducers:(builder)=>{
             builder.addCase(socketTextReady, (state, action) => {
                 const entity = action.payload.entity
                 if (entity) {
-                    state.textHistory = [entity, ...state.textHistory]
+                    const exists = state.textHistory.some(a => a.id === entity.id)
+                    if(!exists){
+                        state.textHistory = [entity, ...state.textHistory]
+                    }
                 }
                 state.isGenerating = null // completed 
             })
@@ -48,7 +54,8 @@ export const textSlice=createSlice({
 
 export const {setTextsHistory,
     deleteDataTextModal,
-    lookTextData
+    lookTextData,
+    setLoadingText
 } = textSlice.actions;
 
 export default textSlice.reducer;

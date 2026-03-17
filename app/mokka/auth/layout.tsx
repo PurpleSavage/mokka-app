@@ -1,4 +1,4 @@
-import GoogleProviderWrapper from "@/modules/shared/common/view/components/GoogleProviderWrapper";
+import GoogleProviderWrapper from "@/modules/shared/common/view/wrappers/GoogleProviderWrapper";
 
 export default function AuthLayout({
   children,

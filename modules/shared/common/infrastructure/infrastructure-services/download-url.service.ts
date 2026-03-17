@@ -1,6 +1,6 @@
 import { HttpClientPort } from "../../application/ports/http-client.port";
 import { ErrorPlatformMokka } from "../../domain/enums/errors-types";
-import { ApiErrorPlatform } from "../../errors/api-errors.error";
+import { ApiErrorPlatform } from "../errors/api-errors.error";
 
 export class DownloadURL{
     constructor(private readonly httpService:HttpClientPort){}

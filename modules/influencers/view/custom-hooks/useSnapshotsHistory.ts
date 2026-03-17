@@ -1,6 +1,6 @@
 import { useIdSession } from "@/modules/shared/auth/view/custom-hooks/useIdSession";
 import { setConfigAlertModal } from "@/modules/shared/common/common-slice/modals-slice.store";
-import { ApiErrorPlatform } from "@/modules/shared/common/errors/api-errors.error";
+import { ApiErrorPlatform } from "@/modules/shared/common/infrastructure/errors/api-errors.error";
 import {
   SelectorModalbasedError,
   TypeErrorAlert,

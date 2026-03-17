@@ -15,7 +15,7 @@ import Spin from "@/modules/shared/common/view/components/Spin";
 import { setLoadingImage } from "../../image-slice/image.slice";
 import { imageDI } from "../../di/image-container.di";
 import { sileo } from "sileo";
-import { ApiErrorPlatform } from "@/modules/shared/common/errors/api-errors.error";
+import { ApiErrorPlatform } from "@/modules/shared/common/infrastructure/errors/api-errors.error";
 import {
   SelectorModalbasedError,
   TypeErrorAlert,

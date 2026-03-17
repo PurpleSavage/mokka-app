@@ -4,6 +4,7 @@ import { ImageEntity } from "../../domain/entities/Image.entity"
 import { useState } from "react"
 import { lookImageData } from "../../image-slice/image.slice"
 import { openModalWrapper } from "@/modules/shared/common/common-slice/modals-slice.store"
+import { ModalsId } from "@/modules/shared/common/view/wrappers/ModalLookDataWrapper"
 
 export interface ImageCardProps{
     image:ImageEntity
@@ -15,7 +16,7 @@ export default function ImageCard({image}:ImageCardProps) {
     const onClickOpenImageDataModal =(image:ImageEntity)=>{
         document.body.style.overflow = "hidden"
         dispatch(lookImageData(image))
-        dispatch(openModalWrapper({title:'About your image'}))
+        dispatch(openModalWrapper({ title: 'About your image', modalId: ModalsId.IMAGE_VIEW }))
     }
   return (
     <div className=" gap-4 rounded-lg relative   flex flex-col " >

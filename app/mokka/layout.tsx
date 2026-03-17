@@ -1,5 +1,5 @@
-import ProviderAxiosWrapper from "@/modules/shared/common/view/components/ProviderAxioWrapper";
-import ProviderReduxWrapper from "@/modules/shared/common/view/components/ProviderWrapper";
+import ProviderAxiosWrapper from "@/modules/shared/common/view/wrappers/ProviderAxioWrapper";
+import ProviderReduxWrapper from "@/modules/shared/common/view/wrappers/ProviderWrapper";
 
 export default function MokkaLayout({
   children,

@@ -19,44 +19,33 @@ const initialState:ModalsState={
     modalWrapper:{
       title:'',
       isVisible:false,
-      formType: null
+      formType: null,
+      modalId:null
     }
 }
 
 export const modalsSlice = createSlice({
-  initialState,
-  name: 'modals',
-  reducers: {
-    // Para abrir el modal o disparar el toaster
-    setConfigAlertModal: (state, action: PayloadAction<Omit<AlertModalConfig, 'isVisible'>>) => {
-      state.alert = {
-        ...action.payload,
-        isVisible: true, // Forzamos la visibilidad al configurar
-      };
-    },
-    openModalWrapper:(state,action:PayloadAction<{title:string,formType?: 'SCENE' | 'SNAPSHOT' |'INFLUENCER' }>)=>{
-      state.modalWrapper={
-        isVisible:true,
-        title:action.payload.title,
-        formType: action.payload.formType ?? null,
-      }
-    },
-    closeModalWrapper:(state)=>{
-      state.modalWrapper={
-        title:'',
-        isVisible:false,
-        formType: null,
-      }
-    },
-    closeAlert: (state) => {
-      state.alert.isVisible = false;
-    },
-   
-    resetAlert: (state) => {
-      state.alert = initialState.alert;
+    initialState,
+    name: 'modals',
+    reducers: {
+        setConfigAlertModal: (state, action: PayloadAction<Omit<AlertModalConfig, 'isVisible'>>) => {
+            state.alert = { ...action.payload, isVisible: true }
+        },
+        openModalWrapper: (state, action: PayloadAction<{ title: string, modalId: string, formType?: 'SCENE' | 'SNAPSHOT' | 'INFLUENCER' }>) => {
+            state.modalWrapper = {
+                isVisible: true,
+                title: action.payload.title,
+                modalId: action.payload.modalId,
+                formType: action.payload.formType ?? null,
+            }
+        },
+        closeModalWrapper: (state) => {
+            state.modalWrapper = { title: '', isVisible: false, formType: null, modalId: null }
+        },
+        closeAlert: (state) => { state.alert.isVisible = false },
+        resetAlert: (state) => { state.alert = initialState.alert }
     }
-  }
-});
+})
 export const {
     setConfigAlertModal,
     closeAlert,

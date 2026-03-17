@@ -1,6 +1,6 @@
 
 import { ErrorPlatformMokka } from "../../domain/enums/errors-types";
-import { ApiErrorPlatform } from "../../errors/api-errors.error";
+import { ApiErrorPlatform } from "../errors/api-errors.error";
 
 export enum TypeErrorAlert{
     TOASTER='toast',
@@ -52,7 +52,8 @@ export class SelectorModalbasedError{
             ErrorPlatformMokka.OPENAI_ERROR,
             ErrorPlatformMokka.DOWNLOAD_ERROR,
             ErrorPlatformMokka.DOWNLOAD_TIMEOUT_ERROR,
-            ErrorPlatformMokka.HTTP_ERROR
+            ErrorPlatformMokka.HTTP_ERROR,
+            ErrorPlatformMokka.DATABASE_FAILED
         ]
         
         const config = ERROR_CONFIG_MAP[error.errorType] || ERROR_CONFIG_MAP[ErrorPlatformMokka.UNKNOWN_ERROR];

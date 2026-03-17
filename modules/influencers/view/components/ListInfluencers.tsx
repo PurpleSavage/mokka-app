@@ -3,6 +3,7 @@ import { FaPlus } from "react-icons/fa6";
 import Influencers from "./Influencers";
 import { useDispatch } from "react-redux";
 import { openModalWrapper } from "@/modules/shared/common/common-slice/modals-slice.store";
+import { ModalsId } from "@/modules/shared/common/view/wrappers/ModalLookDataWrapper";
 
 
 
@@ -10,10 +11,8 @@ export default function ListInfluencers() {
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
-    dispatch(openModalWrapper({ 
-      title: "Create a new influencer",
-      formType: 'INFLUENCER'
-    }));
+  
+    dispatch(openModalWrapper({ title: 'Crear', modalId:ModalsId.INFLUENCER_FORM, formType: 'INFLUENCER'}))
      
   }
   return (

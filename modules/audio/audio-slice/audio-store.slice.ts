@@ -10,12 +10,14 @@ export interface AiaudioState{
     currentAudioData:AudioEntity | null
     isGenerating:ResponseHttpQueue | null
     audioNotifications:AudioEntity []
+    audiosLastWeek:AudioEntity[]
 }
 const initialState:AiaudioState={
     audioHistory:[],
     currentAudioData:null,
     isGenerating:null,
-    audioNotifications:[]
+    audioNotifications:[],
+    audiosLastWeek:[]
 }
 
 export const aiaudioSlice=createSlice({
@@ -49,7 +51,7 @@ export const aiaudioSlice=createSlice({
             state.isGenerating = null // completed 
         })
         builder.addCase(socketAudioFailed, (state) => {
-                state.isGenerating = null // failed 
+            state.isGenerating = null // failed 
         })
     }
 })

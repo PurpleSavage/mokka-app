@@ -5,7 +5,7 @@ import { RootState } from "@/store/boundStore";
 import { useDispatch, useSelector } from "react-redux";
 import { IoShareSocialOutline } from "react-icons/io5";
 import { GoTag } from "react-icons/go";
-import { ApiErrorPlatform } from "@/modules/shared/common/errors/api-errors.error";
+import { ApiErrorPlatform } from "@/modules/shared/common/infrastructure/errors/api-errors.error";
 import {
   SelectorModalbasedError,
   TypeErrorAlert,

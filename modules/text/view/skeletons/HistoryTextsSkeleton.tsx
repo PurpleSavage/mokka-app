@@ -25,6 +25,9 @@ export default function HistoryTextsSkeleton({size}:SkeletonProps) {
                 <div className="flex items-center justify-center">
                     <div className="h-6 w-6 rounded-full bg-gray-300"></div>
                 </div>
+                <div className="flex items-center justify-center">
+                    <div className="h-6 w-6 rounded-full bg-gray-300"></div>
+                </div>
             </div>
         ))
     }
