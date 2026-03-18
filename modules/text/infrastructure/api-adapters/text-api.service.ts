@@ -1,6 +1,6 @@
 import { HttpClientPort } from "@/modules/shared/common/application/ports/http-client.port";
 import { TextApiPort } from "../../application/api-ports/text-api.port";
-import { GenerateTextDto } from "../../application/dtos/requests/generate-text.dto";
+import { FullGenerateTextDto} from "../../application/dtos/requests/generate-text.dto";
 import { TextEntity } from "../../domain/entities/text.entity";
 import { TextResponseDto } from "@/modules/audio/application/dtos/responses/text-response.dto";
 import { toTextEntityMapper } from "../mappers/to-text-entity.mapper";
@@ -27,7 +27,7 @@ export class TextApiService implements TextApiPort{
             throw error
         }
     }
-    async generateText(dto: GenerateTextDto): Promise<ResponseHttpQueue> {
+    async generateText(dto: FullGenerateTextDto): Promise<ResponseHttpQueue> {
         try {
             const response = await this.httpService.post<ResponseHttpQueue>('/v1/text/write/new',dto)
             return response

@@ -17,3 +17,4 @@ export  const generateTextSchema = z.object({
 });
 
 export type GenerateTextDto = z.infer<typeof generateTextSchema>
+export type FullGenerateTextDto = GenerateTextDto & {user:string}

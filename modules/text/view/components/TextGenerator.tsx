@@ -4,7 +4,7 @@ import Spin from "@/modules/shared/common/view/components/Spin";
 import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GenerateTextDto, generateTextSchema } from "../../application/dtos/requests/generate-text.dto";
+import { FullGenerateTextDto, GenerateTextDto, generateTextSchema } from "../../application/dtos/requests/generate-text.dto";
 import { formatArray, lengthArray, promotingArray, toneArray } from "../../constants/text-generator-options";
 import { PromotingText } from "../../domain/enums/options-text";
 import { textDI } from "../../di/text-container.di";
@@ -12,13 +12,20 @@ import { ApiErrorPlatform } from "@/modules/shared/common/infrastructure/errors/
 import { SelectorModalbasedError, TypeErrorAlert } from "@/modules/shared/common/infrastructure/error-mappers/selector-modal-based-error.mapper";
 import { setConfigAlertModal } from "@/modules/shared/common/common-slice/modals-slice.store";
 import { sileo } from "sileo";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLoadingText } from "../../text-slice/text-store.slice";
+import { useIdSession } from "@/modules/shared/auth/view/custom-hooks/useIdSession";
+import { RootState } from "@/store/boundStore";
+import { StatusQueue } from "@/modules/shared/common/domain/enums/status-queue";
+
+
 
 
 export default function TextGenerator() {
     const [isOther, setIsOther] = useState(false);
+    const {id}=useIdSession()
     const dispatch = useDispatch()
+    const isGenerating = useSelector((state:RootState)=>state.text.isGenerating)
     const {
         register,
         handleSubmit,
@@ -42,8 +49,13 @@ export default function TextGenerator() {
     const selectedFormat = useWatch({ control, name: "textFormat" })
 
     const onSubmit = async(data: GenerateTextDto) => {
+        if(!id) return 
        try {
-        const response = await textDI.generateText(data)
+        const payload:FullGenerateTextDto = {
+            ...data,
+            user:id
+        }
+        const response = await textDI.generateText(payload)
         dispatch(setLoadingText(response))
         sileo.info({
             title:response.status,
@@ -159,11 +171,11 @@ export default function TextGenerator() {
                     </div>
                 </div>
 
-                <button type="submit" disabled={isSubmitting} 
+                <button type="submit" disabled={isGenerating?.status===StatusQueue.PROCESSING} 
                 className="w-full py-2 flex items-center justify-center cursor-pointer hover:bg-pink-800
                  hover:text-white transition-colors
                  rounded-lg text-black font-bold bg-white">
-                    {isSubmitting ? <><Spin /> Generating...</> : "Generate text"}
+                    {isSubmitting? <><Spin /> Generating...</> : "Generate text"}
                 </button>
             </form>
 
@@ -171,7 +183,7 @@ export default function TextGenerator() {
                 <label className="block text-white font-medium">Result</label>
                 <div className="border border-slate-600/50 w-full h-150 p-4 rounded-lg
                  text-white bg-slate-900/20">
-                    {isSubmitting ? "Generating..." : "Your text will appear here..."}
+                    {isGenerating?.status===StatusQueue.PROCESSING ? "Generating..." : "Your text will appear here..."}   
                 </div>
             </div>
         </div>

@@ -10,7 +10,10 @@ export class SocketService implements SocketPort {
 
     constructor() {
         this.socketClient = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}`, {
-            autoConnect: false
+            autoConnect: false,
+            reconnection: true,        
+            reconnectionAttempts: 5,    
+            reconnectionDelay: 1000, 
         });
     }
 

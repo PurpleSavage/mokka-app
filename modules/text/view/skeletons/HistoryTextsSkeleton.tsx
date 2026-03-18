@@ -1,36 +1,25 @@
 import { SkeletonProps } from "@/modules/shared/common/view/props/skeleton-props";
 
+interface HistoryTextsSkeletonProps extends SkeletonProps {
+  
+    cols: string
+}
 
-export default function HistoryTextsSkeleton({size}:SkeletonProps) {
+export default function HistoryTextsSkeleton({size,cols}:HistoryTextsSkeletonProps) {
   return (
-    <div>
-{
-        Array.from({length:size}).map((_,index)=>(
-            <div key={`i-${index}`} className="grid gap-2 grid-cols-[repeat(5,1fr)_10%] py-2 border-b border-slate-100 animate-pulse">
-                <div className="flex items-center">
-                    <div className="h-5 w-3/4 bg-gray-300 rounded"></div>
+        <div className="bg-table-bg/60 divide-y divide-table-bg/40">
+            {Array.from({ length: size }).map((_, index) => (
+                <div key={`skeleton-${index}`} className={`grid ${cols} gap-4 px-4 py-3 animate-pulse`}>
+                    <div className="h-4 bg-slate-700 rounded-lg" />
+                    <div className="h-4 bg-slate-700 rounded-lg" />
+                    <div className="h-4 bg-slate-700 rounded-lg justify-self-center w-3/4" />
+                    <div className="h-4 bg-slate-700 rounded-lg justify-self-center w-3/4" />
+                    <div className="h-4 bg-slate-700 rounded-lg justify-self-center w-3/4" />
+                    <div className="h-4 bg-slate-700 rounded-lg justify-self-center w-3/4" />
+                    <div className="h-4 bg-slate-700 rounded-lg justify-self-center w-1/2" />
+                    <div className="h-4 w-4 bg-slate-700 rounded-lg justify-self-center" />
                 </div>
-                <div className="flex items-center justify-center">
-                    <div className="h-5 w-20 bg-yellow-300 rounded-lg"></div>
-                </div>
-                <div className="flex items-center justify-center">
-                    <div className="h-5 w-16 bg-yellow-400 rounded-lg"></div>
-                </div>
-                <div className="flex items-center justify-center">
-                    <div className="h-5 w-12 bg-purple-300 rounded-lg"></div>
-                </div>
-                <div className="flex items-center justify-center">
-                    <div className="h-5 w-14 bg-purple-400 rounded-lg"></div>
-                </div>
-                <div className="flex items-center justify-center">
-                    <div className="h-6 w-6 rounded-full bg-gray-300"></div>
-                </div>
-                <div className="flex items-center justify-center">
-                    <div className="h-6 w-6 rounded-full bg-gray-300"></div>
-                </div>
-            </div>
-        ))
-    }
-    </div>
-  )
+            ))}
+        </div>
+    )
 }
