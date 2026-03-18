@@ -5,7 +5,7 @@ import { ImageEntity } from "../../domain/entities/Image.entity";
 import { HttpClientPort } from "@/modules/shared/common/application/ports/http-client.port";
 import { ImageResponseDto } from "../../application/dtos/response/image-response.dto";
 import { toImageEntity } from "../mappers/to-image-entity.mapper";
-import { SharedImageEntity } from "../../application/ports/shared-image.entity";
+import { SharedImageEntity } from "../../domain/entities/shared-image.entity";
 import { ShareImageDto } from "../../application/dtos/request/shared-image.dto";
 import { SharedImageResponseDto } from "../../application/dtos/response/shared-image-response.dto";
 import { toSharedImageEntity } from "../mappers/to-shared-image-entity.mapper";

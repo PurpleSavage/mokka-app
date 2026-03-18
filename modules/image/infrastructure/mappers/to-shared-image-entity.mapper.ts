@@ -1,5 +1,5 @@
 import { SharedImageResponseDto } from "../../application/dtos/response/shared-image-response.dto";
-import { SharedImageEntity } from "../../application/ports/shared-image.entity";
+import { SharedImageEntity } from "../../domain/entities/shared-image.entity";
 import { toImageEntity } from "./to-image-entity.mapper";
 
 export function toSharedImageEntity(data:SharedImageResponseDto):SharedImageEntity{ 
