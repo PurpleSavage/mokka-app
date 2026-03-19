@@ -22,6 +22,11 @@ import { sileo } from "sileo"
 type AudioSliderFields = "speed" | "stability" | "similarity" | "exaggeration"
 export default function VoiceSettings() {
 
+  const sliderGroups: AudioSliderFields[][] = [
+    ["speed", "stability"],
+    ["similarity", "exaggeration"]
+  ]
+
   const isGenerating = useSelector((state:RootState)=>state.audio.isGenerating)
   const dispatch = useDispatch()
   const {id}=useIdSession()
@@ -105,10 +110,10 @@ export default function VoiceSettings() {
     }
   }
   return (
-    <form className="space-y-2 h-full" onSubmit={handleSubmit(onSubmit)}>
+    <form className="space-y-2" onSubmit={handleSubmit(onSubmit)}>
       <textarea
         placeholder="Start typing ..."
-        className={`w-full h-40 text-white rounded-lg p-3 border bg-[#121212]
+        className={`w-full h-40 text-white rounded-lg p-3 border bg-table-body-bg
             outline-none transition-all 
             ${errors.prompt ? 'border-red-500' : 'border-slate-600/50 focus:border-pink-800'}`}
         {...register("prompt")}
@@ -131,20 +136,23 @@ export default function VoiceSettings() {
         )}
       </div>
       <div className="space-y-4 pt-2">
-        {(["speed", "stability", "similarity", "exaggeration"] as AudioSliderFields[]).map((field) => (
-          <div key={field} className="space-y-1">
-            <label htmlFor={field} className="block text-white text-sm capitalize">
-              {field === "exaggeration" ? "Style Exaggeration" : field}
-            </label>
-            <input
-              type="range"
-              id={field}
-              min={field === "speed" ? "70" : "0"}
-              max={field === "speed" ? "120" : "100"}
-              className="w-full h-1 rounded-lg bg-white accent-pink-800 cursor-pointer"
-              // 2. Tipado correcto para evitar el 'any'
-              {...register(field, { valueAsNumber: true })} 
-            />
+        {sliderGroups.map((group, groupIndex) => (
+          <div key={`slider-group-${groupIndex}`} className="flex gap-4">
+            {group.map((field) => (
+              <div key={field} className="space-y-1 flex-1">
+                <label htmlFor={field} className="block text-white text-sm capitalize">
+                  {field === "exaggeration" ? "Style Exaggeration" : field}
+                </label>
+                <input
+                  type="range"
+                  id={field}
+                  min={field === "speed" ? "70" : "0"}
+                  max={field === "speed" ? "120" : "100"}
+                  className="w-full h-1 rounded-lg bg-white accent-pink-800 cursor-pointer"
+                  {...register(field, { valueAsNumber: true })}
+                />
+              </div>
+            ))}
           </div>
         ))}
 
@@ -178,19 +186,21 @@ export default function VoiceSettings() {
       </div>
 
       {/* SUBMIT BUTTON */}
-      <button
-        type="submit"
-        className="w-full cursor-pointer mt-4 text-black font-medium bg-white hover:text-pink-800 rounded-lg py-2 flex items-center justify-center disabled:opacity-50"
-        disabled={isGenerating?.status === "processing"}
-      >
-        {isGenerating?.status === "processing" ? (
-          <div className="flex gap-2 items-center">
-            <Spin /> Generating...
-          </div>
-        ) : (
-          "Generate audio"
-        )}
-      </button>
+      <div className="mt-4 flex justify-end">
+        <button
+          type="submit"
+          className="cursor-pointer text-black font-medium bg-white hover:text-pink-800 rounded-lg py-2 px-6 min-w-44 flex items-center justify-center disabled:opacity-50"
+          disabled={isGenerating?.status === "processing"}
+        >
+          {isGenerating?.status === "processing" ? (
+            <div className="flex gap-2 items-center">
+              <Spin /> Generating...
+            </div>
+          ) : (
+            "Generate audio"
+          )}
+        </button>
+      </div>
     </form>
   )
 }

@@ -10,8 +10,16 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --color-table-bg: #18130d;
-
+  --color-default-text:#ffffff;
+  --color-table-head-bg:#181818;
+  --color-table-body-bg: #121212;
+  --color-table-body-hover-bg: #1a1a1a;
+  --color-button-bg: #ffffff;
+  --color-button-hover-bg: var(--color-pink-800);
+  --color-female-bg: var(--color-pink-100);
+  --color-female-text: var(--color-pink-800);
+  --color-male-bg: var(--color-sky-100);
+  --color-male-text: var(--color-sky-800);
 }
 
 @media (prefers-color-scheme: dark) {

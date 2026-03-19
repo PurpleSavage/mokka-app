@@ -20,13 +20,15 @@ export const menuOptions:Option[] =[
         icon:LuText,
     },
     {
-        path:'/mokka/mokka-panel/audio',
+        path:'/mokka/mokka-panel/audio/voices',
         name:'Audio Ai',
         id:'2',
         icon:LuAudioLines,
         allowedRoutes:[
             '/mokka/mokka-panel/audio',
-            '/mokka/mokka-panel/audio/music'
+            '/mokka/mokka-panel/audio/music',
+            '/mokka/mokka-panel/audio/voices',
+            '/mokka/mokka-panel/audio/editor'
         ]
     },
     {
