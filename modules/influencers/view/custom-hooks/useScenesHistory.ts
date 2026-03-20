@@ -26,6 +26,7 @@ export const useScenesHistory = () => {
         const response = await influencersDI.listHistoryScenes(id)
         dispatch(setScenesHistory(response))
       } catch (error) {
+        if (ApiErrorPlatform.isUnauthorized(error)) return
         setError("an error has occurred");
         if (error instanceof ApiErrorPlatform) {
           const config = SelectorModalbasedError.selectModal(error);

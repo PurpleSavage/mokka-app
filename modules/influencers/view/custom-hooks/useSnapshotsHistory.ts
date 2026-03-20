@@ -28,6 +28,7 @@ export const useSnapshotsHistory = () => {
         const response =await influencersDI.listHistorySnapshots(id)
         dispatch(setSnapshotsHistory(response))
       } catch (error) {
+        if (ApiErrorPlatform.isUnauthorized(error)) return
         setError("an error has occurred");
         if (error instanceof ApiErrorPlatform) {
           const config = SelectorModalbasedError.selectModal(error);

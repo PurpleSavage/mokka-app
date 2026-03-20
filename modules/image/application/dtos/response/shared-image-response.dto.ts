@@ -2,5 +2,5 @@ import { BaseSharedResponseDto } from "@/modules/shared/common/application/dtos/
 import { ImageResponseDto } from "./image-response.dto";
 
 export interface SharedImageResponseDto extends BaseSharedResponseDto{
-    image: ImageResponseDto | string
+    image: ImageResponseDto
 }

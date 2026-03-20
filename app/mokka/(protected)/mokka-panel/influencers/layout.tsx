@@ -1,5 +1,4 @@
-import InfluencersNavigator from "@/modules/influencers/view/components/InfluencersNavigator";
-import ModalForms from "@/modules/influencers/view/components/ModalForms";
+
 
 export default function InfluencersLayout({
   children,
@@ -8,13 +7,7 @@ export default function InfluencersLayout({
 }>) {
   return (
    
-    <div className="h-full flex flex-col overflow-hidden p-4 space-y-2">
-        <InfluencersNavigator/>
-        <div className="flex-1  overflow-hidden">
-            {children}
-        </div>
-        <ModalForms/>
-    </div>
+     <>{children}</> 
     
   );
 }

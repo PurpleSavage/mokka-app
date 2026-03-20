@@ -16,17 +16,27 @@ export const useInfluencers = () => {
   const [error, setError] = useState("");
   const [isPending, setisPending] = useState(true)
   const influencersCreated = useSelector((state:RootState)=>state.influencers.influencersCreated)
+  const size = influencersCreated.length
   const { id } = useIdSession()
   const dispatch = useDispatch()
+
+
   useEffect(() => {
+
     if (!id) {
       return;
+    }
+    if(size>0){
+      setisPending(false)
+      return
     }
     const listInfluencers = async () => {
       try {
         const response = await influencersDI.listInfluencer(id);
+        console.log(response)
         dispatch(setInfluencers(response));
       } catch (error) {
+        if (ApiErrorPlatform.isUnauthorized(error)) return
         setError('an error has occurred')
         if (error instanceof ApiErrorPlatform) {
           const config = SelectorModalbasedError.selectModal(error);
@@ -55,7 +65,7 @@ export const useInfluencers = () => {
       }
     };
     listInfluencers();
-  }, [id, dispatch]);
+  }, [id, dispatch,size]);
   return {
     error,
     isPending,

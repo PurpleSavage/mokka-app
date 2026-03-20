@@ -5,18 +5,21 @@ import { boundStore } from "@/store/boundStore"
 import { SessionEntity, UserSessionEntity } from "@/modules/shared/auth/domain/entities/session.entity"
 import { setSession } from "@/modules/shared/auth/store-slice/auth.slice"
 import { AuthTokenCache } from "../services/auth-token-cache.service"
+import createAuthRefreshInterceptor from 'axios-auth-refresh'
 
-interface RetryableAxiosRequestConfig extends AxiosRequestConfig {
-  _retry?: boolean
+
+interface UnauthorizedResponse {
+    message: string
+    statusCode: number
+    renovate: boolean
 }
+interface RetryableAxiosRequestConfig extends AxiosRequestConfig {
+    _retry?: boolean
+}
+
 export class HttpClientSingleton implements HttpClientPort {
     private static instance: HttpClientSingleton
     private readonly axiosClient: AxiosInstance
-    private isRefreshing = false
-    private failedQueue: Array<{
-        resolve: (token: string) => void
-        reject: (error: unknown) => void
-    }> = []
 
     private constructor() {
         this.axiosClient = axios.create({
@@ -35,91 +38,79 @@ export class HttpClientSingleton implements HttpClientPort {
     }
 
     private setupInterceptors(): void {
+        // agrega el token a cada request
         this.axiosClient.interceptors.request.use(
             (req) => {
                 const token = AuthTokenCache.getToken()
-                if (token) {
-                    req.headers.Authorization = `Bearer ${token}`
-                }
+                if (token) req.headers.Authorization = `Bearer ${token}`
                 return req
             },
-            (error) => {
-                throw error  
+            (error) => Promise.reject(error)
+        )
+
+        // reintenta una vez si hay connection reset
+        this.axiosClient.interceptors.response.use(
+            res => res,
+            async (error: AxiosError) => {
+                const originalRequest = error.config as RetryableAxiosRequestConfig
+                if (!error.response && !originalRequest?._retry) {
+                    console.log('🔄 Connection reset, retrying...', originalRequest?.url)
+                    originalRequest._retry = true
+                    return this.axiosClient(originalRequest)
+                }
+                return Promise.reject(error)
             }
         )
 
-        this.axiosClient.interceptors.response.use(
-            (res) => res,
-            async (error: AxiosError) => {
-                const originalRequest = error.config as RetryableAxiosRequestConfig
-                const responseData = error.response?.data as { error?: string; renovate?: boolean,credentials?:boolean }
-                if (!originalRequest) {
-                    throw error
+        // maneja el refresh de token automáticamente con cola
+        createAuthRefreshInterceptor(
+            this.axiosClient,
+            async (failedRequest) => {
+                const renovate = (failedRequest.response?.data as UnauthorizedResponse)?.renovate
+
+                if (renovate === false) {
+                    console.log('❌ Refresh token expired, redirecting to login')
+                    localStorage.clear()
+                    window.location.href = '/mokka/auth'
+                    return Promise.reject()
                 }
-                
-                if (error.response?.status === 401 && responseData?.renovate === false) {
-                    localStorage.removeItem("id_session");
-                    localStorage.removeItem("email_session")
-                    window.location.href ='/mokka/auth';
-                    throw error
-                }  
-                if (error.response?.status === 401 && responseData?.renovate === true &&  !originalRequest._retry) {
-                    if (this.isRefreshing) {
-                        return new Promise((resolve, reject) => {
-                            this.failedQueue.push({
-                                resolve: (token: string) => {
-                                    originalRequest.headers!.Authorization = `Bearer ${token}`
-                                    resolve(this.axiosClient(originalRequest))
-                                },
-                                reject
-                            })
-                        })
-                    }
 
-                    originalRequest._retry = true
-                    this.isRefreshing = true
+                try {
+                    const rawEmail = localStorage.getItem('email_session')
+                    const userRaw = localStorage.getItem('user_session_mokka')
 
-                    try {
-                        const  rawEmail = localStorage.getItem("email_session")
-                        const userRaw = localStorage.getItem('user_session_mokka')
-                        if (!rawEmail || !userRaw) {
-                            this.isRefreshing = false;
-                            window.location.href ='/mokka/auth';
-                            throw new Error("No session ID")
-                        }
-                        const email = rawEmail.replace(/"/g, '');
-                        const { data } = await axios.get<ResponseRefreshTokenDto>(
-                            `${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/auth/read/refresh-token/${email}`,
-                            { 
-                                withCredentials: true 
-                            }
-                        
-                        )
-                        const userData:UserSessionEntity = JSON.parse(userRaw);
-                        const objAuth= {
-                            accessToken:data.access_token,
-                            user:userData 
-                        }
-                        AuthTokenCache.setToken(data.access_token)
-                        boundStore.dispatch(setSession(objAuth as SessionEntity))
-                        this.failedQueue.forEach(p => p.resolve(data.access_token))
-                        this.failedQueue = []
-                        this.isRefreshing = false
-
-                        originalRequest.headers!.Authorization = `Bearer ${data.access_token}`
-                        return this.axiosClient(originalRequest)
-                    } catch (refreshError) {
-                        console.log(ReferenceError)
-                        this.failedQueue.forEach(p => p.reject(refreshError))
-                        this.failedQueue = []
-                        this.isRefreshing = false
+                    if (!rawEmail || !userRaw) {
                         localStorage.clear()
-                        globalThis.location.href = '/'
-                        throw refreshError
+                        window.location.href = '/mokka/auth'
+                        return Promise.reject()
                     }
-                }
 
-                throw error 
+                    const email = rawEmail.replace(/"/g, '')
+                    const { data } = await axios.get<ResponseRefreshTokenDto>(
+                        `${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/auth/read/refresh-token/${email}`,
+                        { withCredentials: true }
+                    )
+
+                    const userData: UserSessionEntity = JSON.parse(userRaw)
+                    console.log('✅ Token refreshed successfully')
+                    AuthTokenCache.setToken(data.access_token)
+                    boundStore.dispatch(setSession({
+                        accessToken: data.access_token,
+                        user: userData
+                    } as SessionEntity))
+
+                    failedRequest.response.config.headers.Authorization = `Bearer ${data.access_token}`
+                    return Promise.resolve()
+                } catch {
+                    console.log('❌ Refresh failed, redirecting to login')
+                    localStorage.clear()
+                    window.location.href = '/mokka/auth'
+                    return Promise.reject()
+                }
+            },
+            {
+                statusCodes: [401],
+                shouldRefresh: () => true,
             }
         )
     }
@@ -148,11 +139,13 @@ export class HttpClientSingleton implements HttpClientPort {
         const { data } = await this.axiosClient.patch<T>(url, body, config)
         return data
     }
+
     async head(url: string, config?: AxiosRequestConfig): Promise<void> {
         await this.axiosClient.head(url, config)
     }
+
     async getBlob(url: string): Promise<Blob> {
-        const {data}= await this.axiosClient.get<Blob>(url,{ responseType: "blob" })
+        const { data } = await this.axiosClient.get<Blob>(url, { responseType: 'blob' })
         return data
     }
 }

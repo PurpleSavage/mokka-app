@@ -1,8 +1,8 @@
 import { SharedByEntity } from "./shared-by.entity";
 
-export interface BaseSahredEntity{
+export interface BaseSharedEntity{
     id: string;
     remixes: number;
     downloads: number;
-    sharedBy: SharedByEntity| string;
+    sharedBy: SharedByEntity
 }

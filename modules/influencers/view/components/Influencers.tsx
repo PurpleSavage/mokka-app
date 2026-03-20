@@ -1,9 +1,12 @@
 'use client'
 
+import { useDispatch } from "react-redux";
+import { InfluencerEntity } from "../../domain/entities/influencer.entity";
 import { useInfluencers } from "../custom-hooks/useInfluencers"
 import InfluencersSkeleton from "../skeletons/InfluencersSkeleton";
 import InfluencerProfileCard from "./InfluencerProfileCard";
-
+import { useRouter } from "next/navigation"
+import { setInfoCurrentInfluencer } from "../../influencer-slice/influencer-store.slice";
 interface InfluencersProps {
     styleSkeleton?:string,
     styleProfileCard?:string
@@ -13,6 +16,13 @@ export default function Influencers({
     styleProfileCard
 }:InfluencersProps) {
     const {error,influencersCreated,isPending}=useInfluencers()
+    const router = useRouter()
+    const dispatch = useDispatch()
+
+    const handleSelectInfluencer =(influencer:InfluencerEntity)=>{
+        router.push(`/mokka/mokka-panel/influencers/influencer/${influencer.id}`)
+        dispatch(setInfoCurrentInfluencer(influencer))
+    }
 
     if (isPending) {
         return <InfluencersSkeleton size={4} styles={styleSkeleton}/>
@@ -39,6 +49,7 @@ export default function Influencers({
                     key={influencer.id} 
                     influencer={influencer} 
                     className={styleProfileCard} 
+                    onSelect={handleSelectInfluencer}
                 />
             ))
         }

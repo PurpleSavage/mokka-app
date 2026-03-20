@@ -14,6 +14,7 @@ export class SocketService implements SocketPort {
             reconnection: true,        
             reconnectionAttempts: 5,    
             reconnectionDelay: 1000, 
+            timeout: 20000,
         });
     }
 

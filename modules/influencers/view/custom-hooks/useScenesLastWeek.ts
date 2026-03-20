@@ -24,6 +24,7 @@ export const useScenesLastWeek = () => {
         const response = await influencersDI.listScenesLastWeek(id)
         dispatch(setScenesLastWeek(response));
       } catch (error) {
+        if (ApiErrorPlatform.isUnauthorized(error)) return
         setError("an error has occurred")
         if (error instanceof ApiErrorPlatform) {
           const config = SelectorModalbasedError.selectModal(error);

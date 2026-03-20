@@ -1,6 +1,6 @@
 import { SkeletonProps } from "@/modules/shared/common/view/props/skeleton-props";
 
-export default function InfluencersSkeleton({size,styles="w-52 h-72"}:SkeletonProps) {
+export default function InfluencersSkeleton({size,styles="w-30 h-40"}:SkeletonProps) {
   return (
     <>
         {

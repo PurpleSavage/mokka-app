@@ -10,6 +10,7 @@ import { IoHomeOutline } from "react-icons/io5";
 import { setSession } from '@/modules/shared/auth/store-slice/auth.slice';
 import { authDIContainer } from '@/modules/shared/auth/di/auth-container.di';
 import { LoginGoogleAuthDto } from '@/modules/shared/auth/application/dtos/request/login-google-auth.dto';
+import { AuthTokenCache } from '@/modules/shared/common/infrastructure/services/auth-token-cache.service';
 
 
 export default function LoginPage() {
@@ -29,6 +30,7 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginWithCredentialsDto) => {
     try {
       const response = await authDIContainer.loginUser(data)
+      AuthTokenCache.setToken(response.accessToken)
       authDIContainer.saveDataSession(response)
       dispatch(setSession(response))
       router.replace('/mokka/mokka-panel')
@@ -48,6 +50,7 @@ export default function LoginPage() {
         googleToken:credentialResponse.credential
       }
       const response = await authDIContainer.loginWithGoogle(objecGoogleCredentials)
+      AuthTokenCache.setToken(response.accessToken)
       authDIContainer.saveDataSession(response)
       dispatch(setSession(response))
       router.replace('/mokka/mokka-panel')

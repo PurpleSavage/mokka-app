@@ -1,4 +1,4 @@
-import { ResponseDataSocket } from "@/modules/shared/common/application/dtos/responses/socket-response.dto";
+
 import { GenerateImageDto } from "../../application/dtos/request/generate-image.dto";
 import { ImagePort } from "../../application/ports/image.port";
 import { ImageEntity } from "../../domain/entities/Image.entity";
@@ -9,13 +9,14 @@ import { SharedImageEntity } from "../../domain/entities/shared-image.entity";
 import { ShareImageDto } from "../../application/dtos/request/shared-image.dto";
 import { SharedImageResponseDto } from "../../application/dtos/response/shared-image-response.dto";
 import { toSharedImageEntity } from "../mappers/to-shared-image-entity.mapper";
+import { ResponseHttpQueue } from "@/modules/shared/common/application/dtos/responses/response-http-queue.dto";
 
 
 
 export class ImageApiService implements ImagePort {
     constructor(private readonly httpService:HttpClientPort){}
-    async generateImage(dto: GenerateImageDto): Promise<ResponseDataSocket> {
-        const response = await this.httpService.post<ResponseDataSocket>(
+    async generateImage(dto: GenerateImageDto): Promise<ResponseHttpQueue> {
+        const response = await this.httpService.post<ResponseHttpQueue>(
             '/v1/image/write/generations',dto
         )
         return response

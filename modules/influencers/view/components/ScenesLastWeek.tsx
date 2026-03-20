@@ -30,6 +30,6 @@ export default function ScenesLastWeek() {
                     <MultimediaGenerationCard key={scene.id} multimedia={scene}/>
                 ))
             }
-        </div>
+    </div>
   )
 }

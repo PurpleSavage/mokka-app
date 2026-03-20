@@ -26,7 +26,10 @@ function Aside() {
       return option.allowedRoutes.includes(pathname);
     }
     return false;
-  };
+  }
+
+  const isHomeActive = pathname === '/mokka/mokka-panel'
+  const isCommunityActive = pathname.startsWith('/mokka/mokka-panel/community')
   return (
     <aside className="w-62.5 sticky left-0 top-0 bottom-0 flex flex-col h-screen border-r border-slate-500/28">
       <div className="px-5 w-full border-b py-4 flex border-slate-500/28">
@@ -37,18 +40,10 @@ function Aside() {
       <div className="grow flex flex-col gap-4">
         <div className="pt-4 px-4 w-full space-y-2">
           {/* Link: Home */}
-          <Link
-            href="/mokka/mokka-panel"
-            className={`${baseStyles} ${isActive("/mokka/mokka-panel") ? activeStyles : inactiveStyles}`}
-          >
+          <Link href="/mokka/mokka-panel" className={`${baseStyles} ${isHomeActive ? activeStyles : inactiveStyles}`}>
             <CiHome size={20} /> Home
           </Link>
-
-          {/* Link: Community */}
-          <Link
-            href="/mokka/mokka-panel/community"
-            className={`${baseStyles} ${isActive("/mokka/mokka-panelcommunity") ? activeStyles : inactiveStyles}`}
-          >
+          <Link href="/mokka/mokka-panel/community" className={`${baseStyles} ${isCommunityActive ? activeStyles : inactiveStyles}`}>
             <RiUserCommunityLine size={20} /> Community
           </Link>
           <NotificationBadge

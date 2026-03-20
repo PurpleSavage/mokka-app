@@ -4,5 +4,5 @@ export interface BaseSharedResponseDto{
     id: string;
     remixes: number;
     downloads: number;
-    sharedBy: SharedByResponseDto| string;
+    sharedBy: SharedByResponseDto
 }

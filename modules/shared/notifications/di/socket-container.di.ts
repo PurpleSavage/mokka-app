@@ -3,7 +3,7 @@ import { DisconnectListenerUseCase } from "../application/use-cases/disconnect-l
 import { ListenAllNotificationsUseCase } from "../application/use-cases/listen-all-notifications.use-case"
 import { SocketErrorData, SocketReadyData } from "../domain/entities/response-notification"
 import { JobsNotificationsType } from "../domain/enums/jobs-notifications"
-import { SocketService } from "../infrastrcuture/adapters/socket-service.adapter"
+import { SocketService } from "../infrastructure/adapters/socket-service.adapter"
 import { ConenctListenerUseCase } from "../application/use-cases/connect-listener-notifications.use-case"
 
 const socketService = new SocketService() 

@@ -27,6 +27,7 @@ export const useSnapshotsLAstWeek = () => {
         const response = await influencersDI.listSnapshotsLastWeek(id)
         dispatch(setSnapshotsLastWeek(response))
       } catch (error) {
+        if (ApiErrorPlatform.isUnauthorized(error)) return
         setError("an error has occurred");
         if (error instanceof ApiErrorPlatform) {
           const config = SelectorModalbasedError.selectModal(error);

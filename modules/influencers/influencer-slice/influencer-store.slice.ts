@@ -12,6 +12,7 @@ export interface InfluencerState{
     snapshotsHistory:InfluencerSnapshotEntity[],
     scenesHistory:InfluencerSceneEntity[],
     isGeneratingInfluencer: ResponseHttpQueue | null;
+    influencerSelected:InfluencerEntity | null
 }
 const initialState:InfluencerState={
     influencersCreated:[],
@@ -19,7 +20,8 @@ const initialState:InfluencerState={
     scenesLastWeek:[],
     snapshotsHistory:[],
     scenesHistory:[],
-    isGeneratingInfluencer:null
+    isGeneratingInfluencer:null,
+    influencerSelected:null
 }
 export const aiaudioSlice=createSlice({
     initialState,
@@ -41,9 +43,12 @@ export const aiaudioSlice=createSlice({
         setScenesHistory:(state,action:PayloadAction<InfluencerSceneEntity[]>)=>{
             state.scenesHistory=action.payload
         },
-         setLoadingVideo:(state,action:PayloadAction<ResponseHttpQueue>)=>{
+        setLoadingVideo:(state,action:PayloadAction<ResponseHttpQueue>)=>{
             state.isGeneratingInfluencer= action.payload
         },
+        setInfoCurrentInfluencer:(state,action:PayloadAction<InfluencerEntity>)=>{
+            state.influencerSelected=action.payload
+        }
     },
     extraReducers:(builder)=>{
             builder.addCase(socketInfluencerReady, (state, action) => {
@@ -86,7 +91,8 @@ export const {
    setSnapshotsLastWeek,
    setScenesLastWeek,
    setSnapshotsHistory,
-   setScenesHistory     
+   setScenesHistory,
+   setInfoCurrentInfluencer     
 } = aiaudioSlice.actions;
 
 export default aiaudioSlice.reducer;

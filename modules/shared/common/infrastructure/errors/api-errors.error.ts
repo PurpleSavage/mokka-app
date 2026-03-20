@@ -1,3 +1,4 @@
+import axios from "axios";
 import { 
     ErrorPlatformMokka, 
     MultimediaErrorTypes, 
@@ -35,6 +36,14 @@ export class ApiErrorPlatform extends Error {
   get isNSFW(): boolean {
     return this.details === OpenAIErrorTypes.NSFW || this.details === MultimediaErrorTypes.NSFW;
   }
-
+  static isUnauthorized(error: unknown): boolean {
+        if (error instanceof ApiErrorPlatform) {
+            return error.status === 401
+        }
+        if (axios.isAxiosError(error)) {
+            return error.response?.status === 401
+        }
+        return false
+    }
   
 }
