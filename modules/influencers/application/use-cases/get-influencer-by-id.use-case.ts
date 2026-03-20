@@ -1,6 +1,9 @@
-import { InfluencersPort } from "../ports/influencers.port";
+import type { InfluencersProfilePort } from "../ports/influencer-profile.port";
+
 
 export class GetInfluencerByIdUseCase{
-    constructor(private readonly influencerService: InfluencersPort){}
-    execute(){}
+    constructor(private readonly influencerProfileService: InfluencersProfilePort){}
+    execute(influencerId:string){
+        return this.influencerProfileService.influencerInformation(influencerId)
+    }
 }

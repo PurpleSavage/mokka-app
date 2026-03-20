@@ -7,7 +7,6 @@ import { ResponseHttpQueue } from "@/modules/shared/common/application/dtos/resp
 export interface InfluencersPort{
     generateInfluencers(dto:FullGenerateInfluencerDto):Promise<ResponseHttpQueue>
     listInfluncers(user:string):Promise<InfluencerEntity[]>
-    getInfluencerById(influencerId:string):Promise<InfluencerEntity>
     listScenesLastWeek(user:string): Promise<InfluencerSceneEntity[]>
     listSnapshotsLAstWeek(user:string):Promise<InfluencerSnapshotEntity[]>
     listHistorySnapshots(user:string,page?:number):Promise<InfluencerSnapshotEntity[]>

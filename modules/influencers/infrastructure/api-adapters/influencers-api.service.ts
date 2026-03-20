@@ -42,6 +42,7 @@ export class InfluencerApiService implements InfluencersPort{
     async listInfluncers(user: string): Promise<InfluencerEntity[]> {
         try {
             const response = await this.httpService.get<InfluencerResponseDto[]>(`/v1/influencer/read/models/${user}`)
+          
             return response.map(toInfluencerEntity)
         } catch (error) {
             this.handleError(error)
@@ -88,12 +89,9 @@ export class InfluencerApiService implements InfluencersPort{
         }
     }
 
-    async getInfluencerById(influencerId: string): Promise<InfluencerEntity> {
-        try {
-            const response = await this.httpService.get<InfluencerResponseDto>(`/v1/influencer/read/model/${influencerId}`)
-            return toInfluencerEntity(response)
-        } catch (error) {
-            this.handleError(error)
-        }
+    
+
+    async listScenesByInfluencer(){
+
     }
 }

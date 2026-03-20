@@ -29,7 +29,7 @@ export const useInfluencerInfo = (id: string) => {
     }, [id, selectedId])
 
     return {
-        infoInfluencer: influencerSelected,
+        influencer: influencerSelected,
         isPending
     }
 }
