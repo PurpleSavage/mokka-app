@@ -1,5 +1,6 @@
 'use client'
 
+import AudiosHistory from "@/modules/audio/view/components/AudiosHistory";
 import VoiceSettings from "@/modules/audio/view/components/VoiceSettings";
 
 
@@ -7,9 +8,10 @@ import VoiceSettings from "@/modules/audio/view/components/VoiceSettings";
 export default function AudioGeneratorPage() {
 
   return (
-    <>
-      <VoiceSettings/>  
-    </>
+    <div className="h-full flex flex-col">
+      <VoiceSettings/>
+      <AudiosHistory/>
+    </div>
     
   )
 }

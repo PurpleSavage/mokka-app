@@ -1,14 +1,26 @@
+"use client";
+
+import { useState } from "react";
 import MusicGenerated from "@/modules/audio/view/components/MusicGenerated";
+import MusicHistory from "@/modules/audio/view/components/MusicHistory";
 import MusicTextArea from "@/modules/audio/view/components/MusicTextArea";
 
 export default function MusicPage() {
+  const [previewPrompt, setPreviewPrompt] = useState("");
+  const [previewGenre, setPreviewGenre] = useState("");
+
   return (
     <div className="h-full flex flex-col gap-2">
-      <div className="grow flex items-center justify-center
-       bg-radial-[at_25%_25%] rounded-lg from-black to-pink-900 to-75%">
-        <MusicGenerated/>
+      <div className="grow min-h-0">
+        <MusicGenerated prompt={previewPrompt} genre={previewGenre} />
       </div>
-      <MusicTextArea/>
+      <MusicTextArea
+        onPreviewChange={({ prompt, genre }) => {
+          setPreviewPrompt(prompt);
+          setPreviewGenre(genre);
+        }}
+      />
+      <MusicHistory />
     </div>
-  )
+  );
 }
