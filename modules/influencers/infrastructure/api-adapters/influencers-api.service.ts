@@ -41,7 +41,7 @@ export class InfluencerApiService implements InfluencersPort{
 
     async listInfluncers(user: string): Promise<InfluencerEntity[]> {
         try {
-            const response = await this.httpService.get<InfluencerResponseDto[]>(`/v1/influencer/read/models/${user}`)
+            const response = await this.httpService.get<InfluencerResponseDto[]>(`/v1/influencers/read/models/${user}`)
             console.log('influencers',response)
             return response.map(toInfluencerEntity)
         } catch (error) {
@@ -51,7 +51,7 @@ export class InfluencerApiService implements InfluencersPort{
 
     async listScenesLastWeek(user: string): Promise<InfluencerSceneEntity[]> {
         try {
-            const response = await this.httpService.get<InfluencerScenesDto[]>(`/v1/influencer/read/last-scenes/${user}`)
+            const response = await this.httpService.get<InfluencerScenesDto[]>(`/v1/influencers/read/last-scenes/${user}`)
             return response.map(toSceneEntity)
         } catch (error) {
             this.handleError(error)
@@ -60,7 +60,7 @@ export class InfluencerApiService implements InfluencersPort{
 
     async listSnapshotsLAstWeek(user: string): Promise<InfluencerSnapshotEntity[]> {
         try {
-            const response = await this.httpService.get<InfluencerSnapshotDto[]>(`/v1/influencer/read/last-snapshots/${user}`)
+            const response = await this.httpService.get<InfluencerSnapshotDto[]>(`/v1/influencers/read/last-snapshots/${user}`)
             return response.map(toSnapshotEntity)
         } catch (error) {
             this.handleError(error)
@@ -71,7 +71,7 @@ export class InfluencerApiService implements InfluencersPort{
         try {
             const params = new URLSearchParams({ userId: user })
             if (page) params.append('page', page.toString())
-            const response = await this.httpService.get<InfluencerScenesDto[]>(`/v1/influencer/read/scenes?${params}`)
+            const response = await this.httpService.get<InfluencerScenesDto[]>(`/v1/influencers/read/scenes?${params}`)
             return response.map(toSceneEntity)
         } catch (error) {
             this.handleError(error)
@@ -82,7 +82,7 @@ export class InfluencerApiService implements InfluencersPort{
         try {
             const params = new URLSearchParams({ userId: user })
             if (page) params.append('page', page.toString())
-            const response = await this.httpService.get<InfluencerSnapshotDto[]>(`/v1/influencer/read/snapshots?${params}`)
+            const response = await this.httpService.get<InfluencerSnapshotDto[]>(`/v1/influencers/read/snapshots?${params}`)
             return response.map(toSnapshotEntity)
         } catch (error) {
             this.handleError(error)

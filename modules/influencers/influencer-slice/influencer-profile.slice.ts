@@ -21,11 +21,17 @@ const initialState:InfluencerProfileState={
 }
 export const influencerProfileSlice=createSlice({
     initialState,
-    name:'influencer',
+    name:'influencer-profile',
     reducers:{
         
         setInfoCurrentInfluencer:(state,action:PayloadAction<InfluencerEntity>)=>{
             state.influencerSelected=action.payload
+        },
+        setSnapshotsByInfluencer:(state,action:PayloadAction<InfluencerSnapshotEntity[]>)=>{
+            state.snapshotsHistoryByInfluencer=action.payload
+        },
+        setScenesByInFluencer:(state,action:PayloadAction<InfluencerSceneEntity[]>)=>{
+            state.scenesHistoryByInfluencer=action.payload
         }
     },
     extraReducers:(builder)=>{
@@ -54,7 +60,9 @@ export const influencerProfileSlice=createSlice({
     }
 })
 export const {
-   setInfoCurrentInfluencer     
+   setInfoCurrentInfluencer,
+   setSnapshotsByInfluencer,
+   setScenesByInFluencer     
 } = influencerProfileSlice.actions;
 
 export default influencerProfileSlice.reducer;
