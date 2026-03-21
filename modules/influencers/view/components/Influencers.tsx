@@ -6,7 +6,8 @@ import { useInfluencers } from "../custom-hooks/useInfluencers"
 import InfluencersSkeleton from "../skeletons/InfluencersSkeleton";
 import InfluencerProfileCard from "./InfluencerProfileCard";
 import { useRouter } from "next/navigation"
-import { setInfoCurrentInfluencer } from "../../influencer-slice/influencer-store.slice";
+import { setInfoCurrentInfluencer } from "../../influencer-slice/influencer-profile.slice";
+
 interface InfluencersProps {
     styleSkeleton?:string,
     styleProfileCard?:string

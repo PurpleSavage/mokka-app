@@ -42,7 +42,7 @@ export class InfluencerApiService implements InfluencersPort{
     async listInfluncers(user: string): Promise<InfluencerEntity[]> {
         try {
             const response = await this.httpService.get<InfluencerResponseDto[]>(`/v1/influencer/read/models/${user}`)
-          
+            console.log('influencers',response)
             return response.map(toInfluencerEntity)
         } catch (error) {
             this.handleError(error)

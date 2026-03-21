@@ -8,7 +8,7 @@ interface FetcherInfluencerProps{
    
 }
 export default function FetcherInfluencer({id}:FetcherInfluencerProps) {
-  const {influencer}=useInfluencerInfo(id)
+  const {influencer,isPending,error}=useInfluencerInfo(id)
   if(!influencer){
       return null
   }

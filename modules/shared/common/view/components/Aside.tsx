@@ -23,7 +23,7 @@ function Aside() {
   const checkActive = (option: Option) => {
     if (pathname === option.path) return true;
     if (option.allowedRoutes && option.allowedRoutes.length > 0) {
-      return option.allowedRoutes.includes(pathname);
+      return option.allowedRoutes.some(route => pathname.startsWith(route));
     }
     return false;
   }

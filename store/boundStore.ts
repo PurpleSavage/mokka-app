@@ -8,7 +8,7 @@ import influencersReducer  from '../modules/influencers/influencer-slice/influen
 import commonReducer from '../modules/shared/common/common-slice/common-slice.slice'
 import videoReducer from '@/modules/video/video-slice/video-store.slice'
 import notificationsReducer from '@/modules/shared/notifications/notifications-slice/notification-slice.store'
-
+import influencerProfileReducer from '@/modules/influencers/influencer-slice/influencer-profile.slice'
 export const boundStore = configureStore({
   reducer: {
     auth:authReducer,
@@ -19,7 +19,8 @@ export const boundStore = configureStore({
     influencers:influencersReducer,
     common:commonReducer,
     video:videoReducer,
-    notifications:notificationsReducer
+    notifications:notificationsReducer,
+    influencerProfile:influencerProfileReducer
   },
 });
 

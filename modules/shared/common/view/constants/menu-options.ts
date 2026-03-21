@@ -63,7 +63,8 @@ export const menuOptions:Option[] =[
         allowedRoutes:[
             '/mokka/mokka-panel/influencers',
             '/mokka/mokka-panel/influencers/scenes-history',
-            '/mokka/mokka-panel/influencers/snapshots-history'
+            '/mokka/mokka-panel/influencers/snapshots-history',
+            '/mokka/mokka-panel/influencers/influencer'
         ]
     },
     {
