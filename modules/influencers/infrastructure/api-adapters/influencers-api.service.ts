@@ -22,10 +22,11 @@ export class InfluencerApiService implements InfluencersPort{
     private handleError(error: unknown): never {
         if (axios.isAxiosError(error)) {
             throw new ApiErrorPlatform({
-                message: error.response?.data?.message || 'An error occurred',
-                errorType: error.response?.data?.errorType || ErrorPlatformMokka.MOKKA_ERROR,
-                status: error.response?.status || 500,
-                details: error.response?.data?.details
+            message: error.response?.data?.message || 'An error occurred',
+            errorType: error.response?.data?.errorType || ErrorPlatformMokka.MOKKA_ERROR,
+            status: error.response?.status || 500,
+            details: error.response?.data?.details,
+            renovate: error.response?.data?.renovate  // 👈 mapea el campo
             })
         }
         throw error
@@ -87,11 +88,5 @@ export class InfluencerApiService implements InfluencersPort{
         } catch (error) {
             this.handleError(error)
         }
-    }
-
-    
-
-    async listScenesByInfluencer(){
-
     }
 }

@@ -21,13 +21,13 @@ export default function ListInfluencers() {
       <button 
         type="button"
         onClick={handleOpenModal}
-        className="bg-[#121212] hover:bg-zinc-900 border transition-colors flex
+        className="bg-table-body-bg hover:bg-zinc-900 border transition-colors flex
        border-slate-600/50 w-30 h-full cursor-pointer hover:text-slate-500
         text-white items-center justify-center"
       >
         <FaPlus size={20}/>
       </button>
-      <Influencers/>
+      <Influencers styleSkeleton="w-30 h-full"/>
     </section>
   )
 }

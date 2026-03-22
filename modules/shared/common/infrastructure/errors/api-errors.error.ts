@@ -11,13 +11,14 @@ export class ApiErrorPlatform extends Error {
   public readonly status: number;
   public readonly details?: MultimediaErrorTypes | OpenAIErrorTypes | string;
   public readonly timestamp: string;
-
+  public readonly renovate?: boolean
   constructor(data: {
     message: string;
     errorType: ErrorPlatformMokka;
     status: number;
     details?: MultimediaErrorTypes | OpenAIErrorTypes  | string;
     timestamp?: string;
+    renovate?: boolean 
   }) {
     
     super(data.message);
@@ -29,6 +30,7 @@ export class ApiErrorPlatform extends Error {
     this.status = data.status;
     this.details = data.details;
     this.timestamp = data.timestamp || new Date().toISOString();
+    this.renovate = data.renovate
     Object.setPrototypeOf(this, ApiErrorPlatform.prototype);
   }
 
@@ -45,5 +47,8 @@ export class ApiErrorPlatform extends Error {
         }
         return false
     }
+  get shouldRenovate(): boolean {
+    return this.status === 401 && this.renovate === true
+  }
   
 }

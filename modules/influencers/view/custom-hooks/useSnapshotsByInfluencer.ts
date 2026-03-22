@@ -15,16 +15,15 @@ export const useSnapshotsByInfluencer = (id:string) => {
         try {
             const response =  await influencerProfileDI.lisSnapshotsByInfluencer(id)
             dispatch(setSnapshotsByInfluencer(response))
-        } catch (error) {
-        if (ApiErrorPlatform.isUnauthorized(error)) return;
-        if (error instanceof ApiErrorPlatform) {
-            setError(error.message);
-        } else {
-            setError("An error occurred while retrieving the information.");
-        }
-        } finally {
-            setIsPending(false);
-        }
+        }catch (error) {
+                setError(
+                error instanceof ApiErrorPlatform
+                    ? error.message
+                    : "An error occurred",
+                );
+            } finally {
+                setIsPending(false);
+            }
    }
    getSnapshots()
   }, [dispatch,id])

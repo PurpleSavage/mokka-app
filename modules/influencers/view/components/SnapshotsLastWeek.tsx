@@ -7,7 +7,7 @@ import MultimediaCardSkeleton from "../../../shared/common/view/skeletons/Multim
 export default function SnapshotsLastWeek() {
   const { error, isPending, snapshotsLastWeek } = useSnapshotsLAstWeek();
   if (isPending) {
-    return <MultimediaCardSkeleton size={4}/>
+    return <MultimediaCardSkeleton styles="h-32" size={4}/>
   }
   if (error) {
     return(

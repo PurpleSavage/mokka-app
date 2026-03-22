@@ -25,14 +25,13 @@ export const useInfluencerInfo = (id: string) => {
                 const responseProfil = await influencerProfileDI.getInfluencerProfile(id)
                 dispatch(setInfoCurrentInfluencer(responseProfil))
             } catch (error) {
-                if (ApiErrorPlatform.isUnauthorized(error)) return
-                if (error instanceof ApiErrorPlatform){
-                    setError(error.message)
-                }else{
-                    setError('An error occurred while retrieving the information.')
-                }
+                setError(
+                error instanceof ApiErrorPlatform
+                    ? error.message
+                    : "An error occurred",
+                );
             } finally {
-                setIsPending(false)
+                setIsPending(false);
             }
         }
         getInfluencer()
