@@ -7,7 +7,7 @@ import MultimediaCardSkeleton from "../../../shared/common/view/skeletons/Multim
 export default function ScenesLastWeek() {
     const {error,isPending,scenesLastWeek}=useScenesLastWeek()
     if(isPending){
-        return <MultimediaCardSkeleton size={4}/>
+        return <MultimediaCardSkeleton styles="h-32" size={4}/>
     }
     if(error){
         return(

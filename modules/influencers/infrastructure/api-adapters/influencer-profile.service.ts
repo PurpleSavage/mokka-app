@@ -8,6 +8,10 @@ import { InfluencerResponseDto } from "../../application/dtos/responses/influenc
 import axios from "axios";
 import { ApiErrorPlatform } from "@/modules/shared/common/infrastructure/errors/api-errors.error";
 import { ErrorPlatformMokka } from "@/modules/shared/common/domain/enums/errors-types";
+import { InfluencerScenesDto } from "../../application/dtos/responses/influencer-scenes.dto";
+import { InfluencerSnapshotDto } from "../../application/dtos/responses/influencer-snapshot.dto";
+import { toSceneEntity } from "../mappers/to-scene-entity.mapper";
+import { toSnapshotEntity } from "../mappers/to-snapshot-entity.mapper";
 
 export class InfluencerProfileApiService implements InfluencersProfilePort{
     constructor(private readonly httpService:HttpClientPort){}
@@ -24,16 +28,26 @@ export class InfluencerProfileApiService implements InfluencersProfilePort{
     }
     async influencerInformation(influencerId: string): Promise<InfluencerEntity> {
         try {
-            const response = await this.httpService.get<InfluencerResponseDto>(`/v1/influencer/read/model/${influencerId}`)
+            const response = await this.httpService.get<InfluencerResponseDto>(`/v1/influencers/read/model/${influencerId}`)
             return toInfluencerEntity(response)
         } catch (error) {
             this.handleError(error)
         }
     }
-    listScenesByInfluencers(influencerId: string): Promise<InfluencerSceneEntity[]> {
-        
+    async listScenesByInfluencers(influencerId: string): Promise<InfluencerSceneEntity[]> {
+        try {
+            const response = await this.httpService.get<InfluencerScenesDto[]>(`/v1/influencers/read/influencer/scenes/${influencerId}`)
+            return response.map(toSceneEntity)
+        } catch (error) {
+            this.handleError(error)
+        }
     }
-    listSnapshotsByInfluencers(influencerId: string): Promise<InfluencerSnapshotEntity[]> {
-        
+    async listSnapshotsByInfluencers(influencerId: string): Promise<InfluencerSnapshotEntity[]> {
+        try {
+            const response = await this.httpService.get<InfluencerSnapshotDto[]>(`/v1/influencer/read/influencer/snapshots/${influencerId}`)
+             return response.map(toSnapshotEntity)
+        } catch (error) {
+            this.handleError(error)
+        }
     }
 }   

@@ -3,7 +3,7 @@ import { SkeletonProps } from "@/modules/shared/common/view/props/skeleton-props
 
 export default function MultimediaCardSkeleton({size,styles}:SkeletonProps) {
   return (
-    <>
+    <div className="grid grid-cols-4 gap-2">
         {
             Array.from({length:size}).map((_,index)=>(
                 <div  key={index} className={`gap-4 w-full ${styles}
@@ -12,6 +12,6 @@ export default function MultimediaCardSkeleton({size,styles}:SkeletonProps) {
                 </div>
             ))
         }
-    </>
+    </div>
   )
 }

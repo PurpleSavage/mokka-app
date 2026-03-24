@@ -9,4 +9,5 @@ export interface ImagePort{
     generateImage(dto:GenerateImageDto):Promise<ResponseHttpQueue>
     listImages(user:string):Promise<ImageEntity[]>
     shareImage(dto:ShareImageDto):Promise<SharedImageEntity>
+    listImagesLastWeek(userId:string):Promise<ImageEntity[]>
 }
