@@ -103,7 +103,7 @@ export default function FormGenerateImage() {
         <textarea
           {...register("prompt")}
           placeholder="Describe la imagen que tienes en mente..."
-          className={`w-full h-40 text-white rounded-lg p-3 border bg-[#121212]
+          className={`w-full h-40 text-white rounded-lg p-3 border bg-table-body-bg
             outline-none transition-all ${errors.prompt ? "border-red-500" : "border-slate-600/50 focus:border-pink-800"}`}
         />
         {errors.prompt && (

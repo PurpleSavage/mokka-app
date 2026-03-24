@@ -8,16 +8,18 @@ export interface ImageState{
     imagesGallery:ImageEntity[]
     currentImageData:ImageEntity | null
     isGenerating:ResponseHttpQueue | null
+    imagesLastweek:ImageEntity[]
 }
 const initialState:ImageState={
     imagesGallery:[],
     currentImageData:null,
-    isGenerating:null
+    isGenerating:null,
+    imagesLastweek:[]
 }
 
 export const imageSlice=createSlice({
     initialState,
-    name:'aiaudio',
+    name:'image',
     reducers:{
        setLoadingImage:(state,action:PayloadAction<ResponseHttpQueue>)=>{
             state.isGenerating= action.payload
@@ -31,6 +33,9 @@ export const imageSlice=createSlice({
         },
         deleteDataImageModal:(state)=>{
             state.currentImageData=null
+        },
+        setImagesLastWeek:(state,action:PayloadAction<ImageEntity[]>)=>{
+            state.imagesLastweek=action.payload
         }
     },
     extraReducers:(builder)=>{
@@ -38,6 +43,7 @@ export const imageSlice=createSlice({
             const entity = action.payload.entity
             if (entity) {
                 state.imagesGallery = [entity, ...state.imagesGallery]
+                state.imagesLastweek=[entity,...state.imagesLastweek]
             }
             state.isGenerating = null // completed 
         })
@@ -50,7 +56,8 @@ export const {
    setGallery,
    lookImageData,
    deleteDataImageModal,
-   setLoadingImage
+   setLoadingImage,
+   setImagesLastWeek
 } = imageSlice.actions;
 
 export default imageSlice.reducer;

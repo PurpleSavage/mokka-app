@@ -1,4 +1,5 @@
-import Gallery from "@/modules/landing/components/Gallery";
+import HistoryImages from "@/modules/image/view/components/HistoryImages";
+
 
 export default function GalleryPage() {
  
@@ -8,9 +9,7 @@ export default function GalleryPage() {
             <p className="text-2xl font-bold text-white">Your gallery</p>
             <p className="text-gray-500 font-md">These are the images created by you</p>
         </div>
-        <div className="grid grid-cols-4 gap-y-8 gap-x-4 auto-rows-[450px]">
-          <Gallery/>
-        </div> 
+        <HistoryImages/>
     </section>
   )
 }

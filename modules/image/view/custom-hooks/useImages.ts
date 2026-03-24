@@ -1,6 +1,4 @@
-import { setConfigAlertModal } from "@/modules/shared/common/common-slice/modals-slice.store";
 import { ApiErrorPlatform } from "@/modules/shared/common/infrastructure/errors/api-errors.error";
-import { SelectorModalbasedError, TypeErrorAlert } from "@/modules/shared/common/infrastructure/error-mappers/selector-modal-based-error.mapper";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sileo } from "sileo";
@@ -8,7 +6,7 @@ import { imageDI } from "../../di/image-container.di";
 import { useIdSession } from "@/modules/shared/auth/view/custom-hooks/useIdSession";
 import { setGallery } from "../../image-slice/image.slice";
 import { RootState } from "@/store/boundStore";
-
+//config = SelectorModalbasedError.selectModal(error)
 export const useImages = () => {
     const [error,setError]=useState('')
     const [isPending,setIsPending]=useState(true)
@@ -27,28 +25,18 @@ export const useImages = () => {
             const response = await imageDI.listImages(id)
             dispatch(setGallery(response))
         } catch (error) {
-            setError('an error has occurred')
-            if (error instanceof ApiErrorPlatform) {
-            const config = SelectorModalbasedError.selectModal(error);
-            if (config.typeAlert === TypeErrorAlert.ALERT_MODAL) {
-                dispatch(
-                setConfigAlertModal({
-                    title: config.title,
-                    message: config.message,
-                    type: "error",
-                }),
-                );
-            } else {
+            if (error instanceof ApiErrorPlatform){
                 sileo.error({
-                title: config.title,
-                description: config.message,
+                    title: error.errorType,
+                    description: error.message,
+                })
+                setError(error.message)
+            }else{
+                setError('an error has occurred')
+                sileo.error({
+                    title: "Unexpected Error",
+                    description: "An unknown error occurred. Please try again later.",
                 });
-            }
-            } else {
-            sileo.error({
-                title: "Unexpected Error",
-                description: "An unknown error occurred. Please try again later.",
-            });
             }
         }finally{
             setIsPending(false)
