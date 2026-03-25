@@ -14,10 +14,10 @@ export const notificationsSlice = createSlice({
   name: 'notifications',
   reducers: {
     addNotification:(state,action:PayloadAction<NotificationEntity>)=>{
-        state.notificationsList = [action.payload,...state.notificationsList]
+      state.notificationsList = [action.payload,...state.notificationsList]
     },
     setNotifications:(state,action:PayloadAction<NotificationEntity[]>)=>{
-        state.notificationsList=action.payload
+      state.notificationsList=action.payload
     }
   }
 });
