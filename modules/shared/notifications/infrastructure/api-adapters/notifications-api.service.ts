@@ -6,6 +6,7 @@ import { ErrorPlatformMokka } from "@/modules/shared/common/domain/enums/errors-
 import { HttpClientPort } from "@/modules/shared/common/application/ports/http-client.port";
 import { NotificationResponseDto } from "../../application/dtos/responses/notification-response.dto";
 import { toNotificationEntity } from "../mappers/to-notification-entity.mapper";
+import { ReadNotificationResponseDto } from "../../application/dtos/responses/read-notification-response.dto";
 
 export class NotificationsApiService implements NotificationsPort{
     constructor(private readonly httpService:HttpClientPort){}
@@ -28,6 +29,16 @@ export class NotificationsApiService implements NotificationsPort{
                 `/v1/notifications/read/all?${params}`
             )
             return notifications.map((entity)=>toNotificationEntity(entity)) 
+        } catch (error) {
+            this.handleError(error)
+        }
+    }
+    async readNotification(notificationId: string): Promise<ReadNotificationResponseDto> {
+        try {
+            const readNotificationResponse = await this.httpService.patch<ReadNotificationResponseDto>(
+                `/v1/notifications/write/mark/${notificationId}`
+            )
+            return readNotificationResponse
         } catch (error) {
             this.handleError(error)
         }

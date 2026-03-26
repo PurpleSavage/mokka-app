@@ -1,12 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { NotificationEntity } from "../domain/entities/notification.entity";
 
-export interface NotificationsState{
-    
-  notificationsList:NotificationEntity[]
+export interface NotificationsState{ 
+  notificationsList:NotificationEntity[],
 }
 const initialState:NotificationsState={
-    notificationsList:[]
+  notificationsList:[],
 }
 
 export const notificationsSlice = createSlice({
@@ -18,12 +17,24 @@ export const notificationsSlice = createSlice({
     },
     setNotifications:(state,action:PayloadAction<NotificationEntity[]>)=>{
       state.notificationsList=action.payload
+    },
+    deleteNotification: (state, action: PayloadAction<{ notificationId: string }>) => {
+      state.notificationsList = state.notificationsList.filter(
+        (n) => n.id !== action.payload.notificationId
+      );
+    },
+   
+    rollbackNotification: (state, action: PayloadAction<NotificationEntity>) => {
+     
+      state.notificationsList = [action.payload, ...state.notificationsList];
     }
   }
 });
 export const {
   addNotification,
-  setNotifications
+  setNotifications,
+  deleteNotification,
+  rollbackNotification
 } = notificationsSlice.actions;
 
 export default notificationsSlice.reducer;

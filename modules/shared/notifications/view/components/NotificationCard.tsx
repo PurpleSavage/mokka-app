@@ -5,6 +5,12 @@ import { NotificationEntity } from "../../domain/entities/notification.entity"
 import { JobsNotificationsType } from "../../domain/enums/jobs-notifications"
 import StatusIcon from "./StatusIcon"
 import { LuAudioLines, LuCamera, LuFilm, LuImage, LuText, LuUser, LuVideo } from "react-icons/lu"
+import { notificationsDI } from "../../di/notifications-container.dt"
+import { ApiErrorPlatform } from "@/modules/shared/common/infrastructure/errors/api-errors.error"
+import { sileo } from "sileo"
+import { useDispatch } from "react-redux"
+import {deleteNotification, rollbackNotification } from "../../notifications-slice/notification-slice.store"
+
 
 interface NotificationCardProps{
   notification:NotificationEntity
@@ -27,8 +33,34 @@ const typeConfig: Record<JobsNotificationsType, { label: string; icon: React.Rea
 }
 
 export default function NotificationCard({ notification }: NotificationCardProps) {
+
   const status = statusConfig[notification.status] ?? statusConfig.completed
+
   const type = typeConfig[notification.notificationType]
+
+
+
+  const dispatch = useDispatch()
+
+  const readNotification=async(notification:NotificationEntity)=>{
+    try {
+  
+      dispatch(deleteNotification({ notificationId: notification.id }));
+      await notificationsDI.readNotification(notification.id) 
+    } catch (error) {
+      console.log(error)
+      dispatch(rollbackNotification(notification));
+
+      const errorMessage = error instanceof ApiErrorPlatform 
+      ? error.message 
+      : 'Something went wrong while marking the notification as read.';
+
+      sileo.error({
+        title: error instanceof ApiErrorPlatform ? error.errorType : 'Error',
+        description: errorMessage
+      });
+    }
+  }
    return (
     <div className={`
       relative flex flex-col gap-2 p-4 rounded-xl bg-table-body-bg
@@ -53,15 +85,23 @@ export default function NotificationCard({ notification }: NotificationCardProps
         </p>
       )}
 
-      <div className="flex items-center gap-2 pl-12">
-        <span className={`text-xs px-2 py-0.5 rounded-md font-medium ${status.className}`}>
-          {status.label}
-        </span>
-        {type && (
-          <span className="text-xs px-2 py-0.5 rounded-md font-medium bg-blue-500/10 text-blue-400">
-            {type.label}
+      <div className="flex items-center">
+        <div className="flex items-center grow gap-2 pl-12">
+          <span className={`text-xs px-2 py-0.5 rounded-md font-medium ${status.className}`}>
+            {status.label}
           </span>
-        )}
+          {type && (
+            <span className="text-xs px-2 py-0.5 rounded-md font-medium bg-blue-500/10 text-blue-400">
+              {type.label}
+            </span>
+          )}
+        </div>
+        <button 
+          type="button" 
+          onClick={()=>readNotification(notification)}
+          className="block text-xs cursor-pointer
+         hover:text-gray-400"
+        >Got it</button>
       </div>
     </div>
   )
