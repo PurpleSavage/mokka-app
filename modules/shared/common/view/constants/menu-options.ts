@@ -36,7 +36,9 @@ export const menuOptions:Option[] =[
         name:'Image generator',
         id:'3',
         icon:LuImage,
-        allowedRoutes:[]
+        allowedRoutes:[
+            '/mokka/mokka-panel/images/gallery'
+        ]
     },
     {
         path:'/mokka/mokka-panel/social-media',
