@@ -20,9 +20,13 @@ export class NotificationsApiService implements NotificationsPort{
         }
         throw error
     }
-    async listNotifications(userId: string): Promise<NotificationEntity[]> {
+    async listNotifications(user: string,page?:number): Promise<NotificationEntity[]> {
+        const params = new URLSearchParams({ user: user })
+        if (page) params.append('page', String(page))
         try {
-            const notifications = await this.httpService.get<NotificationResponseDto[]>(`/v1/notifications/read/all/${userId}`)
+            const notifications = await this.httpService.get<NotificationResponseDto[]>(
+                `/v1/notifications/read/all?${params}`
+            )
             return notifications.map((entity)=>toNotificationEntity(entity)) 
         } catch (error) {
             this.handleError(error)

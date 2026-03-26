@@ -7,5 +7,5 @@ const useCases={
     listNotifications: new ListNotificationsUseCase(notificationsService)
 }
 export const notificationsDI={
-    listNotifications:(userId:string)=>useCases.listNotifications.execute(userId)
+    listNotifications:(userId:string,page?:number)=>useCases.listNotifications.execute(userId,page)
 }
