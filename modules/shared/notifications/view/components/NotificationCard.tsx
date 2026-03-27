@@ -5,11 +5,11 @@ import { NotificationEntity } from "../../domain/entities/notification.entity"
 import { JobsNotificationsType } from "../../domain/enums/jobs-notifications"
 import StatusIcon from "./StatusIcon"
 import { LuAudioLines, LuCamera, LuFilm, LuImage, LuText, LuUser, LuVideo } from "react-icons/lu"
-import { notificationsDI } from "../../di/notifications-container.dt"
 import { ApiErrorPlatform } from "@/modules/shared/common/infrastructure/errors/api-errors.error"
 import { sileo } from "sileo"
-import { useDispatch } from "react-redux"
-import {deleteNotification, rollbackNotification } from "../../notifications-slice/notification-slice.store"
+import { rollbackNotification } from "../../notifications-slice/notification-slice.store"
+import { readNotificationThunk } from "../../notifications-thunks/read-notification-thunk.thunk"
+import { useAppDispatch } from "@/store/boundStore"
 
 
 interface NotificationCardProps{
@@ -40,16 +40,15 @@ export default function NotificationCard({ notification }: NotificationCardProps
 
 
 
-  const dispatch = useDispatch()
+  const appDispatch = useAppDispatch()
 
   const readNotification=async(notification:NotificationEntity)=>{
     try {
   
-      dispatch(deleteNotification({ notificationId: notification.id }));
-      await notificationsDI.readNotification(notification.id) 
+      await appDispatch(readNotificationThunk(notification)).unwrap();
     } catch (error) {
       console.log(error)
-      dispatch(rollbackNotification(notification));
+      appDispatch(rollbackNotification(notification));
 
       const errorMessage = error instanceof ApiErrorPlatform 
       ? error.message 
