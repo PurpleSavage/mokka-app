@@ -66,11 +66,12 @@ export class HttpClientSingleton implements HttpClientPort {
         res => res,
         async (error: AxiosError) => {
             const originalRequest = error.config as RetryableAxiosRequestConfig
+            console.log(`[HTTP] Error en: ${originalRequest.url} - Status: ${error.response?.status} - Connection: ${!error.response}`);
             const data = error.response?.data as UnauthorizedResponse
 
             // no es 401 — connection reset, reintenta una vez
             if (!error.response && !originalRequest?._retry) {
-                console.log('🔄 Connection reset, retrying...', originalRequest?.url)
+                console.log(`[HTTP] ⚠️ Reset de conexión en ${originalRequest.url}. Reintentos: ${originalRequest._retry}`);
                 originalRequest._retry = true
                 return this.axiosClient(originalRequest)
             }

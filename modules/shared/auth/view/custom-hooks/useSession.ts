@@ -2,78 +2,62 @@
 import { useEffect, useState } from "react"
 import { authDIContainer } from "../../di/auth-container.di"
 import { useDispatch, useSelector } from "react-redux"
-import { setIdSession, setSession } from "../../store-slice/auth.slice"
+import { setSession } from "../../store-slice/auth.slice"
 import { RootState } from "@/store/boundStore"
 import { AuthTokenCache } from "@/modules/shared/common/infrastructure/services/auth-token-cache.service"
 
 export const useSession = () => {
-    const [isPending, setIsPending] = useState(true) // Empieza en true
-    const [error, setError] = useState<string | null>(null)
-    const idSession = useSelector((state: RootState) => state.auth.idSession)
-    const dispatch = useDispatch()
+    const [isInternalLoading, setIsInternalLoading] = useState(true);
+    // Usamos el selector de Redux como fuente de verdad para la autenticación
+    const idSessionRedux = useSelector((state: RootState) => state.auth.idSession);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        let isMounted = true // Prevenir race conditions
+        let isMounted = true;
 
-        const validateSession = async () => {
-            try {
-                // 1. Verificar si ya hay sesión en Redux
-                if (idSession) {
-                    setIsPending(false)
-                    return
-                }
+        const initializeAuth = async () => {
+            const localId = authDIContainer.getLocalIdSession();
+            const currentToken = AuthTokenCache.getToken();
 
-                // 2. Verificar si hay idSession en localStorage
-                const localIdSession = authDIContainer.getLocalIdSession()
-                if (localIdSession) {
-                    // Validar que la sesión sigue siendo válida haciendo una petición
-                    try {
-                        const session = await authDIContainer.getProfile()
-                        
-                        if (isMounted) {
-                            AuthTokenCache.setToken(session.accessToken)
-                            dispatch(setSession(session))
-                            dispatch(setIdSession(session.user.id))
-                            authDIContainer.saveDataSession(session)
-                        }
-                    } catch (err) {
-                        // Token inválido o expirado
-                        console.error('Session validation failed:', err)
-                        authDIContainer.clearDataStorage()
-                        if (isMounted) {
-                            setError('Session expired')
-                        }
-                    }
-                } else {
-                    // No hay sesión guardada
-                    if (isMounted) {
-                        setError('No session found')
-                    }
-                }
-            } catch (error) {
-                console.error('Session error:', error)
-                if (isMounted) {
-                    setError('Failed to validate session')
-                }
-            } finally {
-                if (isMounted) {
-                    setIsPending(false)
-                }
+            // 1. Si ya hay datos en Redux, no necesitamos hacer nada más
+            if (idSessionRedux && currentToken) {
+                setIsInternalLoading(false);
+                return;
             }
-        }
 
-        validateSession()
+            // 2. Si hay ID local pero Redux está vacío (Refresh)
+            if (localId && !idSessionRedux) {
+                try {
+                    const session = await authDIContainer.getProfile();
+                    if (isMounted) {
+                        AuthTokenCache.setToken(session.accessToken);
+                        dispatch(setSession(session));
+                        // IMPORTANTE: No seteamos Loading false aquí todavía.
+                        // Dejamos que el cambio en idSessionRedux (vía Redux) 
+                        // dispare la siguiente ejecución de este useEffect.
+                    }
+                } catch (err) {
+                    console.log(err)
+                    if (isMounted) {
+                        authDIContainer.clearDataStorage();
+                        setIsInternalLoading(false);
+                    }
+                }
+                return;
+            }
 
-        // Cleanup function
-        return () => {
-            isMounted = false
-        }
-    }, [dispatch, idSession])
+            // 3. Caso final: No hay ID local o ya se procesó todo
+            setIsInternalLoading(false);
+        };
+
+        initializeAuth();
+        return () => { isMounted = false; };
+    }, [dispatch, idSessionRedux]); // <--- idSessionRedux aquí es clave
 
     return {
-        isPending,
-        idSession,
-        error,
-        isAuthenticated: !!idSession && !error
-    }
-}
+        // La sesión está pendiente si el loading interno es true 
+        // O si tenemos un ID local pero Redux aún no se ha actualizado
+        isPending: isInternalLoading || (!!authDIContainer.getLocalIdSession() && !idSessionRedux),
+        isAuthenticated: !!idSessionRedux
+    };
+};

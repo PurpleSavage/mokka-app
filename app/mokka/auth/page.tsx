@@ -50,6 +50,7 @@ export default function LoginPage() {
         googleToken:credentialResponse.credential
       }
       const response = await authDIContainer.loginWithGoogle(objecGoogleCredentials)
+      console.log(response)
       AuthTokenCache.setToken(response.accessToken)
       authDIContainer.saveDataSession(response)
       dispatch(setSession(response))

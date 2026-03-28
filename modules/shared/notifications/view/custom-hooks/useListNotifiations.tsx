@@ -33,13 +33,14 @@ export const useListNotifications=()=>{
                         title:error.errorType,
                         description:error.message
                     })
+                }else{
+                    sileo.error({
+                        title:'Unknown error',
+                        description:'An unknown error has just occurred'
+                    })
                 }
             }finally{
                 setIsPending(false)
-                sileo.error({
-                    title:'Unknown error',
-                    description:'An unknown error has just occurred'
-                })
             }
         }
         getNotifications()

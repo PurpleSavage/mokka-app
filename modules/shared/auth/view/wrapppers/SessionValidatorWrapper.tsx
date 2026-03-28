@@ -14,7 +14,7 @@ export default function SessionValidatorWrapper({children}:SessionValidatorWrapp
     
     useEffect(() => {
         if (!isPending && !isAuthenticated) {
-            
+            console.log('aqui ')
             router.push('/mokka/auth')
         }
     }, [isPending, isAuthenticated, router])

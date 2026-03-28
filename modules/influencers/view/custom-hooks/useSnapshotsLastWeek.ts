@@ -14,6 +14,8 @@ export const useSnapshotsLAstWeek = () => {
   const snapshotsLastWeek= useSelector((state:RootState)=>state.influencers.snapshotsLastWeek)
   useEffect(() => {
     if (!id) {
+
+      setIsPending(false)
       return;
     }
     const getSnapShotsLastWeek = async() => {

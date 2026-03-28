@@ -17,8 +17,11 @@ export const useScenesLastWeek = () => {
   );
   useEffect(() => {
     if (!id) {
+      console.log('no id')
+      setIsPending(false)
       return;
     }
+    console.log('id', id)
     const getScenesLastWeek = async () => {
       try {
         setIsPending(true);

@@ -1,8 +1,8 @@
 export interface UserSessionEntity{
     email:string,
-        id:string,
-        credits:number,
-        createDate:string,
+    id:string,
+    credits:number,
+    createDate:string,
 }
 
 export interface SessionEntity{
