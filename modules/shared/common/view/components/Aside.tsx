@@ -4,12 +4,10 @@ import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import { CiHome } from "react-icons/ci";
 import { RiUserCommunityLine } from "react-icons/ri";
-import { CgProfile } from "react-icons/cg";
 import Link from "next/link";
 import { TbActivityHeartbeat } from "react-icons/tb";
 import NotificationBadge from "../../../notifications/view/components/NotificationBadge";
 import { asideSections, MenuOption } from "../constants/menu-options";
-import { MdOutlinePayment } from "react-icons/md";
 function Aside() {
   const session = useSelector((state: RootState) => state.auth.session);
   const pathname = usePathname();
