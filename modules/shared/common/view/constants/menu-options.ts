@@ -1,88 +1,96 @@
 import type { IconType } from "react-icons"
-import { LuAudioLines, LuImage, LuText } from "react-icons/lu";
-import { TbWorld } from "react-icons/tb";
+import { LuAudioLines, LuImage, LuLayoutDashboard, LuText } from "react-icons/lu";
+import { TbCube, TbWorld } from "react-icons/tb";
 import { LiaFileVideoSolid } from "react-icons/lia";
+import { PiUserFocus } from "react-icons/pi";
+import { IoLayersOutline } from "react-icons/io5";
 import { MdOutlinePayment } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
-import { PiUserFocus } from "react-icons/pi";
-export interface Option {
-    path:string,
-    name:string,
-    id:string,
-    icon:IconType,
-    allowedRoutes?:string[]
+export interface MenuOption {
+  path: string;
+  name: string;
+  id: string;
+  icon: IconType; // O IconType
+  allowedRoutes?: string[];
 }
-export const menuOptions:Option[] =[
-    {
-        path:'/mokka/mokka-panel/text-generator',
-        name:'Text Ai',
-        id:'1',
-        icon:LuText,
-    },
-    {
-        path:'/mokka/mokka-panel/audio/voices',
-        name:'Audio Ai',
-        id:'2',
-        icon:LuAudioLines,
-        allowedRoutes:[
-            '/mokka/mokka-panel/audio',
-            '/mokka/mokka-panel/audio/music',
-            '/mokka/mokka-panel/audio/voices',
-            '/mokka/mokka-panel/audio/editor'
-        ]
-    },
-    {
-        path:'/mokka/mokka-panel/images',
-        name:'Image generator',
-        id:'3',
-        icon:LuImage,
-        allowedRoutes:[
-            '/mokka/mokka-panel/images/gallery'
-        ]
-    },
-    {
-        path:'/mokka/mokka-panel/social-media',
-        name:'Social media',
-        id:'4',
-        icon:TbWorld,
-        allowedRoutes:[]
-    },
-    {
-        path:'/mokka/mokka-panel/video',
-        name:'Video',
-        id:'6',
-        icon:LiaFileVideoSolid,
-        allowedRoutes:[
-            '/mokka/mokka-panel/video',
-            '/mokka/mokka-panel/video/history-videos'
-        ]
-    },
-    {
-        path:'/mokka/mokka-panel/influencers',
-        name:'Influencers',
-        id:'7',
-        icon:PiUserFocus,
-        allowedRoutes:[
-            '/mokka/mokka-panel/influencers',
-            '/mokka/mokka-panel/influencers/scenes-history',
-            '/mokka/mokka-panel/influencers/snapshots-history',
-            '/mokka/mokka-panel/influencers/influencer'
-        ]
-    },
-    {
-        path:'/mokka/mokka-panel/billing',
-        name:'Billing',
-        id:'8',
-        icon:MdOutlinePayment,
-        allowedRoutes:[]
-    },
-    {
-        path:'/mokka/mokka-panel/profile',
-        name:'Profile',
-        id:'9',
-        icon:CgProfile,
-        allowedRoutes:[]
-    },
-] 
 
+export interface MenuSection {
+  sectionName: string;
+  options: MenuOption[];
+}
 
+export const asideSections: MenuSection[] = [
+  {
+    sectionName: 'Creation',
+    options: [
+      { id: '1', name: 'Text AI', path: '/mokka/mokka-panel/text-generator', icon: LuText },
+      { 
+        id: '2', 
+        name: 'Audio AI', 
+        path: '/mokka/mokka-panel/audio/voices', 
+        icon: LuAudioLines,
+        allowedRoutes: ['/mokka/mokka-panel/audio']
+      },
+      { 
+        id: '3', 
+        name: 'Image AI', 
+        path: '/mokka/mokka-panel/images', 
+        icon: LuImage,
+        allowedRoutes: ['/mokka/mokka-panel/images/gallery']
+      },
+    ]
+  },
+  {
+    sectionName: 'Product & 3D',
+    options: [
+      { 
+        id: 'mockup-2d', 
+        name: 'Mockups 2D', 
+        path: '/mokka/mokka-2d', 
+        icon: IoLayersOutline
+      },
+      { 
+        id: 'mockup-3d', 
+        name: 'Mockups 3D', 
+        path: '/mokka/mokka-3d', 
+        icon: TbCube 
+      },
+    ]
+  },
+  {
+    sectionName: 'Distribution',
+    options: [
+      { id: '6', name: 'Video', path: '/mokka/mokka-panel/video', icon: LiaFileVideoSolid },
+      { id: '7', name: 'Influencers', path: '/mokka/mokka-panel/influencers', icon: PiUserFocus },
+      { id: '4', name: 'Social Media', path: '/mokka/mokka-panel/social-media', icon: TbWorld },
+    ]
+  },
+  {
+    sectionName: 'Final Assembly',
+    options: [
+      { 
+        id: 'editor-global', 
+        name: 'Project Editor', 
+        path: '/mokka/mokka-panel/editor', 
+        icon: LuLayoutDashboard 
+      },
+    ]
+  },
+  {
+    sectionName: 'Account',
+    options: [
+        { 
+        id: '8', 
+        name: 'Billing & Plans', 
+        path: '/mokka/mokka-panel/billing', 
+        icon: MdOutlinePayment 
+        },
+        { 
+        id: '9', 
+        name: 'Profile Settings', 
+        path: '/mokka/mokka-panel/profile', 
+        icon: CgProfile 
+        },
+    ]
+    }
+];

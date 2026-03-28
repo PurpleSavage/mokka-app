@@ -24,7 +24,7 @@ export default function HistoryTexts() {
       >
         {textDataToView && <TextData text={textDataToView}/>}
       </ModalLookDataWrapper>
-      <div className="rounded-xl overflow-hidden border border-table-bg/50">
+      <div className="rounded-xl overflow-hidden border border-slate-600/50">
         {/* Header */}
         <div className={`grid ${cols} gap-4 px-4 py-3 bg-table-bg`}>
           {["Title", "Generated Text", "Promotion", "Tone", "Length", "Format", "Date", ""].map((h) => (

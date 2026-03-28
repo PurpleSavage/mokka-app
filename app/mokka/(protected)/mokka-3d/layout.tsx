@@ -4,7 +4,7 @@ export default function Mokka3dLayout({
   children: React.ReactNode;
 }>){
     return (
-      <div>
+      <div className="h-screen flex bg-black overflow-hidden">
         {children}
       </div>
     )
