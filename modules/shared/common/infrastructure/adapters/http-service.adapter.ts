@@ -3,6 +3,7 @@ import { ResponseRefreshTokenDto } from "@/modules/shared/auth/application/dtos/
 import { boundStore } from "@/store/boundStore"
 import { setSession } from "@/modules/shared/auth/store-slice/auth.slice"
 import { AuthTokenCache } from "../services/auth-token-cache.service"
+import { HttpClientPort } from "../../application/ports/http-client.port"
 
 
 interface UnauthorizedResponse {
@@ -14,7 +15,7 @@ interface RetryableAxiosRequestConfig extends AxiosRequestConfig {
     _retry?: boolean;
 }
 
-export class HttpClientSingleton {
+export class HttpClientSingleton implements HttpClientPort {
     private static instance: HttpClientSingleton;
     private readonly axiosClient: AxiosInstance;
 
@@ -168,6 +169,13 @@ export class HttpClientSingleton {
     async patch<T>(url: string, body?: unknown, config?: AxiosRequestConfig): Promise<T> {
         const { data } = await this.axiosClient.patch<T>(url, body, config);
         return data;
+    }
+    async head(url: string, config?: AxiosRequestConfig): Promise<void> {
+        await this.axiosClient.head(url, config)
+    }
+    async getBlob(url: string): Promise<Blob> {
+        const {data}= await this.axiosClient.get<Blob>(url,{ responseType: "blob" })
+        return data
     }
 }
 
