@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { useNotifications } from "../custom-hooks/useNotifications";
+import { useListNotifications } from "../custom-hooks/useListNotifiations";
 
 interface NotificationBadgeProps{
     baseStyles:string,
@@ -13,7 +14,8 @@ export default function NotificationBadge(
     {baseStyles,isActive,activeStyles,inactiveStyles}
     :NotificationBadgeProps
 ) {
-  const {notificationsList}=useNotifications()
+  useNotifications() // This hook is responsible for connecting to the socket and listening for notifications, it also dispatches the notifications to the store and shows sileo notifications
+  const { notificationsList } = useListNotifications()  
   return (
     <Link
       href="/mokka/mokka-panel/notifications"

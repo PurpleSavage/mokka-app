@@ -1,8 +1,7 @@
 import { useEffect } from "react"
 import { socketDI } from "../../di/socket-container.di"
 import { sileo } from "sileo"
-import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "@/store/boundStore"
+import { useDispatch} from "react-redux"
 import { addNotification } from "../../notifications-slice/notification-slice.store"
 import { ERROR_ACTIONS, SUCCESS_ACTIONS } from "../../../../../store-events-map/event-map"
 import { ERROR_TITLES, SUCCESS_TITLES } from "../constants/titles-notifications"
@@ -11,7 +10,7 @@ import { useIdSession } from "@/modules/shared/auth/view/custom-hooks/useIdSessi
 
 export const useNotifications = () => {
     const dispatch = useDispatch()
-    const notificationsList = useSelector((state:RootState)=>state.notifications.notificationsList)
+
     const {id}=useIdSession()
     useEffect(() => {
         if(!id) return 
@@ -40,7 +39,5 @@ export const useNotifications = () => {
         )
         return () => socketDI.disconnect(id)
     }, [dispatch,id])
-    return {
-        notificationsList
-    }
+   
 }
