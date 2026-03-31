@@ -22,7 +22,7 @@ export default function MenuOptions() {
     };
   return (
     <div className=" p-4 h-full  flex items-center justify-center">
-        <div className="border bg-table-body-bg rounded-lg p-2 border-white/10 h-[80%] overflow-y-auto">
+        <div className="border bg-table-body-bg rounded-lg p-2 space-y-2 border-white/10 h-[80%] overflow-y-auto">
             <div className="p-1 rounded-2xl bg-black">
                 <div className="flex items-center">
                     <button 

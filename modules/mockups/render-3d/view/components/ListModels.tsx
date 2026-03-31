@@ -29,8 +29,8 @@ export default function ListModels() {
   return (
     < >
       {data?.map((model) => (
-        <div key={model.id} className="">
-          {model.name}
+        <div key={model.id} className="rounded-lg">
+          <img src={model.thumbnailUrl} alt={model.name} className="w-full h-auto rounded-lg" />
         </div>
       ))}
     </>
