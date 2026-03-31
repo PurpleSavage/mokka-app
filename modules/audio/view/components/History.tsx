@@ -17,40 +17,7 @@ import ModalLookDataWrapper, {
 } from "@/modules/shared/common/view/wrappers/ModalLookDataWrapper";
 import AudioData from "./AudioData";
 import { BsEye } from "react-icons/bs";
-import { IdModelsAudio, ModelsAudio } from "../../domain/enums/audio-models";
 import { downloadAudio, HistoryType } from "../utils/helpers/download-audio";
-
-const mockups: AudioEntity[] = [
-  {
-    id: "mock-1",
-    user: "user1",
-    prompt: "Prompt de prueba 1",
-    createDate: new Date().toISOString(),
-    urlAudio: "https://qtfzgnmvgaggnshpukmo.supabase.co/storage/v1/object/public/mokkaaudios/voice-models/voice_preview_callum.mp3",
-    idModel: IdModelsAudio.Aria,
-    nameModelAudio: ModelsAudio.Aria,
-    speed: 1,
-    stability: 0.5,
-    similarity: 0.7,
-    exaggeration: 0.3,
-    useSpeakerBoost: false,
-  },
-  {
-    id: "mock-2",
-    user: "user1",
-    prompt: "Prompt de prueba 2",
-    createDate: new Date().toISOString(),
-    urlAudio: "https://qtfzgnmvgaggnshpukmo.supabase.co/storage/v1/object/public/mokkaaudios/voice-models/voice_preview_callum.mp3",
-    idModel: IdModelsAudio.Aria,
-    nameModelAudio: ModelsAudio.Aria,
-    speed: 1.2,
-    stability: 0.6,
-    similarity: 0.8,
-    exaggeration: 0.4,
-    useSpeakerBoost: true,
-  },
-];
-
 
 interface HistoryProps {
   historyType?: HistoryType;
@@ -124,7 +91,7 @@ export default function History({
 
   const filteredHistory = useMemo(
     () =>
-      mockups.filter((audio) => resolveHistoryType(audio) === historyType),
+      audioHistory.filter((audio) => resolveHistoryType(audio) === historyType),
     [historyType],
   );
 

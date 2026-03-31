@@ -10,19 +10,19 @@ const DEFAULT_STEPS = [
   "Mixing dynamics and final render",
 ] as const;
 
-interface MusicGeneratingAnimatedListProps {
+interface MusicGeneratingAnimatedLoaderProps {
   title?: string;
   subtitle?: string;
   steps?: readonly string[];
   loopIntervalMs?: number;
 }
 
-export default function MusicGeneratingAnimatedList({
+export default function MusicGeneratingAnimatedLoader({
   title = "Generating your track",
   subtitle = "This can take a few moments",
   steps = DEFAULT_STEPS,
   loopIntervalMs = 1200,
-}: MusicGeneratingAnimatedListProps) {
+}: MusicGeneratingAnimatedLoaderProps) {
   const safeSteps = useMemo(
     () => (steps.length > 0 ? [...steps] : [...DEFAULT_STEPS]),
     [steps],
@@ -35,10 +35,13 @@ export default function MusicGeneratingAnimatedList({
     const currentLine = safeSteps[activeIndex] ?? "";
 
     if (typedChars >= currentLine.length) {
-      const nextLineTimer = setTimeout(() => {
-        setActiveIndex((prev) => (prev + 1) % safeSteps.length);
-        setTypedChars(0);
-      }, Math.max(loopIntervalMs - 300, 650));
+      const nextLineTimer = setTimeout(
+        () => {
+          setActiveIndex((prev) => (prev + 1) % safeSteps.length);
+          setTypedChars(0);
+        },
+        Math.max(loopIntervalMs - 300, 650),
+      );
 
       return () => clearTimeout(nextLineTimer);
     }
@@ -121,10 +124,11 @@ export default function MusicGeneratingAnimatedList({
         </div>
       </div>
 
-
       <div className="mt-4 rounded-2xl bg-table-head-bg/60 p-3">
         <div className="flex items-center justify-between gap-3 pb-2">
-          <p className="text-[11px] text-slate-300 tracking-wide">Generation preview</p>
+          <p className="text-[11px] text-slate-300 tracking-wide">
+            Generation preview
+          </p>
           <p className="text-[10px] text-slate-500">Live waveform render</p>
         </div>
 
