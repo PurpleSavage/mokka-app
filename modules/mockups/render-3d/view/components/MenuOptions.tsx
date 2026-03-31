@@ -2,6 +2,7 @@
 import ListModels from "./ListModels";
 import BackgroundOptions from "./BackgroundOptions";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 const ActiveTapOptionsRender3D = {
     MODELS:'models',
@@ -15,6 +16,14 @@ export default function MenuOptions() {
     const searchParams = useSearchParams()
     const activeTab = (searchParams.get('tab') as ActiveTapOptionsRender3D) || ActiveTapOptionsRender3D.MODELS
 
+    useEffect(() => {
+        if (!searchParams.get('tab')) {
+            const params = new URLSearchParams(searchParams.toString())
+            params.set('tab', ActiveTapOptionsRender3D.MODELS)
+            router.replace(`?${params.toString()}`, { scroll: false })
+        }
+    }, [router, searchParams])
+    
     const handleTabChange = (tab: ActiveTapOptionsRender3D) => {
         const params = new URLSearchParams(searchParams.toString())
         params.set('tab', tab)
@@ -43,7 +52,7 @@ export default function MenuOptions() {
                         </button>
                 </div>
             </div>
-            <div className="w-full grid grid-cols-3 gap-2">
+            <div className="w-full grid grid-cols-4 gap-2">
                 {activeTab === 'models' ? (
                         <ListModels />
                     ) : (

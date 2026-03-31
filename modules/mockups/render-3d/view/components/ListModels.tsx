@@ -29,7 +29,7 @@ export default function ListModels() {
   return (
     < >
       {data?.map((model) => (
-        <div key={model.id} className="rounded-lg">
+        <div key={model.id} className="rounded-lg cursor-pointer">
           <img src={model.thumbnailUrl} alt={model.name} className="w-full h-auto rounded-lg" />
         </div>
       ))}
