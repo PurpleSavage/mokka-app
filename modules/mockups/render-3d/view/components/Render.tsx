@@ -1,19 +1,35 @@
 'use client'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Stage, ContactShadows } from '@react-three/drei'
+import { OrbitControls, Stage, ContactShadows, Environment } from '@react-three/drei'
 import { Suspense } from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store/boundStore'
+import ModelViewer from './ModelViewer'
+import ModelLoaderBar from './ModelLoaderBar'
 
 export default function Render() {
+  const model = useSelector((state:RootState)=>state.render3D.modelLoadedInRender)
   return (
     <div className="h-full w-full ">
       <Canvas shadows camera={{ position: [3, 3, 3], fov: 50 }}>
-        <Suspense fallback={null}>
-          <Stage intensity={0.5} environment="city" adjustCamera={1.5}>
-            {/* Aquí irán tus modelos renderizados según el store */}
-            <mesh>
-              <boxGeometry />
-              <meshStandardMaterial color="royalblue" />
-            </mesh>
+        <ambientLight intensity={1.5} />
+        <pointLight position={[10, 10, 10]} intensity={2} castShadow />
+        <directionalLight position={[-5, 5, 5]} intensity={1} />
+        <Suspense fallback={<ModelLoaderBar/>}>
+        <Environment preset="city" />
+          <Stage 
+            intensity={0.5} 
+            environment={null} 
+            adjustCamera={1.5}
+          >
+            {model?.modelUrl ? (
+              <ModelViewer url={model.modelUrl} />
+            ) : (
+              <mesh>
+                <boxGeometry />
+                <meshStandardMaterial color="royalblue" />
+              </mesh>
+            )}
           </Stage>
           <ContactShadows opacity={0.4} scale={10} blur={2} far={4.5} />
         </Suspense>

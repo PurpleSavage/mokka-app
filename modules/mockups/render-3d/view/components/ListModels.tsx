@@ -6,6 +6,7 @@ import { render3DDI } from "../../di/render-3d-container.di"
 import { useDispatch, useSelector } from "react-redux"
 import { setModels } from "../../render-3d-slice/render-3d.slice"
 import { RootState } from "@/store/boundStore"
+import Model3DCard from "./Model3DCard"
 
 export default function ListModels() {
   const dispatch = useDispatch()
@@ -29,9 +30,7 @@ export default function ListModels() {
   return (
     < >
       {data?.map((model) => (
-        <div key={model.id} className="rounded-lg cursor-pointer">
-          <img src={model.thumbnailUrl} alt={model.name} className="w-full h-auto rounded-lg" />
-        </div>
+        <Model3DCard key={model.id} model={model} />
       ))}
     </>
   )
