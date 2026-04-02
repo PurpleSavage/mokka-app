@@ -11,11 +11,12 @@ export default function Render() {
   const model = useSelector((state:RootState)=>state.render3D.modelLoadedInRender)
   return (
     <div className="h-full w-full ">
+      <ModelLoaderBar/>
       <Canvas shadows camera={{ position: [3, 3, 3], fov: 50 }}>
         <ambientLight intensity={1.5} />
         <pointLight position={[10, 10, 10]} intensity={2} castShadow />
         <directionalLight position={[-5, 5, 5]} intensity={1} />
-        <Suspense fallback={<ModelLoaderBar/>}>
+        <Suspense fallback={null}>
         <Environment preset="city" />
           <Stage 
             intensity={0.5} 
@@ -23,7 +24,7 @@ export default function Render() {
             adjustCamera={1.5}
           >
             {model?.modelUrl ? (
-              <ModelViewer url={model.modelUrl} />
+              <ModelViewer url={model.modelUrl}  key={model.modelUrl}/>
             ) : (
               <mesh>
                 <boxGeometry />

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function NavbarRender3D() {
   return (
-    <div className="border-b border-white/10 py-4 px-4 flex items-center">
+    <div className="border-b border-white/30 py-4 px-4 flex items-center">
         <div className="">
             <p className="text-lg font-bold">3D mockup generator</p>
         </div>

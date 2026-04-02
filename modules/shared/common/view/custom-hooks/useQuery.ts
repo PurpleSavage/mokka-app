@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect,useState } from "react"
 import { ApiErrorPlatform } from "../../infrastructure/errors/api-errors.error"
 
 export interface UseQueryProps<T> {
@@ -14,51 +14,39 @@ export const useQuery = <T>({
   dispatchStoreCache
 }: UseQueryProps<T>) => {
 
-  // 1. Obtenemos la data directamente del Store si el selector existe
-  const dataFromStore = selector ? selector() : null;
-  
-  // Mantenemos un estado local solo como "respaldo" o para cuando no hay Store
-  const [internalData, setInternalData] = useState<T | null>(null);
-  const [error, setError] = useState('');
-  const [isPending, setIsPending] = useState(!dataFromStore); // Si hay data en store, no empezamos en "pending"
+  const dataFromStore = selector ? selector() : null
+  const [internalData, setInternalData] = useState<T | null>(null)
+  const [error, setError] = useState('')
+  const [isPending, setIsPending] = useState(!dataFromStore)
 
   useEffect(() => {
-    // Si no hay que revalidar y ya tenemos data en el store, terminamos
-    if (!revalidate && dataFromStore) {
-      setIsPending(false);
-      return;
+    if (!revalidate ) {
+      setIsPending(false)
+      return
     }
-
     const fetchData = async () => {
       try {
-        setIsPending(true);
-        const response = await fn(); 
-        
-        // 2. Sincronizamos con el Store Global
-        if (dispatchStoreCache) {
-          dispatchStoreCache(response);
-        }
-        
-        // 3. Actualizamos el estado local (opcional, por si no usas selector)
-        setInternalData(response);
+        setIsPending(true)
+        const response = await fn()
+        if (dispatchStoreCache) dispatchStoreCache(response)
+        setInternalData(response)
       } catch (error) {
         if (error instanceof ApiErrorPlatform) {
-          setError(error.message);
+          setError(error.message)
         } else {
-          setError('An unexpected error occurred');
+          setError('An unexpected error occurred')
         }
       } finally {
-        setIsPending(false);
+        setIsPending(false)
       }
-    };
+    }
 
-    fetchData();
-  }, [fn, revalidate,dataFromStore,dispatchStoreCache]);
+    fetchData()
+  }, [fn, dispatchStoreCache, revalidate])  
 
   return {
     isPending,
     error,
-    // 4. Prioridad: Store > InternalData
-    data: dataFromStore ?? internalData 
-  };
-};
+    data: dataFromStore ?? internalData
+  }
+}

@@ -16,6 +16,9 @@ export const render3DSlice=createSlice({
         
         setModels:(state,action:PayloadAction<Model3DEntity[]>)=>{
             state.models=action.payload
+            if (!state.modelLoadedInRender && action.payload.length > 0) {
+                state.modelLoadedInRender = action.payload[0] 
+            }
         },
         loadModelInRender:(state,action:PayloadAction<Model3DEntity>)=>{
             state.modelLoadedInRender=action.payload
