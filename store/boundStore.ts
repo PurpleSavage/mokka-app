@@ -9,7 +9,8 @@ import commonReducer from "../modules/shared/common/common-slice/common-slice.sl
 import videoReducer from "@/modules/video/video-slice/video-store.slice";
 import notificationsReducer from "@/modules/shared/notifications/notifications-slice/notification-slice.store";
 import influencerProfileReducer from "@/modules/influencers/influencer-slice/influencer-profile.slice";
-import musicReducer from "@/modules/audio/music-slice/music-store.slice";
+import render3DReducer from "@/modules/mockups/render-3d/render-3d-slice/render-3d.slice";
+
 import { useDispatch } from "react-redux";
 export const boundStore = configureStore({
   reducer: {
@@ -23,7 +24,7 @@ export const boundStore = configureStore({
     video: videoReducer,
     notifications: notificationsReducer,
     influencerProfile: influencerProfileReducer,
-    music: musicReducer,
+    render3D: render3DReducer,
   },
 });
 

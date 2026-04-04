@@ -1,9 +1,12 @@
+import Aside3DMenu from "@/modules/mockups/render-3d/view/components/Aside3DMenu";
+import Scene from "@/modules/mockups/render-3d/view/components/Scene";
 
 
 export default function Mokka3dPage() {
   return (
-    <div className="h-full w-full">
-        page
+    <div className="flex-1 grid grid-cols-[30%_70%]">
+      <Aside3DMenu/>
+     <Scene/> 
     </div>
   )
 }
