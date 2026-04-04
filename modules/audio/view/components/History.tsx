@@ -18,6 +18,7 @@ import ModalLookDataWrapper, {
 import AudioData from "./AudioData";
 import { BsEye } from "react-icons/bs";
 import { downloadAudio, HistoryType } from "../utils/helpers/download-audio";
+import { useQuery } from "@/modules/shared/common/view/custom-hooks/useQuery";
 
 interface HistoryProps {
   historyType?: HistoryType;
@@ -50,8 +51,6 @@ export default function History({
   title,
   emptyMessage,
 }: HistoryProps) {
-  const [error, setError] = useState("");
-  const [isPending, setIsPending] = useState(true);
   const [isDownloading, setIsDownloading] = useState(false);
   const [selectedAudio, setSelectedAudio] = useState<AudioEntity | null>(null);
 
@@ -59,40 +58,19 @@ export default function History({
     (state: RootState) => state.audio.audioHistory,
   );
   const session = useSelector((state: RootState) => state.auth.session);
-
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (!session) return;
 
-    if (audioHistory.length > 0) {
-      setIsPending(false);
-      return;
-    }
-    const getHistory = async () => {
-      try {
-        const audios = await audioDi.listAudioHistory(session.user.id);
-        dispatch(setAudioHistory(audios));
-      } catch (error) {
-        if (error instanceof AxiosError) {
-          console.log("❌ Network Error detalle:", {
-            message: error.message,
-            code: error.code,
-            status: error.response?.status,
-            url: error.config?.url,
-          });
-        }
-        setError("Oops, an error occurred while loading the data");
-      } finally {
-        setIsPending(false);
-      }
-    };
-    getHistory();
-  }, [session, dispatch, audioHistory.length]);
+  const { data, error, isPending } = useQuery<AudioEntity[]>({
+    fn: () => audioDi.listAudioHistory(session!.user.id),
+    dispatchStoreCache: (data: AudioEntity[]) =>
+      dispatch(setAudioHistory(data)),
+    revalidate: audioHistory.length === 0,
+    selector: () => audioHistory,
+  });
 
   const filteredHistory = useMemo(
-    () =>
-      audioHistory.filter((audio) => resolveHistoryType(audio) === historyType),
-    [historyType],
+    () => (data ?? []).filter((audio) => resolveHistoryType(audio) === historyType),
+    [data, historyType],
   );
 
   const handleDownloadAudio = async (audio: AudioEntity) => {
@@ -101,7 +79,6 @@ export default function History({
       await downloadAudio({ audio, historyType });
     } catch (downloadError) {
       console.error("Download error:", downloadError);
-      setError("The audio could not be downloaded. Please try again.");
     } finally {
       setIsDownloading(false);
     }
@@ -117,6 +94,13 @@ export default function History({
     );
   };
 
+  if (isPending) {
+    return <HistoryAudiosSkeleton size={5} />;
+  }
+
+  if (error) {
+    return <p className="text-gray-400 text-md">{error}</p>;
+  }
   return (
     <div className="mt-6 border border-slate-700/50 rounded-lg bg-[#0f0f0f] p-4">
       <h3 className="text-white text-lg font-semibold mb-3">
@@ -127,11 +111,7 @@ export default function History({
           <AudioData audio={selectedAudio} historyType={historyType} />
         )}
       </ModalLookDataWrapper>
-      {isPending ? (
-        <HistoryAudiosSkeleton size={5} />
-      ) : error ? (
-        <p className="text-gray-400 text-md">{error}</p>
-      ) : filteredHistory.length === 0 ? (
+      {filteredHistory.length === 0 ? (
         <p className="text-gray-400 text-sm font-medium">
           {emptyMessage ??
             (historyType === "music"

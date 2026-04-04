@@ -80,7 +80,7 @@ export default function MusicGenerated({ prompt, genre }: MusicGeneratedProps) {
                 : "none",
             }}
           >
-            {hasPrompt ? `"${prompt}"` : "Tu visión musical empieza aquí..."}
+            {hasPrompt ? `"${prompt}"` : "Your musical vision starts here..."}
           </h1>
         </div>
       </div>

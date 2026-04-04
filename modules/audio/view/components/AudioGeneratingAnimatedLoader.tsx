@@ -5,26 +5,26 @@ import { motion, AnimatePresence } from "framer-motion";
 import { WaveLayer } from "./WaveLayer";
 
 const DEFAULT_STEPS = [
-  "Parsing prompt and style constraints",
-  "Building rhythm section and groove",
-  "Generating harmonic progression layers",
-  "Synthesizing lead motifs and textures",
-  "Mixing dynamics and final render",
+  "Analyzing script and context",
+  "Synthesizing natural voice textures",
+  "Adjusting prosody and emotional tone",
+  "Processing acoustic environment",
+  "Polishing final audio master",
 ] as const;
 
-interface MusicGeneratingAnimatedLoaderProps {
+interface AudioGeneratingAnimatedLoaderProps {
   title?: string;
   subtitle?: string;
   steps?: readonly string[];
   loopIntervalMs?: number;
 }
 
-export default function MusicGeneratingAnimatedLoader({
-  title = "Generando tu pista",
-  subtitle = "Esto puede tardar unos momentos",
+export default function AudioGeneratingAnimatedLoader({
+  title = "Generating your audio",
+  subtitle = "This may take a few moments",
   steps = DEFAULT_STEPS,
-  loopIntervalMs = 2800,
-}: MusicGeneratingAnimatedLoaderProps) {
+  loopIntervalMs = 3000,
+}: AudioGeneratingAnimatedLoaderProps) {
   const safeSteps = useMemo(
     () => (steps.length > 0 ? [...steps] : [...DEFAULT_STEPS]),
     [steps],
@@ -50,8 +50,8 @@ export default function MusicGeneratingAnimatedLoader({
 
   return (
     <section className="group relative h-full w-full min-h-[400px] overflow-hidden rounded-2xl bg-[#0a0a0a] flex flex-col shadow-2xl font-sans border border-white/5">
-      {/* Premium Background Effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#f6339a,transparent_75%)] opacity-25 transition-opacity duration-1000 group-hover:opacity-40" />
+      {/* Premium Background Effects - Purple/Indigo theme for Audio */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#8b5cf6,transparent_75%)] opacity-25 transition-opacity duration-1000 group-hover:opacity-40" />
       <div className="absolute inset-0 bg-linear-to-b from-transparent via-[#0a0a0a]/50 to-[#0a0a0a]" />
 
       {/* Header with Glassmorphism */}
@@ -59,10 +59,10 @@ export default function MusicGeneratingAnimatedLoader({
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-3">
             <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500 shadow-[0_0_10px_#f6339a]"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-violet-500 shadow-[0_0_10px_#8b5cf6]"></span>
             </span>
-            <p className="text-xs uppercase tracking-[0.2em] font-bold text-pink-300/60">
+            <p className="text-xs uppercase tracking-[0.2em] font-bold text-violet-300/60">
               {title}
             </p>
           </div>
@@ -84,7 +84,7 @@ export default function MusicGeneratingAnimatedLoader({
                 delay: i * 0.2,
                 ease: "easeInOut",
               }}
-              className="h-1.5 w-1.5 rounded-full bg-pink-500"
+              className="h-1.5 w-1.5 rounded-full bg-violet-500"
             />
           ))}
         </div>
@@ -126,25 +126,25 @@ export default function MusicGeneratingAnimatedLoader({
       <div className="relative z-10 w-full h-48 mt-auto overflow-hidden">
         <WaveLayer
           d="M0 80 Q 240 20 480 80 T 960 80 V 160 H 0 Z"
-          color="rgba(246, 51, 154, 0.1)"
+          color="rgba(139, 92, 246, 0.1)"
           duration={15}
           delay={0}
         />
         <WaveLayer
           d="M0 90 Q 240 140 480 90 T 960 90 V 160 H 0 Z"
-          color="rgba(246, 51, 154, 0.15)"
+          color="rgba(139, 92, 246, 0.15)"
           duration={12}
           delay={-2}
         />
         <WaveLayer
           d="M0 60 Q 240 100 480 60 T 960 60 V 160 H 0 Z"
-          color="rgba(246, 51, 154, 0.3)"
+          color="rgba(139, 92, 246, 0.3)"
           duration={10}
           delay={-4}
         />
 
         {/* Pulse Bar Layer */}
-        <div className="absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-transparent via-pink-500/50 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-transparent via-violet-500/50 to-transparent" />
       </div>
 
       {/* Mesh Overlay */}

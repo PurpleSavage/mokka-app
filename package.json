@@ -19,6 +19,7 @@
     "@wavesurfer/react": "^1.0.12",
     "axios": "1.13.2",
     "dexie": "^4.4.1",
+    "framer-motion": "^12.38.0",
     "next": "^16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
