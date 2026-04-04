@@ -51,7 +51,7 @@ export default function ModelViewer({ url, decalUrl, onMeshClick }: ModelViewerP
       mesh.material = new THREE.MeshStandardMaterial({
         color: '#7c3aed',
         transparent: true,
-        opacity: 0.4,
+        opacity: 0.8,
         depthWrite: false,
       })
     } else {
@@ -71,7 +71,11 @@ export default function ModelViewer({ url, decalUrl, onMeshClick }: ModelViewerP
       onClick={(e: ThreeEvent<MouseEvent>) => {
         e.stopPropagation()
         const mesh = e.object as THREE.Mesh
-        if (mesh.userData.isEditable) onMeshClick?.()
+        if (mesh.userData.isEditable) {
+          setHoveredNode(null)           
+          document.body.style.cursor = 'default'  
+          onMeshClick?.()
+        }
       }}
       onPointerOver={(e: ThreeEvent<PointerEvent>) => {
         const mesh = e.object as THREE.Mesh

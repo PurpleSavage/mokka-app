@@ -1,5 +1,5 @@
 import Link from "next/link";
-
+import SaveModel from "./SaveModel";
 
 export default function NavbarRender3D() {
   return (
@@ -9,11 +9,15 @@ export default function NavbarRender3D() {
         </div>
         <div className="grow flex items-center justify-end gap-4">
           <Link 
-          href="/mokka/mokka-panel" 
-          className="text-sm text-white/50 hover:text-white transition-colors cursor-pointer"
-        >Models</Link>
-          <button className="bg-pink-800 text-white hover:bg-pink-700 transition-colors
-           py-2 px-6 rounded-lg text-sm cursor-pointer">Export mockup</button>
+            href="/mokka/mokka-panel" 
+            className="text-sm text-white/50 hover:text-white transition-colors cursor-pointer"
+          >Go home</Link>
+          <button 
+            type="button" 
+            className="bg-pink-800 text-white hover:bg-pink-700 transition-colors
+           py-2 px-6 rounded-lg text-sm cursor-pointer"
+          >Export mockup</button>
+          <SaveModel/>
         </div>
     </div>
   )

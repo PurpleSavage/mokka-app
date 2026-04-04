@@ -1,16 +1,26 @@
 'use client'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Stage, ContactShadows, Environment } from '@react-three/drei'
-import { Suspense, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { ChangeEvent, Suspense, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/store/boundStore'
 import ModelViewer from './ModelViewer'
 import ModelLoaderBar from './ModelLoaderBar'
+import { setCurrentDecalUrl } from '../../render-3d-slice/render-3d.slice'
 
 export default function Render() {
   const model = useSelector((state:RootState)=>state.render3D.modelLoadedInRender)
   const inputRef = useRef<HTMLInputElement>(null)
-  const [decalUrl, setDecalUrl] = useState<string | null>(null)
+  const decalUrl = useSelector((state:RootState)=>state.render3D.currentDecalUrl)
+  const dispatch =useDispatch()
+
+  const loadImage =(e: ChangeEvent<HTMLInputElement>)=>{
+    const file = e.target.files?.[0]
+    if (!file) return
+    const url = URL.createObjectURL(file)
+    dispatch(setCurrentDecalUrl(url))
+  }
+
   if (!model) return null
   
   return (
@@ -20,11 +30,7 @@ export default function Render() {
         type="file"
         accept="image/*"
         className="hidden"
-        onChange={(e) => {
-          const file = e.target.files?.[0]
-          if (!file) return
-          setDecalUrl(URL.createObjectURL(file))
-        }}
+        onChange={loadImage}
       />
       <ModelLoaderBar/>
       <Canvas shadows camera={{ position: model.cameraSettings.position, fov: model.cameraSettings.fov }}>
