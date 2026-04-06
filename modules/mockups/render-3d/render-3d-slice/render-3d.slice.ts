@@ -4,12 +4,13 @@ import { Model3DEntity } from "../domain/entities/model-3d.entity";
 export interface Render3DState{
     models:Model3DEntity[],
     modelLoadedInRender:Model3DEntity | null,
-    currentDecalUrl:string
+    currentDecalUrl:string,
 }
 const initialState:Render3DState={
     models:[],
     modelLoadedInRender:null,
-    currentDecalUrl:''
+    currentDecalUrl:'',
+
 }
 export const render3DSlice=createSlice({
     initialState,
@@ -26,14 +27,15 @@ export const render3DSlice=createSlice({
         },
         setCurrentDecalUrl:(state,action:PayloadAction<string>)=>{
             state.currentDecalUrl=action.payload
-        }
+        },
+       
     },
    
 })
 export const {
-   setModels,  
-   loadModelInRender,
-    setCurrentDecalUrl
+    setModels,  
+    loadModelInRender,
+    setCurrentDecalUrl,
 } = render3DSlice.actions;
 
 export default render3DSlice.reducer;

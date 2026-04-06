@@ -7,6 +7,7 @@ import { RootState } from '@/store/boundStore'
 import ModelViewer from './ModelViewer'
 import ModelLoaderBar from './ModelLoaderBar'
 import { setCurrentDecalUrl } from '../../render-3d-slice/render-3d.slice'
+import { domRefs } from '@/modules/mockups/shared-mockups/refs-container/dom-refs-container'
 
 export default function Render() {
   const model = useSelector((state:RootState)=>state.render3D.modelLoadedInRender)
@@ -33,7 +34,14 @@ export default function Render() {
         onChange={loadImage}
       />
       <ModelLoaderBar/>
-      <Canvas shadows camera={{ position: model.cameraSettings.position, fov: model.cameraSettings.fov }}>
+      <Canvas 
+        shadows 
+        camera={{ position: model.cameraSettings.position, fov: model.cameraSettings.fov }}
+        onCreated={({ gl }) => {
+            const canvas = gl.domElement 
+            domRefs.setCanvasRef(canvas)
+        }}
+      >
         <ambientLight intensity={1.5} />
         <pointLight position={[10, 10, 10]} intensity={2} castShadow />
         <directionalLight position={[-5, 5, 5]} intensity={1} />

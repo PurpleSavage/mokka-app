@@ -4,9 +4,9 @@ import Scene from "@/modules/mockups/render-3d/view/components/Scene";
 
 export default function Mokka3dPage() {
   return (
-    <div className="flex-1 grid grid-cols-[30%_70%]">
+    <div className="flex-1 grid grid-cols-[450px_1fr]">
       <Aside3DMenu/>
-     <Scene/> 
+      <Scene/> 
     </div>
   )
 }

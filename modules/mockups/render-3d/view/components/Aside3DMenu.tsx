@@ -5,6 +5,7 @@ import { PiSticker } from "react-icons/pi";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import ActiveTab from "./ActiveTab";
+import TooltipComponent from "@/modules/shared/common/view/components/TooltipComponent";
 
 
 export const ActiveTapOptionsRender3D = {
@@ -36,27 +37,33 @@ export default function Aside3DMenu() {
         <div className="flex items-center justify-center h-full">
             <nav className="border bg-table-body-bg rounded-lg flex flex-col items-center
              justify-center gap-4  space-y-2 border-white/10 h-[80%] p-2">
-                <button onClick={() => handleTabChange(ActiveTapOptionsRender3D.MODELS)}
+                <TooltipComponent text="Models 3d">
+                    <button onClick={() => handleTabChange(ActiveTapOptionsRender3D.MODELS)}
                             className={`p-4 flex items-center justify-center rounded-lg  transition-all cursor-pointer ${
                                 activeTab === ActiveTapOptionsRender3D.MODELS ? 'bg-white/10 text-white' : 'text-gray-400'
-                            }`}>
-                    <TbCube3dSphere />
-                </button>
-                <button onClick={() => handleTabChange(ActiveTapOptionsRender3D.BACKGROUND)}
+                                }`}>
+                        <TbCube3dSphere />
+                    </button>
+                </TooltipComponent>
+                <TooltipComponent text="Background">
+                    <button onClick={() => handleTabChange(ActiveTapOptionsRender3D.BACKGROUND)}
                             className={`p-4  rounded-lg transition-all cursor-pointer flex items-center justify-center ${
                                 activeTab === ActiveTapOptionsRender3D.BACKGROUND ? 'bg-white/10 text-white' : 'text-gray-400'
                             }`}>
-                    <PiSelectionBackground />
-                </button>
-                <button onClick={() => handleTabChange(ActiveTapOptionsRender3D.EDIT)}
+                        <PiSelectionBackground />
+                    </button>
+                </TooltipComponent>
+                <TooltipComponent text="Upload image">
+                    <button onClick={() => handleTabChange(ActiveTapOptionsRender3D.EDIT)}
                             className={`p-4  rounded-lg transition-all cursor-pointer flex items-center justify-center ${
                                 activeTab === ActiveTapOptionsRender3D.EDIT ? 'bg-white/10 text-white' : 'text-gray-400'
                             }`}>
-                    <PiSticker />
-                </button>
+                        <PiSticker />
+                    </button>
+                </TooltipComponent>
             </nav>
         </div>
-        <div className="flex items-center justify-center h-full">
+        <div className="flex items-center justify-center h-full w-full">
             <ActiveTab activeTab={activeTab}/>
         </div>
     </aside>

@@ -35,7 +35,7 @@ export default function DropDown<T extends string>({
       <MenuItems
         anchor="bottom start"
         transition
-        className="z-50 mt-2 w-(--button-width) origin-top divide-y divide-slate-700 rounded-md bg-[#1a1a1a] border border-slate-700 shadow-lg
+        className="z-50 mt-2 w-(--button-width) origin-top divide-y divide-slate-700 rounded-md bg-table-body-hover-bg border border-slate-700 shadow-lg
           transition duration-100 ease-out data-closed:scale-95 data-closed:opacity-0"
       >
         <div className="px-1 py-1 max-h-60 overflow-y-auto custom-scrollbar">

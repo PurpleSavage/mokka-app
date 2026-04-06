@@ -1,9 +1,10 @@
 import Link from "next/link";
-import SaveModel from "./SaveModel";
-
+import ActionsMenu from "./ActionsMenu";
+import { SlHome } from "react-icons/sl";
+import TooltipComponent from "@/modules/shared/common/view/components/TooltipComponent";
 export default function NavbarRender3D() {
   return (
-    <div className="border-b border-white/30 py-4 px-4 flex items-center">
+    <div className="border-b border-white/30 py-4 px-10 flex items-center">
         <div className="">
             <p className="text-lg font-bold">3D mockup generator</p>
         </div>
@@ -11,13 +12,12 @@ export default function NavbarRender3D() {
           <Link 
             href="/mokka/mokka-panel" 
             className="text-sm text-white/50 hover:text-white transition-colors cursor-pointer"
-          >Go home</Link>
-          <button 
-            type="button" 
-            className="bg-pink-800 text-white hover:bg-pink-700 transition-colors
-           py-2 px-6 rounded-lg text-sm cursor-pointer"
-          >Export mockup</button>
-          <SaveModel/>
+          >
+            <TooltipComponent text="Go home">
+              <SlHome size={18}/>
+            </TooltipComponent>
+          </Link>
+          <ActionsMenu/>
         </div>
     </div>
   )
