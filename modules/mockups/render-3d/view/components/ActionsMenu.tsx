@@ -8,17 +8,41 @@ import { BiScreenshot } from "react-icons/bi";
 import { useScreenRecorder } from '@/modules/mockups/shared-mockups/custom-hooks/useScreenRecorder';
 import TooltipComponent from '@/modules/shared/common/view/components/TooltipComponent';
 import { domRefs } from '@/modules/mockups/shared-mockups/refs-container/dom-refs-container';
+import { render3DDI } from '../../di/render-3d-container.di';
+import { ConfigMockupLoadedDto } from '../../application/dtos/request/config-mockup-loaded.dto';
+import { Mockups3DError } from '../../infrastructure/errors/mockups-3d.error';
+import { sileo } from 'sileo';
+
 export default function ActionsMenu() { 
-    const currentDecalUrl = useSelector((state:RootState)=>state.render3D.currentDecalUrl)
+    const {currentDecalUrl,decalFile,modelId,backgroundColor,color} = useSelector((state:RootState)=>state.render3D.configMockupLoaded)
     const saveIsActive = currentDecalUrl !== ''
 
     const {screenRecord}=useScreenRecorder()
 
-    const save = ()=>{
+    const save = async()=>{
         try {
-            
+            const dto:ConfigMockupLoadedDto = {
+                currentDecalUrl:currentDecalUrl,
+                decalFile:decalFile,
+                modelId:modelId,
+                backgroundColor:backgroundColor,
+                color:color,
+            }
+            await render3DDI.saveMockup3D(dto)
+          
         } catch (error) {
             console.log(error)
+            if(error instanceof Mockups3DError){
+                sileo.warning({
+                    title:error.message,
+                    description:error.details
+                })
+            }else{
+                sileo.warning({
+                    title:'Unknown error',
+                    description:'An error occurred while trying to save the information.' 
+                })
+            }
         }
     }
     const screenShot=()=>{
@@ -53,6 +77,7 @@ export default function ActionsMenu() {
                 <button
                     disabled={saveIsActive} 
                     type="button" 
+                    onClick={save}
                     className="hover:bg-white/10  text-white  transition-colors
                 py-2 px-6 rounded-lg text-sm cursor-pointer flex items-center gap-2 text-nowrap"
                 ><IoSaveOutline size={20}/> Save mockup</button>

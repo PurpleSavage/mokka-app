@@ -12,14 +12,17 @@ import { domRefs } from '@/modules/mockups/shared-mockups/refs-container/dom-ref
 export default function Render() {
   const model = useSelector((state:RootState)=>state.render3D.modelLoadedInRender)
   const inputRef = useRef<HTMLInputElement>(null)
-  const decalUrl = useSelector((state:RootState)=>state.render3D.currentDecalUrl)
+  const decalUrl = useSelector((state:RootState)=>state.render3D.configMockupLoaded.currentDecalUrl)
   const dispatch =useDispatch()
 
   const loadImage =(e: ChangeEvent<HTMLInputElement>)=>{
     const file = e.target.files?.[0]
     if (!file) return
     const url = URL.createObjectURL(file)
-    dispatch(setCurrentDecalUrl(url))
+    dispatch(setCurrentDecalUrl({
+      decalFile:file,
+      decalUrl:url
+    }))
   }
 
   if (!model) return null

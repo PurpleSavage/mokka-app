@@ -4,7 +4,7 @@ import { Render3DService } from "../infrastructure/adapters/api/render-3d.servic
 import { db } from "../../config-db/db";
 import { Model3DCommandService } from "../infrastructure/adapters/persistence/model-3d-command.service";
 import { SaveMockupGeneratedUseCase } from "../application/use-cases/save-mockup-generated.use-case";
-import { SaveMockupDto } from "../application/dtos/request/save-mockup.dto";
+import { ConfigMockupLoadedDto } from "../application/dtos/request/config-mockup-loaded.dto";
 
 const  serviceRender3D= new Render3DService(httpClient)
 const render3DCommandService=  new Model3DCommandService(db)
@@ -16,5 +16,5 @@ const useCases = {
 
 export const render3DDI = {
     listModels3D:()=>useCases.listModels3D.execute(),
-    saveMockup3dD:(data:SaveMockupDto)=>useCases.saveMockup3D.execute(data)
+    saveMockup3D:(data:ConfigMockupLoadedDto)=>useCases.saveMockup3D.execute(data)
 }

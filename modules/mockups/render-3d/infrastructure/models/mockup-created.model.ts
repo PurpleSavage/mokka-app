@@ -1,7 +1,7 @@
 
 export interface MockupCreatedModel{
     localUpdatedAt: Date
-    decalFile:string
+    decalFile:File
     lastUpdatedAt:Date
     modelId:string
     backgroundColor:string

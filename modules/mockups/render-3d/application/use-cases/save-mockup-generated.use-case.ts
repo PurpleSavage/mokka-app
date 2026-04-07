@@ -1,13 +1,14 @@
 
 import { Model3DRepository } from "../../domain/repositories/model-3d-command.port";
 import { MockupCreatedVO } from "../../domain/value-objects/mockup-created.vo";
-import { SaveMockupDto } from "../dtos/request/save-mockup.dto";
+import { ConfigMockupLoadedDto } from "../dtos/request/config-mockup-loaded.dto";
+
 
 export class SaveMockupGeneratedUseCase{
     constructor(
         private readonly render3DCommandService: Model3DRepository
     ){}
-    async execute(data:SaveMockupDto):Promise<void>{
+    async execute(data:ConfigMockupLoadedDto):Promise<void>{
         const date = new Date()
         const vo = MockupCreatedVO.createVO({
             localUpdatedAt:date,
