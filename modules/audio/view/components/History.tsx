@@ -1,98 +1,41 @@
 "use client";
 
-import { RootState } from "@/store/boundStore";
-import { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { audioDi } from "../../di/audio-container.di";
-import { setAudioHistory } from "../../audio-slice/audio-store.slice";
-import HistoryAudiosSkeleton from "../skeletons/HistoryAudiosSkeleton";
-import { AxiosError } from "axios";
-import AudioVisualizer from "./AudioVisualizer";
-import { AudioEntity } from "../../domain/entities/audio.entity";
 import { DateFormatter } from "@/modules/shared/common/view/utils/date-formatter.util";
 import { RiDownloadLine } from "react-icons/ri";
-import { openModalWrapper } from "@/modules/shared/common/common-slice/modals-slice.store";
 import ModalLookDataWrapper, {
   ModalsId,
 } from "@/modules/shared/common/view/wrappers/ModalLookDataWrapper";
 import AudioData from "./AudioData";
 import { BsEye } from "react-icons/bs";
-import { downloadAudio, HistoryType } from "../utils/helpers/download-audio";
-import { useQuery } from "@/modules/shared/common/view/custom-hooks/useQuery";
+import { useHistory } from "../custom-hooks/useHistory";
+import HistoryAudiosSkeleton from "../skeletons/HistoryAudiosSkeleton";
+import AudioVisualizer from "./AudioVisualizer";
+import { AudioEntity } from "../../domain/entities/audio.entity";
+import { HistoryType } from "../utils/helpers/download-audio";
 
 interface HistoryProps {
   historyType?: HistoryType;
   title?: string;
   emptyMessage?: string;
 }
-function resolveHistoryType(audio: AudioEntity): HistoryType {
-  const rawType = String(
-    (
-      audio as AudioEntity & {
-        type?: string;
-        audioType?: string;
-        generationType?: string;
-        kind?: string;
-        category?: string;
-      }
-    ).type ??
-      (audio as AudioEntity & { audioType?: string }).audioType ??
-      (audio as AudioEntity & { generationType?: string }).generationType ??
-      (audio as AudioEntity & { kind?: string }).kind ??
-      (audio as AudioEntity & { category?: string }).category ??
-      "",
-  ).toLowerCase();
 
-  return rawType.includes("music") ? "music" : "audio";
-}
 
 export default function History({
   historyType = "audio",
   title,
   emptyMessage,
 }: HistoryProps) {
-  const [isDownloading, setIsDownloading] = useState(false);
-  const [selectedAudio, setSelectedAudio] = useState<AudioEntity | null>(null);
+  const {
+    filteredHistory,
+    isPending,
+    error,
+    isDownloading,
+    selectedAudio,
+    handleDownloadAudio,
+    handleOpenPromptModal,
+    resolveHistoryType,
+  } = useHistory({ historyType });
 
-  const audioHistory = useSelector(
-    (state: RootState) => state.audio.audioHistory,
-  );
-  const session = useSelector((state: RootState) => state.auth.session);
-  const dispatch = useDispatch();
-
-  const { data, error, isPending } = useQuery<AudioEntity[]>({
-    fn: () => audioDi.listAudioHistory(session!.user.id),
-    dispatchStoreCache: (data: AudioEntity[]) =>
-      dispatch(setAudioHistory(data)),
-    revalidate: audioHistory.length === 0,
-    selector: () => audioHistory,
-  });
-
-  const filteredHistory = useMemo(
-    () => (data ?? []).filter((audio) => resolveHistoryType(audio) === historyType),
-    [data, historyType],
-  );
-
-  const handleDownloadAudio = async (audio: AudioEntity) => {
-    try {
-      setIsDownloading(true);
-      await downloadAudio({ audio, historyType });
-    } catch (downloadError) {
-      console.error("Download error:", downloadError);
-    } finally {
-      setIsDownloading(false);
-    }
-  };
-
-  const handleOpenPromptModal = (audio: AudioEntity) => {
-    setSelectedAudio(audio);
-    dispatch(
-      openModalWrapper({
-        title: "Audio details",
-        modalId: ModalsId.AUDIO_VIEW,
-      }),
-    );
-  };
 
   if (isPending) {
     return <HistoryAudiosSkeleton size={5} />;

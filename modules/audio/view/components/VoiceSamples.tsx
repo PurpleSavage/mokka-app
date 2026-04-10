@@ -1,19 +1,11 @@
 "use client";
-import { useMemo, useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { audioModels } from "../constants/audio-samples";
 import AudioVisualizer from "./AudioVisualizer";
+import { useVoiceSamples } from "../custom-hooks/useVoiceSamples";
 
 export default function VoiceSamples() {
-  const [searchName, setSearchName] = useState("");
+  const { searchName, setSearchName, filteredAudioModels } = useVoiceSamples();
 
-  const filteredAudioModels = useMemo(
-    () =>
-      audioModels.filter((audio) =>
-        audio.name.toLowerCase().includes(searchName.toLowerCase()),
-      ),
-    [searchName],
-  );
 
   return (
     <div className="text-white h-full mt-1">
