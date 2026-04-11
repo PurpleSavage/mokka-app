@@ -17,6 +17,8 @@ import { setLoadingText } from "../../text-slice/text-store.slice";
 import { useIdSession } from "@/modules/shared/auth/view/custom-hooks/useIdSession";
 import { RootState } from "@/store/boundStore";
 import { StatusQueue } from "@/modules/shared/common/domain/enums/status-queue";
+import TextGenerationAnimation from "./TextGenerationAnimation";
+import { motion, AnimatePresence } from "framer-motion";
 
 
 
@@ -48,6 +50,8 @@ export default function TextGenerator() {
     const selectedLength = useWatch({ control, name: "textLength" })
     const selectedFormat = useWatch({ control, name: "textFormat" })
 
+    const textHistory = useSelector((state: RootState) => state.text.textHistory);
+
     const onSubmit = async(data: GenerateTextDto) => {
         if(!id) return 
        try {
@@ -76,10 +80,12 @@ export default function TextGenerator() {
         }
        }
     };
-  return (
+
+    const latestText = textHistory[0]?.improvedContext;
+
+    return (
         <div className="grid grid-cols-2 gap-4 p-4">
             <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-            
                 <div className="space-y-2">
                     <label className="text-white font-medium block">Context</label>
                     <textarea 
@@ -91,9 +97,8 @@ export default function TextGenerator() {
                     {errors.context && <p className="text-red-500 text-sm">{errors.context.message}</p>}
                 </div>
 
-              
                 <div className="space-y-2">
-                    <label className="block font-medium text-gray-500">What are you promoting?</label>
+                    <label className="block font-medium text-gray-400">What are you promoting?</label>
                     {!isOther ? (
                         <DropDown 
                             selected={selectedPromotion}
@@ -103,7 +108,7 @@ export default function TextGenerator() {
                                     setIsOther(true);
                                     setValue("promotionType", "", { shouldValidate: false });
                                 } else {
-                                    setValue("promotionType", val.name, { shouldValidate: true });
+                                    setValue("promotionType", val.name as any, { shouldValidate: true });
                                 }
                             }}
                         />
@@ -119,7 +124,7 @@ export default function TextGenerator() {
                                 type="button"
                                 onClick={() => { 
                                     setIsOther(false); 
-                                    setValue("promotionType", promotingArray[0].name); 
+                                    setValue("promotionType", promotingArray[0].name as any); 
                                 }}
                                 className="bg-pink-800 cursor-pointer transition-colors hover:bg-pink-700
                                  px-4 h-10 rounded-lg text-black font-medium"
@@ -131,10 +136,9 @@ export default function TextGenerator() {
                     {errors.promotionType && <p className="text-red-500 text-sm px-2">{errors.promotionType.message}</p>}
                 </div>
 
-                
                 <div className="flex gap-2">
                     <div className="w-1/2 space-y-2">
-                        <label className="block font-medium text-gray-500">Title</label>
+                        <label className="block font-medium text-gray-400">Title</label>
                         <input 
                             {...register("title")}
                             className="h-10 px-2 w-full bg-transparent border border-slate-600/50 rounded-lg text-white" 
@@ -142,50 +146,91 @@ export default function TextGenerator() {
                         {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
                     </div>
                     <div className="w-1/2 space-y-2">
-                        <label className="block font-medium text-gray-500">Tone</label>
+                        <label className="block font-medium text-gray-400">Tone</label>
                         <DropDown 
                             selected={selectedTone}
                             options={toneArray} 
-                            handleSelect={(val) => setValue("toneType", val.name, { shouldValidate: true })}
+                            handleSelect={(val) => setValue("toneType", val.name as any, { shouldValidate: true })}
                         />
                     </div>
                 </div>
 
-               
                 <div className="flex gap-2">
                     <div className="w-1/2 space-y-2">
-                        <label className="block font-medium text-gray-500">Length</label>
+                        <label className="block font-medium text-gray-400">Length</label>
                         <DropDown 
                             selected={selectedLength}
                             options={lengthArray} 
-                            handleSelect={(val) => setValue("textLength", val.name, { shouldValidate: true })}
+                            handleSelect={(val) => setValue("textLength", val.name as any, { shouldValidate: true })}
                         />
                     </div>
                     <div className="w-1/2 space-y-2">
-                        <label className="block font-medium text-gray-500">Format</label>
+                        <label className="block font-medium text-gray-400">Format</label>
                         <DropDown 
                             selected={selectedFormat}
                             options={formatArray} 
-                            handleSelect={(val) => setValue("textFormat", val.name, { shouldValidate: true })}
+                            handleSelect={(val) => setValue("textFormat", val.name as any, { shouldValidate: true })}
                         />
                     </div>
                 </div>
 
-                <button type="submit" disabled={isGenerating?.status===StatusQueue.PROCESSING} 
+                <button type="submit" disabled={isGenerating?.status === StatusQueue.PROCESSING} 
                 className="w-full py-2 flex items-center justify-center cursor-pointer hover:bg-pink-800
                  hover:text-white transition-colors
-                 rounded-lg text-black font-bold bg-white">
-                    {isSubmitting? <><Spin /> Generating...</> : "Generate text"}
+                 rounded-lg text-black font-bold bg-white disabled:opacity-50">
+                    {isSubmitting || isGenerating?.status === StatusQueue.PROCESSING ? (
+                        <div className="flex items-center gap-2">
+                            <Spin /> Generating...
+                        </div>
+                    ) : "Generate text"}
                 </button>
             </form>
 
-            <div className="space-y-2">
-                <label className="block text-white font-medium">Result</label>
-                <div className="border border-slate-600/50 w-full h-150 p-4 rounded-lg
-                 text-white bg-slate-900/20">
-                    {isGenerating?.status===StatusQueue.PROCESSING ? "Generating..." : "Your text will appear here..."}   
+            <div className="space-y-2 flex flex-col h-full">
+                <div className="flex items-center justify-between">
+                    <label className="block text-white font-medium">Result</label>
+                    {latestText && !isGenerating && (
+                        <button 
+                            onClick={() => navigator.clipboard.writeText(latestText)}
+                            className="text-pink-500 hover:text-pink-400 text-xs font-medium"
+                        >
+                            Copy text
+                        </button>
+                    )}
+                </div>
+                
+                <div className="border border-slate-600/50 w-full h-[600px] p-4 rounded-lg
+                 text-white bg-slate-900/20 overflow-hidden relative">
+                    <AnimatePresence mode="wait">
+                        {isGenerating?.status === StatusQueue.PROCESSING ? (
+                            <motion.div
+                                key="loader"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0, scale: 1.02 }}
+                                className="absolute inset-0"
+                            >
+                                <TextGenerationAnimation />
+                            </motion.div>
+                        ) : latestText ? (
+                            <motion.div
+                                key="result"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                className="h-full p-2 overflow-y-auto custom-scrollbar"
+                            >
+                                {latestText}
+                            </motion.div>
+                        ) : (
+                            <div className="flex items-center justify-center h-full text-white/20 select-none italic">
+                                Your text will appear here...
+                            </div>
+                        )}
+                    </AnimatePresence>
                 </div>
             </div>
         </div>
-    )
+    );
 }
+
+
