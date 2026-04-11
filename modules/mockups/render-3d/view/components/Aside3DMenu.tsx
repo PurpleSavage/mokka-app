@@ -63,7 +63,7 @@ export default function Aside3DMenu() {
                 </TooltipComponent>
             </nav>
         </div>
-        <div className="flex items-center justify-center h-full w-full">
+        <div className="flex items-center justify-center h-full w-full ">
             <ActiveTab activeTab={activeTab}/>
         </div>
     </aside>

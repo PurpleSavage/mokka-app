@@ -3,7 +3,6 @@ import { LocalModel3D } from "../../infrastructure/models/local-model-3d.model";
 
 export class EntityToModelMapper{
     static toModelList(data:Model3DEntity[]): LocalModel3D[] {
-        const currentDate = Date.now();
         return data.map((item)=>{
             return {
                 id: item.id,
@@ -16,7 +15,7 @@ export class EntityToModelMapper{
                 cameraSettings: item.cameraSettings,
                 nodes:item.nodes,
                 createdAt:item.createdAt,
-                localUpdatedAt: new Date(currentDate),
+                localUpdatedAt: new Date(),
                 lastAccessAt: null
 
             }

@@ -6,6 +6,9 @@ import { ErrorPlatformMokka } from "@/modules/shared/common/domain/enums/errors-
 import { Model3DResponseDto } from "../../../application/dtos/response/model-3d-response.dto"
 import { toModel3DEntityMapper } from "../../mappers/to-model3d-entity.mapper"
 import { Model3DEntity } from "../../../domain/entities/model-3d.entity"
+import { BackgroundMockupEntity } from "../../../domain/entities/background-mockup.entity"
+import { BackgroundMockupResponseDto } from "../../../application/dtos/response/background-mockup-response.dto"
+import { toBackgroundEntity } from "../../mappers/to-background-entity.mapper"
 
 export class Render3DService implements Render3DPort {
     constructor(
@@ -22,12 +25,27 @@ export class Render3DService implements Render3DPort {
         }
         throw error
     } 
-    async listModels(): Promise<Model3DEntity[]> {
+    async listModels(page:number,limit:number): Promise<Model3DEntity[]> {
         try {
-            const response =await this.httpService.get<Model3DResponseDto[]>('/v1/3d/read/all') 
+            const params = new URLSearchParams()
+            if(page !== undefined) params.append('page',page.toString())
+            if(limit !== undefined) params.append('limit',limit.toString()) 
+            const response =await this.httpService.get<Model3DResponseDto[]>(`/v1/3d/read/all?${params}`) 
             return response.map((model)=>toModel3DEntityMapper(model))
         } catch (error) {
             this.handleError(error)
         }
     }
+    async listbackgrounds(page:number,limit:number): Promise<BackgroundMockupEntity[]> {
+        try {
+            const params = new URLSearchParams()
+            if(page !== undefined) params.append('page',page.toString())
+            if(limit !== undefined) params.append('limit',limit.toString())    
+            const response = await this.httpService.get<BackgroundMockupResponseDto[]>(`/v1/3d/read/backgrounds?${params}`)
+            return response.map((background)=>toBackgroundEntity(background))
+        } catch (error) {
+            this.handleError(error)
+        }
+    }
+
 }
