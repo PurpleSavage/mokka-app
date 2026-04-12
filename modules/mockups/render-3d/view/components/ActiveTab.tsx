@@ -29,7 +29,7 @@ export default function ActiveTab({ activeTab }: ActiveTabProps) {
 
     if(activeTab ===ActiveTapOptionsRender3D.MODELS){
         return (
-            <div className="border flex flex-col gap-2 bg-table-body-bg w-full rounded-lg p-2 border-white/10 max-h-[80vh] overflow-hidden">
+            <div className="border flex flex-col gap-2 bg-table-body-bg w-full rounded-lg p-2 border-white/10 h-[80vh] overflow-hidden">
                 <p className="text-gray-400">All models</p>
                 <div className="flex-1 min-h-0 overflow-y-auto">
                     <ListModels
