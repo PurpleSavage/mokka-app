@@ -36,7 +36,7 @@ export default function Aside3DMenu() {
     <aside className=" h-full  grid grid-cols-[20%_80%]  pr-2">
         <div className="flex items-center justify-center h-full">
             <nav className="border bg-table-body-bg rounded-lg flex flex-col items-center
-             justify-center gap-4  space-y-2 border-white/10 h-[80%] p-2">
+             justify-center gap-4  space-y-2 border-white/10 h-[80vh] p-2">
                 <TooltipComponent text="Models 3d">
                     <button onClick={() => handleTabChange(ActiveTapOptionsRender3D.MODELS)}
                             className={`p-4 flex items-center justify-center rounded-lg  transition-all cursor-pointer ${
@@ -63,7 +63,7 @@ export default function Aside3DMenu() {
                 </TooltipComponent>
             </nav>
         </div>
-        <div className="flex items-center justify-center h-full w-full ">
+        <div className="flex items-center justify-center h-full w-full overflow-hidden">
             <ActiveTab activeTab={activeTab}/>
         </div>
     </aside>

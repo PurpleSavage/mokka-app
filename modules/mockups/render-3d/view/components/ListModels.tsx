@@ -20,10 +20,10 @@ export default function ListModels({isPending,error,models}:ListModelsProps) {
   }
 
   return (
-    < >
+    <div className="grid grid-cols-2 gap2">
       {models?.data.map((model) => (
         <Model3DCard key={model.id} model={model} />
       ))}
-    </>
+    </div>
   )
 }

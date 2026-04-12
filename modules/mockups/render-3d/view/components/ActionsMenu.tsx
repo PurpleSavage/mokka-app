@@ -14,7 +14,7 @@ import { Mockups3DError } from '../../infrastructure/errors/mockups-3d.error';
 import { sileo } from 'sileo';
 
 export default function ActionsMenu() { 
-    const {currentDecalUrl,decalFile,modelId,backgroundColor,color} = useSelector((state:RootState)=>state.render3D.configMockupLoaded)
+    const {currentDecalUrl,decalFile,modelId,background,color} = useSelector((state:RootState)=>state.render3D.configMockupLoaded)
     const saveIsActive = currentDecalUrl !== ''
 
     const {screenRecord}=useScreenRecorder()
@@ -25,7 +25,7 @@ export default function ActionsMenu() {
                 currentDecalUrl:currentDecalUrl,
                 decalFile:decalFile,
                 modelId:modelId,
-                backgroundColor:backgroundColor,
+                background:background,
                 color:color,
             }
             await render3DDI.saveMockup3D(dto)

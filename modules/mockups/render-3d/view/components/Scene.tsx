@@ -6,7 +6,7 @@ const Render3D = dynamic(() => import('./Render'), {
   ssr: false,
   loading: () => (
     <div className="h-full w-full flex items-center justify-center bg-neutral-900 text-white">
-      <p className="animate-pulse">Iniciando motor 3D...</p>
+      <p className="animate-pulse">Starting 3D engine...</p>
     </div>
   )
 });

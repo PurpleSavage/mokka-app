@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Model3DEntity } from "../domain/entities/model-3d.entity";
-import { ConfigMockupLoadedDto } from "../application/dtos/request/config-mockup-loaded.dto";
+import { BackgroundConfig, ConfigMockupLoadedDto } from "../application/dtos/request/config-mockup-loaded.dto";
 import { BackgroundMockupEntity } from "../domain/entities/background-mockup.entity";
 import { ListPaginationDto } from "@/modules/shared/common/application/dtos/responses/list-pagination.dto";
 
@@ -19,7 +19,9 @@ const initialState:Render3DState={
         currentDecalUrl:'',
         decalFile: null,
         modelId:'',
-        backgroundColor:'',
+        background:{
+           
+        },
         color:'',
     },
     backgrounds:null
@@ -50,6 +52,21 @@ export const render3DSlice=createSlice({
             state.backgrounds.data.push(...action.payload.data) 
             state.backgrounds.hasMore = action.payload.hasMore
             state.backgrounds.currentPage = action.payload.currentPage
+        },
+        setConfigbackground:(state,action:PayloadAction<BackgroundConfig>)=>{
+            if(action.payload.color){
+                state.configMockupLoaded.background={
+                    color:action.payload.color
+                }
+            }else if(action.payload.gradient){
+                state.configMockupLoaded.background={
+                    gradient:action.payload.gradient
+                }
+            }else if(action.payload.image){
+                state.configMockupLoaded.background={
+                    image:action.payload.image
+                }
+            }
         }
     },
    
@@ -58,7 +75,9 @@ export const {
     setModels,  
     loadModelInRender,
     setCurrentDecalUrl,
-    setBackgrounds
+    setBackgrounds,
+    addMorebackgrounds,
+    setConfigbackground
 } = render3DSlice.actions;
 
 export default render3DSlice.reducer;

@@ -29,9 +29,9 @@ export default function ActiveTab({ activeTab }: ActiveTabProps) {
 
     if(activeTab ===ActiveTapOptionsRender3D.MODELS){
         return (
-            <div className="border bg-table-body-bg w-full rounded-lg p-2 space-y-2 border-white/10 h-[80%]">
+            <div className="border flex flex-col gap-2 bg-table-body-bg w-full rounded-lg p-2 border-white/10 max-h-[80vh] overflow-hidden">
                 <p className="text-gray-400">All models</p>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="flex-1 min-h-0 overflow-y-auto">
                     <ListModels
                         isPending={isPending}
                         models={data}
@@ -44,9 +44,9 @@ export default function ActiveTab({ activeTab }: ActiveTabProps) {
 
     if(activeTab ===ActiveTapOptionsRender3D.BACKGROUND){
         return (
-            <div className="border flex flex-col gap-2 bg-table-body-bg w-full rounded-lg p-2 border-white/10 h-[80%]">
-                <p className="text-gray-400 text-lg">All backgrounds</p>
-                <div className="flex-1">
+            <div className="border flex flex-col gap-2 bg-table-body-bg w-full rounded-lg p-2 border-white/10 max-h-[80vh] overflow-hidden">
+                <p className="text-gray-400 text-lg shrink-0">All backgrounds</p>
+                <div className="flex-1 min-h-0 overflow-y-auto">
                     <BackgroundOptions/>
                 </div>
             </div>
@@ -55,7 +55,7 @@ export default function ActiveTab({ activeTab }: ActiveTabProps) {
 
     if(activeTab ===ActiveTapOptionsRender3D.EDIT){
         return (
-            <div className="border bg-table-body-bg w-full rounded-lg p-2 space-y-2 border-white/10 h-[80%]">
+            <div className="border flex flex-col gap-2 bg-table-body-bg w-full rounded-lg p-2 border-white/10 max-h-[80vh] overflow-hidden">
                 <p className="text-gray-400">Edit section</p>
                 <div className="grid grid-colos-4">
                     <EditSection/>

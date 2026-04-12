@@ -1,19 +1,32 @@
 'use client'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Stage, ContactShadows, Environment } from '@react-three/drei'
-import { ChangeEvent, Suspense, useRef } from 'react'
+import { ChangeEvent, Suspense, useMemo, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/store/boundStore'
 import ModelViewer from './ModelViewer'
 import ModelLoaderBar from './ModelLoaderBar'
 import { setCurrentDecalUrl } from '../../render-3d-slice/render-3d.slice'
 import { domRefs } from '@/modules/mockups/shared-mockups/refs-container/dom-refs-container'
+import { backgroundGradientBuilder, OrientationGradient } from '../utils/styles/background-gradient-builder'
 
 export default function Render() {
   const model = useSelector((state:RootState)=>state.render3D.modelLoadedInRender)
   const inputRef = useRef<HTMLInputElement>(null)
+  const backgroundColor = useSelector((state: RootState) => state.render3D.configMockupLoaded.background?.color)
+  const backgroundGradient = useSelector((state: RootState) => state.render3D.configMockupLoaded.background?.gradient)
+  const backgroundImage = useSelector((state: RootState) => state.render3D.configMockupLoaded.background?.image)
   const decalUrl = useSelector((state:RootState)=>state.render3D.configMockupLoaded.currentDecalUrl)
   const dispatch =useDispatch()
+
+  
+
+  const backgroundStyle = useMemo(() => {
+    if (backgroundColor) return { background: backgroundColor }
+    if (backgroundGradient) return { background: backgroundGradientBuilder(backgroundGradient, OrientationGradient.TO_BOTTOM) }
+    if (backgroundImage) return { backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+    return {}
+  }, [backgroundColor, backgroundGradient, backgroundImage])
 
   const loadImage =(e: ChangeEvent<HTMLInputElement>)=>{
     const file = e.target.files?.[0]
@@ -28,7 +41,7 @@ export default function Render() {
   if (!model) return null
   
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full" style={backgroundStyle}>
       <input
         ref={inputRef}
         type="file"

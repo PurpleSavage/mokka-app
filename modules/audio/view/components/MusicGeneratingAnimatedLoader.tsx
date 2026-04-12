@@ -49,7 +49,7 @@ export default function MusicGeneratingAnimatedLoader({
   });
 
   return (
-    <section className="group relative h-full w-full min-h-[400px] overflow-hidden rounded-2xl bg-[#0a0a0a] flex flex-col shadow-2xl font-sans border border-white/5">
+    <section className="group relative h-full w-full min-h-100 overflow-hidden rounded-2xl bg-[#0a0a0a] flex flex-col shadow-2xl font-sans border border-white/5">
       {/* Premium Background Effects */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#f6339a,transparent_75%)] opacity-25 transition-opacity duration-1000 group-hover:opacity-40" />
       <div className="absolute inset-0 bg-linear-to-b from-transparent via-[#0a0a0a]/50 to-[#0a0a0a]" />

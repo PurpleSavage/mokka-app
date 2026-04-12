@@ -3,6 +3,7 @@
 import { ListPaginationDto } from "@/modules/shared/common/application/dtos/responses/list-pagination.dto"
 import { BackgroundMockupEntity } from "../../domain/entities/background-mockup.entity"
 import BackgroundSkeletonList from "../skeletons/BackgroundSkeletonList"
+import BackgroundCard from "./BackgroundCard"
 
 
 
@@ -44,13 +45,7 @@ export default function BackgroundOptionsCasesResponseApi({
         return (
             <div className="grid grid-cols-4 gap-2 w-full">
                 {backgrounds.data.map((background) => (
-                    <div key={background.id} className="w-full h-16 overflow-hidden rounded-md cursor-pointer">
-                        <img 
-                            src={background.backgroundUrl} 
-                            className="w-full h-full object-cover" 
-                            alt={background.name} 
-                        />
-                    </div>
+                    <BackgroundCard key={background.id} background={background}/>
                 ))}
             </div>
         )
