@@ -45,9 +45,15 @@ export class Model3DCommandService implements Model3DRepository{
             }
         }
     }
-    async listModelsFromLocal(): Promise<LocalModel3D[]> {
+    async listModelsFromLocal(page: number, limit: number): Promise<LocalModel3D[]> {
         try {
-            return await this.db.models.toArray();
+            const offset = (page - 1) * limit
+            return await this.db.models
+            .orderBy('createdAt')
+            .reverse()
+            .offset(offset)
+            .limit(limit)
+            .toArray();
         } catch (error) {
             console.error("Error listing models from Dexie:", error);
             return [];

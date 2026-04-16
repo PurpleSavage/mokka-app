@@ -47,9 +47,19 @@ export const render3DSlice=createSlice({
         setBackgrounds:(state,action:PayloadAction<ListPaginationDto<BackgroundMockupEntity[]>>)=>{
             state.backgrounds=action.payload
         },
+        addMoreModels:(state,action:PayloadAction<ListPaginationDto<Model3DEntity[]>>)=>{
+            if (!state.models) return
+            const existingIds = new Set(state.models.data.map(m => m.id))
+            const newItems = action.payload.data.filter(m => !existingIds.has(m.id))
+            state.models.data.push(...newItems)
+            state.models.hasMore = action.payload.hasMore
+            state.models.currentPage = action.payload.currentPage
+        },
         addMorebackgrounds:(state,action:PayloadAction<ListPaginationDto<BackgroundMockupEntity[]>>)=>{
             if (!state.backgrounds) return
-            state.backgrounds.data.push(...action.payload.data) 
+            const existingIds = new Set(state.backgrounds.data.map(b => b.id))
+            const newItems = action.payload.data.filter(b => !existingIds.has(b.id))
+            state.backgrounds.data.push(...newItems)
             state.backgrounds.hasMore = action.payload.hasMore
             state.backgrounds.currentPage = action.payload.currentPage
         },
@@ -77,7 +87,8 @@ export const {
     setCurrentDecalUrl,
     setBackgrounds,
     addMorebackgrounds,
-    setConfigbackground
+    setConfigbackground,
+    addMoreModels
 } = render3DSlice.actions;
 
 export default render3DSlice.reducer;

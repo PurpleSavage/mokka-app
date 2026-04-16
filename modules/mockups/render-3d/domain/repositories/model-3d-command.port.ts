@@ -4,7 +4,7 @@ import { MockupCreatedVO } from "../value-objects/mockup-created.vo";
 
 export interface Model3DRepository{
     saveModelsToLocal(models: LocalModel3D[]): Promise<void>;
-    listModelsFromLocal(): Promise<LocalModel3D[]>;
+    listModelsFromLocal(page: number, limit: number ): Promise<LocalModel3D[]>;
     saveMockupCreated(vo:MockupCreatedVO):Promise<void>
     saveBackgroundsMockupToLocal(backgrounds:LocalBackgroundMockup[]):Promise<void>
     listBackgroundsToLocal(page: number, limit: number ):Promise<LocalBackgroundMockup[]>

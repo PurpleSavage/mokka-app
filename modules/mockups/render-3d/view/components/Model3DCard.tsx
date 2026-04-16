@@ -1,4 +1,4 @@
-'se client'
+'use client'
 
 import { useDispatch, useSelector } from "react-redux"
 import { Model3DEntity } from "../../domain/entities/model-3d.entity"
@@ -15,8 +15,12 @@ export default function Model3DCard({model}:Model3DCardProps) {
     }
     const modelLoadedInRender = useSelector((state:RootState)=>state.render3D.modelLoadedInRender)
     return (
-        <div className={`rounded-lg cursor-pointer ${modelLoadedInRender?.id === model.id ? 'ring-2 ring-pink-800' : ''}`} onClick={() => handleSelectModel(model)}>
-            <img src={model.thumbnailUrl} alt={model.name} className="w-full h-auto rounded-lg" />
+        <div 
+            className={`rounded-lg cursor-pointer aspect-square overflow-hidden ${
+                modelLoadedInRender?.id === model.id ? 'ring-2 ring-pink-800' : ''
+            }`}
+            onClick={() => handleSelectModel(model)}>
+            <img src={model.thumbnailUrl} alt={model.name} className="w-full h-full object-cover rounded-lg" />
         </div>
     )
 }

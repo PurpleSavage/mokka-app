@@ -24,7 +24,7 @@ export class ListModels3dUseCase{
         }
      }
     async execute(page:number,limit:number){
-        const listModelsFromLocal= await this.render3DCommandService.listModelsFromLocal()
+        const listModelsFromLocal= await this.render3DCommandService.listModelsFromLocal(page,limit)
         if(listModelsFromLocal.length>0){
             return this.toListModelsWithpagination({
                 currentPage: page,

@@ -8,7 +8,7 @@ import { ListPaginationDto } from "@/modules/shared/common/application/dtos/resp
 import BackgroundOptionsCasesResponseApi from "./BackgroundOptionsCasesResponseApi"
 import { ApiErrorPlatform } from "@/modules/shared/common/infrastructure/errors/api-errors.error"
 import { sileo } from "sileo"
-import { useRef, useState} from "react"
+import { useState} from "react"
 import { colors } from "../const/colors-background"
 import { backgroundGradients } from "../const/gradients-background"
 import { backgroundGradientBuilder, OrientationGradient} from "../utils/styles/background-gradient-builder"
@@ -19,7 +19,6 @@ export default function BackgroundOptions() {
   const dispatch = useDispatch()
   const backgrounds = useSelector((state:RootState)=>state.render3D.backgrounds)
   const [isPendingMore,setIsPendingMore]=useState(false)
-  const counter = useRef(1)
   const {data,isPending,error}=useQuery<ListPaginationDto<BackgroundMockupEntity[]>>({
     fn:()=>render3DDI.listBackgrounds(),
     dispatchStoreCache : (data) => dispatch(setBackgrounds(data)),
@@ -30,11 +29,11 @@ export default function BackgroundOptions() {
   const getMoreBackrounds=async()=>{
     try {
       setIsPendingMore(true)
-      const newPage = counter.current +1
+      const newPage = (backgrounds?.currentPage ?? 1) + 1 
       const limit = 6
       const response = await render3DDI.listBackgrounds(newPage,limit)
       dispatch(addMorebackgrounds(response))
-      counter.current = newPage
+     
     } catch (error) {
       if(error instanceof ApiErrorPlatform){
         sileo.error({

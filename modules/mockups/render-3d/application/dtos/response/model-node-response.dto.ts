@@ -5,13 +5,13 @@ export interface ModelNodeResponse{
     isEditable: boolean,
     materialDefault: string,
     transform: {
-      position: number[];
-      rotation: number[];
-      scale: number[];
+      position: [number,number,number];
+      rotation: [number,number,number];
+      scale: [number,number,number];
     },
     decalConfig?: {
-      standardPosition: number[];
-      maxScale: number[];
+      standardPosition: [number,number,number];
+      maxScale: [number,number,number];
       aspectRatio: string;
     },
 }

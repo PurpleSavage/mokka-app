@@ -15,9 +15,9 @@ export type MokkaDatabase = Dexie & {
 const db = new Dexie('MokkaAssetsDB') as MokkaDatabase;
 
 db.version(1).stores({
-  models: 'id, &slug, category', // Tabla de modelos
+  models: 'id, &slug, category,createdAt', // Tabla de modelos
   mockups:'++id, lastUpdatedAt',
-   backgrounds:'id, lastUpdatedA,createdAt',
+  backgrounds:'id, lastUpdatedA,createdAt',
 });
 
 export { db }; 

@@ -52,7 +52,7 @@ const handleClick = (e: ThreeEvent<MouseEvent>, onMeshClick?: () => void) => {
 export default function ModelViewer({ url, decalUrl, onMeshClick }: ModelViewerProps) {
   const { nodes,scene } = useGLTF(url)
   const model = useSelector((state: RootState) => state.render3D.modelLoadedInRender)
-
+  console.log(model?.name)
 
   Object.entries(nodes).forEach(([name, node]) => {
     const mesh = node as THREE.Mesh

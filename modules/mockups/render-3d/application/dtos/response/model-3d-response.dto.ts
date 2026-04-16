@@ -9,7 +9,11 @@ export interface Model3DResponseDto{
     status?: StatusModelType;
     modelUrl: string;
     thumbnailUrl: string;
-    cameraSettings: { position: number[]; target: number[]; fov: number };
+    cameraSettings: { 
+        position: [number,number,number]; 
+        target: [number,number,number]; 
+        fov: number 
+    };
     nodes: ModelNodeResponse[]; 
     createdAt:string;
 }
