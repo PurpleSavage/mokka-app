@@ -1,4 +1,4 @@
-import CommunityNavigator from "@/modules/community/view/CommunityNavigator";
+import CommunityNavigator from "@/modules/aggregated/community/view/component/CommunityNavigator";
 
 export default function CommunityLayout({
   children,

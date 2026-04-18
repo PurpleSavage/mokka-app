@@ -6,3 +6,4 @@ export interface BaseSharedEntity{
     downloads: number;
     sharedBy: SharedByEntity
 }
+

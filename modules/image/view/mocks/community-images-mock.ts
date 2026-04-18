@@ -1,4 +1,5 @@
-import { SharedImageEntity } from "../../domain/entities/shared-image.entity";
+
+import { SharedImageEntity } from "@/modules/image/domain/entities/shared-image.entity";
 import { TypeStyle, FuturisticSubStyle } from "../../domain/enums/image-styles";
 
 
