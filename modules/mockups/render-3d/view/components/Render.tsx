@@ -1,6 +1,6 @@
 'use client'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Stage, Environment } from '@react-three/drei'
+import { OrbitControls, Environment } from '@react-three/drei'
 import { ChangeEvent, Suspense, useMemo, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/store/boundStore'
