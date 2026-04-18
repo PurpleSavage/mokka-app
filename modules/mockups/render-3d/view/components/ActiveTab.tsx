@@ -55,9 +55,7 @@ export default function ActiveTab({ activeTab }: ActiveTabProps) {
         return (
             <div className="border flex flex-col gap-2 bg-table-body-bg w-full rounded-lg p-2 border-white/10 max-h-[80vh] overflow-hidden">
                 <p className="text-gray-400">Edit section</p>
-                <div className="grid grid-colos-4">
-                    <EditSection/>
-                </div>
+                <EditSection/>
             </div>
         )
     }

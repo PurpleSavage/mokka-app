@@ -7,49 +7,19 @@ import { ThreeEvent } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useSelector } from "react-redux"
 import DecalOnMesh from "./DecalMesh"
+import { handlePointerOver } from "../utils/handlers/handle-pointer-over.handler"
+import { handleClick } from "../utils/handlers/handle-click.handler"
+import { handlePointerOut } from "../utils/handlers/handle-pointer-out.handler"
 
 interface ModelViewerProps {
   url: string
   decalUrl?: string | null
   onMeshClick?: () => void
+  roughness:number
+  metalness:number
 }
 
-
-const HOVER_MATERIAL = new THREE.MeshStandardMaterial({
-  color: '#7c3aed',
-  transparent: true,
-  opacity: 0.8,
-  depthWrite: false,
-})
-
-const handlePointerOver = (e: ThreeEvent<PointerEvent>) => {
-  const mesh = e.object as THREE.Mesh
-  if (!mesh.userData.isEditable) return
-  if (!mesh.userData.originalMaterial) {
-    mesh.userData.originalMaterial = mesh.material
-  }
-  mesh.material = HOVER_MATERIAL
-  document.body.style.cursor = 'pointer'
-}
-
-const handlePointerOut = (e: ThreeEvent<PointerEvent>) => {
-  const mesh = e.object as THREE.Mesh
-  if (mesh.userData.originalMaterial) {
-    mesh.material = mesh.userData.originalMaterial
-  }
-  document.body.style.cursor = 'default'
-}
-const handleClick = (e: ThreeEvent<MouseEvent>, onMeshClick?: () => void) => {
-  e.stopPropagation()
-  const mesh = e.object as THREE.Mesh
-  if (!mesh.userData.isEditable) return
-  if (mesh.userData.originalMaterial) {
-    mesh.material = mesh.userData.originalMaterial
-  }
-  document.body.style.cursor = 'default'
-  onMeshClick?.()
-}
-export default function ModelViewer({ url, decalUrl, onMeshClick }: ModelViewerProps) {
+export default function ModelViewer({ url, decalUrl, onMeshClick,roughness,metalness }: ModelViewerProps) {
   const { nodes,scene } = useGLTF(url)
   const model = useSelector((state: RootState) => state.render3D.modelLoadedInRender)
   console.log(model?.name)
@@ -65,13 +35,18 @@ export default function ModelViewer({ url, decalUrl, onMeshClick }: ModelViewerP
   })
 
   useEffect(() => {
-    model?.nodes.filter(n => n.decalConfig).forEach((nodeConfig) => {
-      const mesh = nodes[nodeConfig.nameMesh] as THREE.Mesh
-      if (!mesh) return
-      mesh.userData.isEditable = true
-      mesh.userData.nodeConfig = nodeConfig
+    scene.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        const mesh = child as THREE.Mesh
+        if (mesh.material) {
+          const mat = mesh.material as THREE.MeshStandardMaterial
+          mat.roughness = roughness
+          mat.metalness = metalness
+          mat.needsUpdate = true
+        }
+      }
     })
-  }, [model, nodes])
+  }, [roughness, metalness, scene])
 
  
   return (

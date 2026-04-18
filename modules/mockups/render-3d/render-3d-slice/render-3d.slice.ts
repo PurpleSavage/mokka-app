@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Model3DEntity } from "../domain/entities/model-3d.entity";
-import { BackgroundConfig, ConfigMockupLoadedDto } from "../application/dtos/request/config-mockup-loaded.dto";
+import { BackgroundConfig, ConfigMockupLoadedDto, EnviromentConfig, LightingConfig, MaterialConfig, PostProcessingConfig } from "../application/dtos/request/config-mockup-loaded.dto";
 import { BackgroundMockupEntity } from "../domain/entities/background-mockup.entity";
 import { ListPaginationDto } from "@/modules/shared/common/application/dtos/responses/list-pagination.dto";
 
@@ -19,10 +19,34 @@ const initialState:Render3DState={
         currentDecalUrl:'',
         decalFile: null,
         modelId:'',
-        background:{
-           
-        },
+        background:{},
         color:'',
+        editConfig:{
+            lighting: {
+                ambientIntensity: 60,
+                ambientColor: '#ffffff',
+                lightX: 3,
+                lightY: 5,
+                lightZ: 3,
+                shadows: true,
+            },
+            material: {
+                roughness: 40,
+                metalness: 20,
+            },
+            environment: {
+                environmentMap: 'Studio',
+                fogDensity: 0,
+                fogColor: '#cccccc',
+            },
+            postProcessing: {
+                bloom: false,
+                bloomIntensity: 30,
+                vignette: false,
+                vignetteStrength: 40,
+                toneMapping: 'Linear',
+            },
+        }
     },
     backgrounds:null
 }
@@ -77,13 +101,29 @@ export const render3DSlice=createSlice({
                     image:action.payload.image
                 }
             }
-        }
+        },
+        setLightingConfig: (state, action: PayloadAction<LightingConfig>) => {
+            state.configMockupLoaded.editConfig.lighting = action.payload
+        },
+        setMaterialConfig: (state, action: PayloadAction<MaterialConfig>) => {
+            state.configMockupLoaded.editConfig.material = action.payload
+        },
+        setEnvironmentConfig: (state, action: PayloadAction<EnviromentConfig>) => {
+            state.configMockupLoaded.editConfig.environment = action.payload
+        },
+        setPostProcessingConfig: (state, action: PayloadAction<PostProcessingConfig>) => {
+            state.configMockupLoaded.editConfig.postProcessing = action.payload
+        },
     },
-   
+        
 })
 export const {
-    setModels,  
+    setModels,
+    setLightingConfig,
+    setMaterialConfig,  
     loadModelInRender,
+    setEnvironmentConfig,
+    setPostProcessingConfig,
     setCurrentDecalUrl,
     setBackgrounds,
     addMorebackgrounds,

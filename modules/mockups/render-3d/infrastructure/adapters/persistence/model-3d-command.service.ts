@@ -50,7 +50,6 @@ export class Model3DCommandService implements Model3DRepository{
             const offset = (page - 1) * limit
             return await this.db.models
             .orderBy('createdAt')
-            .reverse()
             .offset(offset)
             .limit(limit)
             .toArray();
@@ -100,7 +99,6 @@ export class Model3DCommandService implements Model3DRepository{
             const offset = (page - 1) * limit
             const backgrounds = await this.db.backgrounds
             .orderBy('createdAt')
-            .reverse()
             .offset(offset)
             .limit(limit)
             .toArray()

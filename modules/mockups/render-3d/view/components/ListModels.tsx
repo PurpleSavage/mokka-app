@@ -26,7 +26,7 @@ export default function ListModels({isPending,error,models}:ListModelsProps) {
       const limit = 6
        const response = await render3DDI.listModels3D(newPage,limit)
        dispatch(addMoreModels(response))
-       
+        
     }catch (error) {
       if(error instanceof ApiErrorPlatform){
         sileo.error({

@@ -1,12 +1,11 @@
 'use client'
 import { TbCube3dSphere } from "react-icons/tb";
 import { PiSelectionBackground } from "react-icons/pi";
-import { PiSticker } from "react-icons/pi";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import ActiveTab from "./ActiveTab";
 import TooltipComponent from "@/modules/shared/common/view/components/TooltipComponent";
-
+import { GiSettingsKnobs } from "react-icons/gi";
 
 export const ActiveTapOptionsRender3D = {
     MODELS:'models',
@@ -58,7 +57,7 @@ export default function Aside3DMenu() {
                             className={`p-4  rounded-lg transition-all cursor-pointer flex items-center justify-center ${
                                 activeTab === ActiveTapOptionsRender3D.EDIT ? 'bg-white/10 text-white' : 'text-gray-400'
                             }`}>
-                        <PiSticker />
+                        <GiSettingsKnobs />
                     </button>
                 </TooltipComponent>
             </nav>
