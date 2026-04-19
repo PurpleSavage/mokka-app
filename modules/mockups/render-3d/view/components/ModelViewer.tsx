@@ -35,18 +35,34 @@ export default function ModelViewer({ url, decalUrl, onMeshClick,roughness,metal
   })
 
   useEffect(() => {
-    scene.traverse((child) => {
-      if ((child as THREE.Mesh).isMesh) {
-        const mesh = child as THREE.Mesh
-        if (mesh.material) {
-          const mat = mesh.material as THREE.MeshStandardMaterial
-          mat.roughness = roughness
-          mat.metalness = metalness
-          mat.needsUpdate = true
+    if (!model) return
+    // primero marcar editables
+    model.nodes.filter(n => n.decalConfig).forEach((nodeConfig) => {
+      const mesh = nodes[nodeConfig.nameMesh] as THREE.Mesh
+      if (!mesh) return
+      mesh.userData.isEditable = true
+      mesh.userData.nodeConfig = nodeConfig
+    })
+  }, [model, nodes])
+
+  useEffect(() => {
+  scene.traverse((child) => {
+    if ((child as THREE.Mesh).isMesh) {
+      const mesh = child as THREE.Mesh
+      if (mesh.material) {
+        const mat = mesh.material as THREE.MeshStandardMaterial
+        mat.roughness = roughness
+        mat.metalness = metalness
+        mat.needsUpdate = true
+        // actualizar también el originalMaterial guardado
+        if (mesh.userData.originalMaterial) {
+          mesh.userData.originalMaterial.roughness = roughness
+          mesh.userData.originalMaterial.metalness = metalness
         }
       }
-    })
-  }, [roughness, metalness, scene])
+    }
+  })
+}, [roughness, metalness, scene])
 
  
   return (

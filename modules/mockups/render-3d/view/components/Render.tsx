@@ -12,6 +12,7 @@ import { backgroundGradientBuilder, OrientationGradient } from '../utils/styles/
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing'
 import { getEnvPreset } from '../utils/helpers/get-enviroment-preset.helper'
 import { getToneMapping } from '../utils/helpers/get-tone.helper'
+import { render3DDI } from '../../di/render-3d-container.di'
 
 
 
@@ -41,8 +42,8 @@ export default function Render() {
     const file = e.target.files?.[0]
     if (!file) return
     const url = URL.createObjectURL(file)
+    render3DDI.saveFileCache(file)
     dispatch(setCurrentDecalUrl({
-      decalFile:file,
       decalUrl:url
     }))
   }

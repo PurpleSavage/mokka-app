@@ -37,7 +37,7 @@ export interface BackgroundConfig {
 }
 export interface ConfigMockupLoadedDto{
     currentDecalUrl:string,
-    decalFile:File | null,
+
     modelId:string,
     background: BackgroundConfig
     color:string,

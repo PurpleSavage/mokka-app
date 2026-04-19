@@ -4,8 +4,6 @@ import { BackgroundConfig, ConfigMockupLoadedDto, EnviromentConfig, LightingConf
 import { BackgroundMockupEntity } from "../domain/entities/background-mockup.entity";
 import { ListPaginationDto } from "@/modules/shared/common/application/dtos/responses/list-pagination.dto";
 
-
-
 export interface Render3DState{
     models:ListPaginationDto<Model3DEntity[]> | null,
     modelLoadedInRender:Model3DEntity | null,
@@ -17,7 +15,6 @@ const initialState:Render3DState={
     modelLoadedInRender:null,
     configMockupLoaded:{
         currentDecalUrl:'',
-        decalFile: null,
         modelId:'',
         background:{},
         color:'',
@@ -64,9 +61,8 @@ export const render3DSlice=createSlice({
         loadModelInRender:(state,action:PayloadAction<Model3DEntity>)=>{
             state.modelLoadedInRender=action.payload
         },
-        setCurrentDecalUrl:(state,action:PayloadAction<{decalUrl:string, decalFile:File}>)=>{
+        setCurrentDecalUrl:(state,action:PayloadAction<{decalUrl:string}>)=>{
             state.configMockupLoaded.currentDecalUrl=action.payload.decalUrl
-            state.configMockupLoaded.decalFile=action.payload.decalFile
         },
         setBackgrounds:(state,action:PayloadAction<ListPaginationDto<BackgroundMockupEntity[]>>)=>{
             state.backgrounds=action.payload

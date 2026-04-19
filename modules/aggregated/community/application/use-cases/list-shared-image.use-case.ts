@@ -1,6 +1,6 @@
 import { CommunityImagePort } from "../ports/community-image.port";
 
-export class ListSharedImageUseCase{
+export class ListSharedImagesUseCase{
     constructor(
         private readonly communityImageService: CommunityImagePort
     ){}

@@ -11,8 +11,11 @@ import videoReducer from "@/modules/video/video-slice/video-store.slice";
 import notificationsReducer from "@/modules/shared/notifications/notifications-slice/notification-slice.store";
 import influencerProfileReducer from "@/modules/influencers/influencer-slice/influencer-profile.slice";
 import render3DReducer from "@/modules/mockups/render-3d/render-3d-slice/render-3d.slice";
-
+import imageCommunityReducer from "@/modules/aggregated/community/slices/image-community.slice"
 import { useDispatch } from "react-redux";
+
+
+
 export const boundStore = configureStore({
   reducer: {
     auth: authReducer,
@@ -27,6 +30,7 @@ export const boundStore = configureStore({
     influencerProfile: influencerProfileReducer,
     render3D: render3DReducer,
     music: musicReducer,
+    imageCommunity:imageCommunityReducer
   },
 });
 

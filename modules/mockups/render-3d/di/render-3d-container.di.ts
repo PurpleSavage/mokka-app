@@ -6,18 +6,23 @@ import { Model3DCommandService } from "../infrastructure/adapters/persistence/mo
 import { SaveMockupGeneratedUseCase } from "../application/use-cases/save-mockup-generated.use-case";
 import { ConfigMockupLoadedDto } from "../application/dtos/request/config-mockup-loaded.dto";
 import { ListBackgroundsMockupsUseCase } from "../application/use-cases/list-backgrounds.use-case";
+import { SaveFileCacheUseCase } from "../application/use-cases/save-cache.use-case";
+import { ObjectFileCache } from "../infrastructure/cache/Object-file-cache";
 
 const  serviceRender3D= new Render3DService(httpClient)
 const render3DCommandService=  new Model3DCommandService(db)
+const fileCacheService = new ObjectFileCache()
 const useCases = {
     listModels3D: new ListModels3dUseCase(serviceRender3D,render3DCommandService),
     saveMockup3D: new SaveMockupGeneratedUseCase(render3DCommandService),
-    listBackgrounds: new ListBackgroundsMockupsUseCase(serviceRender3D,render3DCommandService)
+    listBackgrounds: new ListBackgroundsMockupsUseCase(serviceRender3D,render3DCommandService),
+    saveFileCache: new SaveFileCacheUseCase(fileCacheService)
 }
 
 
 export const render3DDI = {
     listModels3D:(page:number=1,limit:number=6)=>useCases.listModels3D.execute(page,limit),
     saveMockup3D:(data:ConfigMockupLoadedDto)=>useCases.saveMockup3D.execute(data),
-    listBackgrounds:(page:number=1,limit:number=6)=>useCases.listBackgrounds.execute(page,limit)
+    listBackgrounds:(page:number=1,limit:number=6)=>useCases.listBackgrounds.execute(page,limit),
+    saveFileCache:(file:File)=>useCases.saveFileCache.execute(file)
 }
