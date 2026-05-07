@@ -42,7 +42,7 @@ export const influencerSlice=createSlice({
         setScenesHistory:(state,action:PayloadAction<InfluencerSceneEntity[]>)=>{
             state.scenesHistory=action.payload
         },
-        setLoadingVideo:(state,action:PayloadAction<ResponseHttpQueue>)=>{
+        setLoadingInfluencer:(state,action:PayloadAction<ResponseHttpQueue | null>)=>{
             state.isGeneratingInfluencer= action.payload
         },
         
@@ -89,6 +89,7 @@ export const {
    setScenesLastWeek,
    setSnapshotsHistory,
    setScenesHistory,   
+   setLoadingInfluencer
 } = influencerSlice.actions;
 
 export default influencerSlice.reducer;

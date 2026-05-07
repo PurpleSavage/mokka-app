@@ -1,3 +1,5 @@
+'use client'
+
 export const MasonryOptions = {
     IMAGE: 'image-component',
     VIDEO: 'video-component'
@@ -6,9 +8,8 @@ export type MasonryOptionsType = typeof MasonryOptions[keyof typeof MasonryOptio
 
 interface MasonryItemProps {
     masonryComponent: MasonryOptionsType
-    style: string
+    style?: string
     index: number
-    id: string
     videoComponent?: {
         url: string
         aspectRatio?: string
@@ -28,7 +29,7 @@ export default function MasonryItem({
     masonryComponent,
     style,
     index,
-    id
+
 }: MasonryItemProps) {
 
     if (masonryComponent === MasonryOptions.IMAGE && imageComponent) {
@@ -37,7 +38,7 @@ export default function MasonryItem({
             : ratios[index % ratios.length]
 
         return (
-            <div key={id} className="break-inside-avoid mb-1">
+            <div  className="break-inside-avoid mb-1">
                 <img
                     src={imageComponent.url}
                     alt={imageComponent.alt}
@@ -54,7 +55,7 @@ export default function MasonryItem({
             : ratios[index % ratios.length]
 
         return (
-            <div key={id} className="break-inside-avoid mb-1">
+            <div  className="break-inside-avoid mb-1">
                 <video
                     src={videoComponent.url}
                     className={`w-full object-cover ${style}`}

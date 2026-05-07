@@ -32,8 +32,6 @@ export class Render3DService implements Render3DPort {
             if(page !== undefined) params.append('page',page.toString())
             if(limit !== undefined) params.append('limit',limit.toString()) 
             const response =await this.httpService.get<Model3DResponseDto[]>(`/v1/3d/read/all?${params}`) 
-            console.log('longitud',response.length)
-            console.log('models',response)
             return response.map((model)=>toModel3DEntityMapper(model))
         } catch (error) {
             this.handleError(error)

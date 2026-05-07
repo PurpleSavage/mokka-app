@@ -1,7 +1,7 @@
-import { StatusQueue } from "../../../domain/enums/status-queue";
+import {  StatusQueueType } from "../../../domain/enums/status-queue";
 
 export interface ResponseGenerateMultimediaDto{
     jobId:string | number,
-    status:StatusQueue,
+    status:StatusQueueType,
     message:string
 }

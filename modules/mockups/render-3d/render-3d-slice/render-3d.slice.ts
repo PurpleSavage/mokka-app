@@ -15,6 +15,10 @@ const initialState:Render3DState={
     modelLoadedInRender:null,
     configMockupLoaded:{
         currentDecalUrl:'',
+        decalTransformConfig:{
+            position:[0,0,0],
+            normal:[0,0,1]
+        },
         modelId:'',
         background:{},
         color:'',
@@ -110,6 +114,12 @@ export const render3DSlice=createSlice({
         setPostProcessingConfig: (state, action: PayloadAction<PostProcessingConfig>) => {
             state.configMockupLoaded.editConfig.postProcessing = action.payload
         },
+        setDecalTransform: (state, action: PayloadAction<{
+            position: [number, number, number],
+            normal: [number, number, number]
+        }>) => {
+            state.configMockupLoaded.decalTransformConfig = action.payload
+        }
     },
         
 })
@@ -124,7 +134,8 @@ export const {
     setBackgrounds,
     addMorebackgrounds,
     setConfigbackground,
-    addMoreModels
+    addMoreModels,
+    setDecalTransform
 } = render3DSlice.actions;
 
 export default render3DSlice.reducer;

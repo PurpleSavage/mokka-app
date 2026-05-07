@@ -1,7 +1,7 @@
-import { StatusQueue } from "@/modules/shared/common/domain/enums/status-queue"
+import { StatusQueueType } from "@/modules/shared/common/domain/enums/status-queue"
 
 
-export default function StatusIcon({ status }: { status: StatusQueue }) {
+export default function StatusIcon({ status }: { status: StatusQueueType }) {
   if (status === 'completed') return (
     <div className="w-9 h-9 rounded-lg bg-green-500/10 flex items-center justify-center shrink-0">
       <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="#4ade80" strokeWidth="1.5">

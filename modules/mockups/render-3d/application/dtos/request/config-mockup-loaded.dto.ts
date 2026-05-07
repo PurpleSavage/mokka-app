@@ -35,9 +35,14 @@ export interface BackgroundConfig {
   gradient?: string[]     // degradado     ej: "linear-gradient(to bottom, #000, #fff)"
   image?: string     // url imagen    ej: "https://..."
 }
+
+export interface DecalTransformConfig{
+  position:[number,number,number],
+  normal:[number,number,number],
+}
 export interface ConfigMockupLoadedDto{
     currentDecalUrl:string,
-
+    decalTransformConfig: DecalTransformConfig ,
     modelId:string,
     background: BackgroundConfig
     color:string,

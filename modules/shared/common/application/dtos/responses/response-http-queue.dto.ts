@@ -1,7 +1,7 @@
-import { StatusQueue } from "../../../domain/enums/status-queue"
+import {  StatusQueueType } from "../../../domain/enums/status-queue"
 
 export interface ResponseHttpQueue{
     jobId:string,
-    status:StatusQueue
+    status:StatusQueueType
     message:string
 }

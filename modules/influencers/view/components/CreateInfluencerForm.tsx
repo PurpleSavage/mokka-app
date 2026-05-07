@@ -1,5 +1,4 @@
 'use client'
-
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import DropDown from "@/modules/shared/common/view/components/DropDown";
@@ -7,17 +6,23 @@ import {
   ageRangeOptions, bodyShapeOptions, eyeColorOptions, faceTypeOptions, 
   genderOptions, hairColorOptions, hairTypeOptions, lipsTypeOptions, skinColorOptions 
 } from "../../constants/generate-influencer-options";
-
 import { useDispatch } from "react-redux";
 import { closeModalWrapper } from "@/modules/shared/common/common-slice/modals-slice.store";
-import { GenerateInfluencerDto, generateInfluencerSchema } from "../../application/dtos/requests/generate-influencer.dto";
+import { FullGenerateInfluencerDto, GenerateInfluencerDto, generateInfluencerSchema } from "../../application/dtos/requests/generate-influencer.dto";
 import { useGetCountries } from "@/modules/shared/common/view/custom-hooks/useCountries";
 import { countriesToOptionsDropDown } from "@/modules/shared/common/view/utils/countries-to-options-dropdown";
+import { ApiErrorPlatform } from "@/modules/shared/common/infrastructure/errors/api-errors.error";
+import { sileo } from "sileo";
+import { influencersDI } from "../../di/influencer-container.dti";
+import { useIdSession } from "@/modules/shared/auth/view/custom-hooks/useIdSession";
+import { setLoadingInfluencer } from "../../influencer-slice/influencer-store.slice";
+
 
 export default function CreateInfluencerForm() {
   const dispatch = useDispatch();
   const {isPending,listCountries}=useGetCountries()
   const countryOptions = countriesToOptionsDropDown(listCountries);
+  const {id}=useIdSession()
   const {
     register,
     handleSubmit,
@@ -30,9 +35,31 @@ export default function CreateInfluencerForm() {
     }
   })
 
-  const onSubmit = (data: GenerateInfluencerDto) => {
-    console.log("Datos del Influencer:", data);
-    dispatch(closeModalWrapper());
+  const onSubmit = async(data: GenerateInfluencerDto) => {
+    if(!id){
+      sileo.error({
+        title: 'Error generating influencer - User not found',
+        description:'An error occurred while generating the influencer. Please try again later.',
+      })
+      return
+    }
+    try {
+      const objDto:FullGenerateInfluencerDto = {
+        user:id,
+        ...data
+      }
+      const response= await influencersDI.generateInfluencer(objDto)
+      dispatch(setLoadingInfluencer(response))
+      dispatch(closeModalWrapper())
+    } catch (error) {
+      if(error instanceof ApiErrorPlatform){
+        sileo.error({
+          title: 'Error generating influencer',
+          description:'An error occurred while generating the influencer. Please try again later.',
+        })
+      }
+      dispatch(setLoadingInfluencer(null))
+    }
   }
   
 
@@ -152,7 +179,7 @@ export default function CreateInfluencerForm() {
       </div>
 
    
-      <div className="flex gap-4 pt-4 border-t border-slate-700 mt-2 bg-[#121212]">
+      <div className="flex gap-4 pt-4 border-t border-slate-700 mt-2 bg-table-body-bg">
         <button 
           type="button"
           onClick={() => dispatch(closeModalWrapper())}

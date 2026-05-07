@@ -28,7 +28,7 @@ export class ListBackgroundsMockupsUseCase{
        
         const backgroundsFromLocal= await this.render3DCommandService.listBackgroundsToLocal(page,limit)
          
-        console.log('local:', backgroundsFromLocal.length)
+       
         if (backgroundsFromLocal.length > 0) {
              
             return this.toListBackgroundsWithpagination({

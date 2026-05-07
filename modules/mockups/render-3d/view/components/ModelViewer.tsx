@@ -5,11 +5,12 @@ import { RootState } from "@/store/boundStore"
 import { useEffect} from "react"
 import { ThreeEvent } from '@react-three/fiber'
 import * as THREE from 'three'
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import DecalOnMesh from "./DecalMesh"
 import { handlePointerOver } from "../utils/handlers/handle-pointer-over.handler"
 import { handleClick } from "../utils/handlers/handle-click.handler"
 import { handlePointerOut } from "../utils/handlers/handle-pointer-out.handler"
+import { setDecalTransform } from "../../render-3d-slice/render-3d.slice"
 
 interface ModelViewerProps {
   url: string
@@ -21,8 +22,9 @@ interface ModelViewerProps {
 
 export default function ModelViewer({ url, decalUrl, onMeshClick,roughness,metalness }: ModelViewerProps) {
   const { nodes,scene } = useGLTF(url)
+  const dispatch = useDispatch()
   const model = useSelector((state: RootState) => state.render3D.modelLoadedInRender)
-  console.log(model?.name)
+  const decalTransformConfig = useSelector((state: RootState) => state.render3D.configMockupLoaded.decalTransformConfig)
 
   Object.entries(nodes).forEach(([name, node]) => {
     const mesh = node as THREE.Mesh
@@ -54,7 +56,6 @@ export default function ModelViewer({ url, decalUrl, onMeshClick,roughness,metal
         mat.roughness = roughness
         mat.metalness = metalness
         mat.needsUpdate = true
-        // actualizar también el originalMaterial guardado
         if (mesh.userData.originalMaterial) {
           mesh.userData.originalMaterial.roughness = roughness
           mesh.userData.originalMaterial.metalness = metalness
@@ -71,7 +72,9 @@ export default function ModelViewer({ url, decalUrl, onMeshClick,roughness,metal
       object={scene}
         castShadow
         receiveShadow
-        onClick={(e: ThreeEvent<MouseEvent>) => handleClick(e, onMeshClick)}
+        onClick={(e: ThreeEvent<MouseEvent>) => handleClick(e, onMeshClick, (position, normal) => {
+          dispatch(setDecalTransform({ position, normal }))
+        })}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
     />
@@ -82,9 +85,14 @@ export default function ModelViewer({ url, decalUrl, onMeshClick,roughness,metal
       if (!mesh || !mesh.geometry) return null
 
       return (
-        <primitive key={nodeConfig.id} object={mesh}>
-          <DecalOnMesh url={decalUrl} config={nodeConfig.decalConfig!} />
-        </primitive>
+        <DecalOnMesh 
+          key={nodeConfig.id}
+          mesh={mesh}
+          url={decalUrl} 
+          config={nodeConfig.decalConfig!} 
+          position={decalTransformConfig.position}
+          normal={decalTransformConfig.normal}
+        />
       )
     })}
   </group>

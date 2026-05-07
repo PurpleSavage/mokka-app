@@ -108,7 +108,7 @@ export default function TextGenerator() {
                                     setIsOther(true);
                                     setValue("promotionType", "", { shouldValidate: false });
                                 } else {
-                                    setValue("promotionType", val.name as any, { shouldValidate: true });
+                                    setValue("promotionType", val.name , { shouldValidate: true });
                                 }
                             }}
                         />
@@ -124,7 +124,7 @@ export default function TextGenerator() {
                                 type="button"
                                 onClick={() => { 
                                     setIsOther(false); 
-                                    setValue("promotionType", promotingArray[0].name as any); 
+                                    setValue("promotionType", promotingArray[0].name ); 
                                 }}
                                 className="bg-pink-800 cursor-pointer transition-colors hover:bg-pink-700
                                  px-4 h-10 rounded-lg text-black font-medium"
@@ -150,7 +150,7 @@ export default function TextGenerator() {
                         <DropDown 
                             selected={selectedTone}
                             options={toneArray} 
-                            handleSelect={(val) => setValue("toneType", val.name as any, { shouldValidate: true })}
+                            handleSelect={(val) => setValue("toneType", val.name , { shouldValidate: true })}
                         />
                     </div>
                 </div>
@@ -161,7 +161,7 @@ export default function TextGenerator() {
                         <DropDown 
                             selected={selectedLength}
                             options={lengthArray} 
-                            handleSelect={(val) => setValue("textLength", val.name as any, { shouldValidate: true })}
+                            handleSelect={(val) => setValue("textLength", val.name , { shouldValidate: true })}
                         />
                     </div>
                     <div className="w-1/2 space-y-2">
@@ -169,7 +169,7 @@ export default function TextGenerator() {
                         <DropDown 
                             selected={selectedFormat}
                             options={formatArray} 
-                            handleSelect={(val) => setValue("textFormat", val.name as any, { shouldValidate: true })}
+                            handleSelect={(val) => setValue("textFormat", val.name , { shouldValidate: true })}
                         />
                     </div>
                 </div>
@@ -199,7 +199,7 @@ export default function TextGenerator() {
                     )}
                 </div>
                 
-                <div className="border border-slate-600/50 w-full h-[600px] p-4 rounded-lg
+                <div className="border border-slate-600/50 w-full h-150 p-4 rounded-lg
                  text-white bg-slate-900/20 overflow-hidden relative">
                     <AnimatePresence mode="wait">
                         {isGenerating?.status === StatusQueue.PROCESSING ? (

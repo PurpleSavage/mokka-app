@@ -1,6 +1,6 @@
 'use client'
 
-import { StatusQueue } from "@/modules/shared/common/domain/enums/status-queue"
+import { StatusQueue, StatusQueueType } from "@/modules/shared/common/domain/enums/status-queue"
 import { NotificationEntity } from "../../domain/entities/notification.entity"
 import { JobsNotificationsType } from "../../domain/enums/jobs-notifications"
 import StatusIcon from "./StatusIcon"
@@ -15,7 +15,7 @@ import { useAppDispatch } from "@/store/boundStore"
 interface NotificationCardProps{
   notification:NotificationEntity
 }
-const statusConfig: Record<StatusQueue, { label: string; className: string }> = {
+const statusConfig: Record<StatusQueueType, { label: string; className: string }> = {
   [StatusQueue.COMPLETED]:  { label: 'Completed',  className: 'bg-green-500/10 text-green-400' },
   [StatusQueue.FAILED]:     { label: 'Failed',     className: 'bg-red-500/10 text-red-400' },
   [StatusQueue.PROCESSING]: { label: 'Processing', className: 'bg-blue-500/10 text-blue-400' },
